@@ -1,7 +1,9 @@
+Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
+
 $pandoc  = "C:\Program Files\RStudio\resources\app\bin\quarto\bin\tools\pandoc.exe"
 $xelatex = "C:\Program Files\MiKTeX\miktex\bin\x64\xelatex.exe"
-$infile  = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra\PLAN.md"
-$outfile = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra\PLAN.pdf"
+$infile  = "PLAN.md"
+$outfile = "PLAN.pdf"
 
 & $pandoc $infile `
     --pdf-engine=$xelatex `

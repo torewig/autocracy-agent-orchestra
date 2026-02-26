@@ -1,7 +1,7 @@
 # AutoKnow Agent Orchestra — Project Plan
 
-**Paper:** How does autocracy shape the social sciences and humanities?
-**Method:** Multi-agent research orchestra (10 teams x 3 agents)
+**Paper:** How does autocracy, and type of autocracy, impact on the contents, direction and scientific progress of the social sciences and humanities?
+**Method:** Multi-agent research orchestra (10 teams x 3 agents + 1 peer review agent per team)
 **Status:** Planning phase
 **Last updated:** 2026-02-26
 
@@ -9,10 +9,15 @@
 
 ## Research question
 
-> How does autocracy shape social science and the humanities?
+> How does autocracy, and type of autocracy, impact on the contents, direction
+> and scientific progress of the social sciences and humanities?
 
-This is the **overarching question** given to every team. Each team independently
-decides how to operationalize and investigate it. No topic is pre-assigned.
+This is the **overarching question** given to every team. It directs teams
+toward substantive and semantic dimensions of SSH knowledge production — *what*
+topics are studied, *what direction* research takes, *what* gets published and
+cited — not only simple volume metrics such as publication counts. Each team
+independently decides how to operationalize and investigate it. No topic is
+pre-assigned.
 
 ---
 
@@ -84,6 +89,8 @@ Interpret citation patterns as indicators of visibility and uptake, not quality.
 | Secondary measures | `v2x_regime` (0-3 ordinal) + `regime_binary` — use for robustness checks |
 | Time window | 1970-2023 (treat pre-1990 with caution) |
 | N estimation | Run Phase 0 before teams start; validate output before launching teams |
+| Analysis approach | Final analysis must use regression; text analysis permitted for measurement only |
+| Causal inference | Aim for designs supporting causal identification (country FE, year FE, DiD); discuss identification threats if full causal design is not feasible |
 
 ---
 
@@ -164,7 +171,11 @@ Autocracy and science_Agent Orchestra/
 |
 |-- scripts/
 |   |-- 00_prepare_data.R        <- Phase 0 data prep (run once)
-|   `-- scaffold_teams.R         <- creates all team folder structures
+|   |-- scaffold_teams.R         <- creates all team folder structures
+|   `-- plot_pipeline.R          <- generates figures/pipeline.png
+|
+|-- figures/
+|   `-- pipeline.png             <- pipeline visualization (embedded in PLAN.pdf)
 |
 |-- data/
 |   |-- agent_corpus.rds         <- shared analysis dataset (Phase 0 output)
@@ -182,46 +193,50 @@ Autocracy and science_Agent Orchestra/
 |   |   |   |-- analysis.R       <- R script (Analyst output)
 |   |   |   `-- figures/         <- plots and tables (Analyst output)
 |   |   `-- report/
-|   |       `-- report.md        <- 4-5 page report (Writer output; PI reviews)
+|   |       |-- report.md        <- 4-5 page report (Writer output)
+|   |       `-- peer_review.md   <- structured peer review (separate Reviewer agent)
 |   |-- team_02/ ... team_10/
 |   |   `-- [same structure]
 |
 `-- synthesis/
-    |-- outline.md               <- paper structure + team summaries (agent output)
+    |-- outline.md               <- summaries, themes, pipeline description (agent output)
     |-- synthesis_paper.md       <- joint paper (PI-written, agent-assisted)
-    `-- figures/                 <- figures used in synthesis paper
+    `-- figures/                 <- figures used in synthesis paper (agent-drafted R code)
 ```
 
 ---
 
 ## Phase 1 — Team workflow
 
-### Revised invocation sequence
+### Invocation sequence
 
 Teams are **not** run fully in parallel from start to finish. The workflow
-has two mandatory PI review gates:
+has two mandatory PI review gates, a peer review step, and a final PI sign-off:
 
 ```
 Step A  All 10 Designers run (produce rq.md + analysis_plan.md)
            |
 Step B  PI reviews all 10 rq.md files
-        -> check for convergence (redirect duplicates)
-        -> check for coverage gaps
+        -> check for RQ convergence (redirect duplicates)
+        -> check coverage gaps and causal logic
         -> approve or redirect each team
            |
 Step C  All 10 Analysts run (produce analysis.R + figures)
            |
 Step D  PI reviews each team's figures and a numeric summary
-        -> confirm analysis is methodologically sound
+        -> confirm analysis is methodologically sound and causally justified
         -> approve or redirect
            |
 Step E  All 10 Writers run (produce report.md)
            |
-Step F  PI reads all 10 reports -> proceed to Phase 2
+Step F  All 10 Peer Review agents run (produce peer_review.md)
+           |
+Step G  PI reads all 10 reports + peer reviews -> proceed to Phase 2
 ```
 
 This structure catches RQ convergence before any computation is wasted,
-and catches analytic errors before they are embedded in a report.
+catches analytic errors before they are embedded in a report, and provides
+independent peer scrutiny of each report before synthesis.
 
 ### How to invoke each step
 
@@ -244,13 +259,28 @@ Resume or open each team session. Say:
 
 **Step D — PI review gate:**
 Open each team's `analysis/figures/` folder and review outputs.
-If the analysis has a methodological error, open the session and redirect.
+If the analysis has a methodological or identification error, open the session and redirect.
 When satisfied, proceed to Step E.
 
 **Step E — Writer (all teams):**
 Resume or open each team session. Say:
 > "Your analysis is approved. Proceed to Step 3 (Writer role):
 > write `report/report.md` using the standard report template."
+
+**Step F — Peer Reviewer (all teams):**
+After all Writer sessions are complete, open one new Claude Code session per team (can be parallel). Say:
+> "You are a peer reviewer. Read `teams/team_[N]/report/report.md` and write
+> a structured peer review to `teams/team_[N]/report/peer_review.md`. Your
+> review should address: (1) validity of the research question and
+> operationalization; (2) methodological quality and causal identification —
+> is the estimand well-defined and are identification threats acknowledged?
+> (3) interpretation — are the claims supported by the evidence or overstated?
+> (4) key limitations not adequately acknowledged. Be constructive and specific.
+> Aim for 1-2 pages."
+
+**Step G — PI final review:**
+Read all `teams/team_*/report/report.md` and `teams/team_*/report/peer_review.md`.
+When satisfied with the quality of the reports, proceed to Phase 2.
 
 ### PI communication channels
 
@@ -261,7 +291,8 @@ Resume or open each team session. Say:
 | `pi_notes.md` | Any step | PI drops a note file in the team folder; agent checks for it |
 | Step B gate | After Designer | Review rq.md + analysis_plan.md; approve or redirect before any computation |
 | Step D gate | After Analyst | Review figures; approve or redirect before report is written |
-| `report/report.md` | After Step E | Final output review |
+| Step F | After Writer | Peer review of each team's report by a separate Reviewer agent |
+| Step G gate | After Peer Review | PI reads all reports + peer reviews; sign off before synthesis |
 
 ### Team brief template
 
@@ -279,10 +310,14 @@ Do not coordinate with or look at other teams' folders.
 
 ## Overarching research question
 
-> How does autocracy shape social science and the humanities?
+> How does autocracy, and type of autocracy, impact on the contents, direction
+> and scientific progress of the social sciences and humanities?
 
 You are free to operationalize this in any way you find interesting and
-tractable with the available data. Choose your own angle, variables, and method.
+tractable with the available data. The question asks about substantive and
+semantic dimensions of SSH knowledge production: what topics are studied, what
+directions research takes, what findings are published, how knowledge progresses.
+Focus on content and direction, not only on simple volume indicators.
 
 ## Available data
 
@@ -316,15 +351,20 @@ Key data notes:
   - Outcome variable (exact column name)
   - Key independent variable (exact column name)
 - Write to `teams/team_[N]/analysis_plan.md`:
-  - Method (regression, tabulation, text analysis, etc.)
-  - Model specification (if regression: outcome, predictors, fixed effects,
-    standard error clustering)
+  - Method (regression is required for the final analysis; text analysis
+    may be used to construct outcome or control measures)
+  - Model specification: outcome, key predictors, fixed effects, SE clustering
+  - Causal identification strategy: what variation are you exploiting, what
+    confounders are controlled, what identification threats remain?
   - Expected output files (list each figure/table you plan to produce)
 - **Stop here. Wait for PI approval before proceeding.**
 
 ### Step 2 — Analysis (Analyst role)
 *Begin only after PI has approved your rq.md.*
 - Write R code in `teams/team_[N]/analysis/analysis.R` (tidyverse style)
+- Your main analysis must use regression (lm, feols, or equivalent)
+- Text analysis (e.g. topic models, keyword counts) is permitted as a measurement
+  tool but must feed into a regression as outcome or control variable
 - Produce 2-4 figures or tables; save to `teams/team_[N]/analysis/figures/`
 - Include at least one robustness check using an alternative regime measure
 - If data cannot adequately address your RQ, revise `rq.md` first, then analyze
@@ -334,12 +374,19 @@ Key data notes:
 *Begin only after PI has approved your analysis.*
 - Write a 4-5 page report to `teams/team_[N]/report/report.md`
 - Follow the standard report template (see PLAN.md)
+- Note: your report will be reviewed by an independent peer review agent after submission
 
 ## Constraints
 
 - R only for data analysis (tidyverse style)
 - Do not modify files outside your team folder (except reading shared data)
 - Do not modify `data/agent_corpus.rds`
+- **Analysis approach:** Final analysis must use regression. Text analysis
+  (e.g. topic models, keyword counts) is permitted for constructing outcome or
+  control variables, but the main estimand must be tested via regression.
+- **Causal inference:** Aim for designs supporting causal identification (country
+  fixed effects, year fixed effects, DiD). If a fully causal design is not
+  feasible, discuss identification threats explicitly in the report.
 - **Computationally heavy tasks:** If your planned analysis will take more than
   ~5 minutes to run, or involves looping over individual abstracts/keywords at
   scale, describe what you plan to do and ask the PI before starting.
@@ -359,8 +406,9 @@ Key data notes:
 - Key independent variable (exact column name)
 
 **`analysis_plan.md` must contain:**
-- Method
-- Model specification (if regression: formula, fixed effects, SE clustering)
+- Method (must include regression for the final analysis)
+- Model specification (formula, fixed effects, SE clustering)
+- Causal identification strategy (variation exploited, confounders controlled, threats)
 - List of expected output files (each figure/table by name)
 
 If either file is missing required fields, the PI will redirect before Step C.
@@ -381,9 +429,10 @@ regime variable was operationalized. State the final analytic sample size (N
 articles or N article-country rows). Note any deviations from the data schema.
 
 ## Methods
-Specify the method, model, unit of analysis, outcome variable, key independent
-variable, any fixed effects, and how standard errors are handled. If text
-analysis: describe the dictionary or classification approach. 2-4 sentences.
+Specify the regression model, unit of analysis, outcome variable, key independent
+variable, fixed effects, SE clustering, and causal identification strategy —
+what variation is exploited, what is controlled, what threats remain. If text
+analysis was used for measurement, describe the approach. 2-4 sentences.
 
 ## Main findings
 2-4 key results stated in plain language. Reference each figure or table by
@@ -396,9 +445,8 @@ List each output file with a one-line caption.
 
 ## Discussion
 Interpret the findings in relation to the overarching research question.
-Note the main limitations of this analysis: what confounders are unaddressed,
-what the data cannot establish, what causal claims are and are not supported.
-1-2 paragraphs.
+Note the main limitations: what confounders are unaddressed, what the data
+cannot establish, what causal claims are and are not supported. 1-2 paragraphs.
 ```
 
 ---
@@ -406,25 +454,72 @@ what the data cannot establish, what causal claims are and are not supported.
 ## Phase 2 — Synthesis paper
 
 **The PI writes the synthesis paper.** The agent's role is to assist with
-structure and drafting only — all drafts are treated as raw material.
+structure, drafting, and visualization — all drafts are treated as raw material
+for PI editing.
 
 **Invocation:**
-> "Read all files in `teams/team_*/rq.md` and `teams/team_*/report/report.md`.
-> Produce `synthesis/outline.md` containing: (1) a 1-2 sentence summary of
-> each team's RQ and key finding, (2) a proposed paper outline with section
-> headers and bullet-point content for each section, (3) a list of cross-cutting
-> themes you identify across the 10 reports."
+> "Read all files in `teams/team_*/rq.md`, `teams/team_*/report/report.md`,
+> and `teams/team_*/report/peer_review.md`. Then produce `synthesis/outline.md`
+> containing: (1) a 1-2 sentence summary of each team's RQ and key finding,
+> (2) a proposed paper outline with section headers and bullet-point content
+> for each section, (3) a list of cross-cutting themes you identify across the
+> 10 reports, (4) a concise description of the overall research pipeline and
+> the agent-orchestra methodology for the 'Data and method' section (2-3
+> paragraphs), (5) for each cross-cutting theme, propose one aggregate
+> visualization and save draft R code to `synthesis/figures/`."
 
 | Section | Content |
 |---------|---------|
 | Abstract | 150-word summary |
 | Introduction | Overall RQ, motivation, what the agent orchestra method contributes |
-| Data and method | Data sources; Phase 0 pipeline; agent team structure and workflow |
+| Data and method | Data sources; Phase 0 pipeline; agent team structure and peer review workflow; agent-drafted description of methodology |
 | Findings | One subsection per team (~1 page each): RQ, approach, key result |
-| Synthesis | Cross-cutting themes; aggregate picture of autocracy and SSH |
+| Synthesis | Cross-cutting themes; aggregate picture of autocracy and SSH; agent-drafted visualizations |
 | Conclusion | What we learn; what this method can and cannot establish |
 | Appendix A | N summary from `data/n_summary.txt` |
 | Appendix B | All 10 team RQs |
+
+---
+
+## Pipeline overview
+
+The figure below shows the full pipeline from raw data to synthesis paper.
+
+![Pipeline](figures/pipeline.png){height=8in}
+
+### Step-by-step
+
+1. **Raw data** — WOS bibliometric corpus (7.5M SSH-eligible articles, 1970-2023)
+   + V-DEM regime data (182 countries)
+2. **Phase 0: data preparation** — Filter to SSH fields; expand to
+   article x country rows; merge V-DEM; compute derived variables
+   (field-year citation norms, country-year article counts)
+3. **PI: Validate corpus** — Review N counts, join rate, and spot-check rows;
+   sign off before any team work begins
+4. **Team setup** — Run `scaffold_teams.R`; 10 team folders created;
+   `brief.md` written to each
+5. **Step A — Designer sessions (x10)** — Each team independently inspects
+   the corpus and produces `rq.md` + `analysis_plan.md` with a
+   regression-based causal analysis plan
+6. **PI Review Gate B** — Review all 10 RQs for convergence, feasibility, and
+   causal logic; approve or redirect before any computation
+7. **Step C — Analyst sessions (x10)** — Each team writes `analysis/analysis.R`
+   and produces 2-4 figures/tables using regression analysis
+8. **PI Review Gate D** — Review all figures; check methodology and
+   identification; approve or redirect before reports are written
+9. **Step E — Writer sessions (x10)** — Each team writes `report/report.md`
+   (4-5 pages) following the standard template
+10. **Step F — Peer review sessions (x10)** — An independent peer review agent
+    reviews each team's report and writes `report/peer_review.md`, assessing
+    RQ validity, methodological quality, and interpretation
+11. **PI: Read reports + reviews** — PI reads all 10 reports and peer reviews;
+    final sign-off before synthesis
+12. **Synthesis agent** — Reads all reports and peer reviews; produces
+    `synthesis/outline.md` with per-team summaries, cross-cutting themes, a
+    prose description of the pipeline and methodology, and draft R
+    visualization code in `synthesis/figures/`
+13. **Synthesis paper** — PI writes the synthesis paper; agent assists with
+    structure, drafting, and figures
 
 ---
 
@@ -434,6 +529,7 @@ structure and drafting only — all drafts are treated as raw material.
 - [x] SSH field list (`ssh_fields.txt`) — 50 confirmed categories
 - [x] V-DEM data downloaded (`DATA/vdem/vdem_clean.rds`)
 - [x] Plan written and rendered to PDF
+- [x] Pipeline figure generated (`figures/pipeline.png`)
 
 ### Ordered task sequence (do not skip steps)
 
@@ -452,7 +548,9 @@ structure and drafting only — all drafts are treated as raw material.
 11. [ ] Run all 10 Analyst sessions (Step C)
 12. [ ] **PI review gate D** — review all figures, approve methodology
 13. [ ] Run all 10 Writer sessions (Step E)
-14. [ ] Read all 10 reports; proceed to Phase 2
+14. [ ] Run all 10 Peer Review sessions (Step F)
+15. [ ] **PI review gate G** — read all reports + peer reviews; sign off
+16. [ ] Proceed to Phase 2 synthesis
 
 ---
 
@@ -462,5 +560,5 @@ structure and drafting only — all drafts are treated as raw material.
   substantive contribution? Likely both; the method section should be prominent.
 - If two teams converge on the same RQ at Step B, redirect one — the PI
   can suggest a different angle without specifying a full topic.
-- Estimated session time per team: roughly 45-90 minutes per team
-  (Designer ~15 min, Analyst ~45-60 min, Writer ~15-20 min). Plan accordingly.
+- Estimated session time per team: ~45-90 min (Designer ~15 min, Analyst ~45-60
+  min, Writer ~15-20 min, Reviewer ~10-15 min). Plan for ~20 hours total.

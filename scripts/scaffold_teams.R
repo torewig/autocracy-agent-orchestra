@@ -19,10 +19,14 @@ Do not coordinate with or look at other teams\' folders.
 
 ## Overarching research question
 
-> How does autocracy shape social science and the humanities?
+> How does autocracy, and type of autocracy, impact on the contents, direction
+> and scientific progress of the social sciences and humanities?
 
 You are free to operationalize this in any way you find interesting and
-tractable with the available data. Choose your own angle, variables, and method.
+tractable with the available data. The question asks about substantive and
+semantic dimensions of SSH knowledge production: what topics are studied, what
+directions research takes, what findings are published, how knowledge progresses.
+Focus on content and direction, not only on simple volume indicators.
 
 ## Available data
 
@@ -52,12 +56,20 @@ Key data notes:
   - Rationale (2-3 sentences)
   - Estimand, unit of analysis, outcome variable, key independent variable
 - Write to `teams/team_%02d/analysis_plan.md`:
-  - Method, model specification, list of expected output files
+  - Method (regression is required for the final analysis; text analysis may
+    be used to construct outcome or control measures)
+  - Model specification: outcome, predictors, fixed effects, SE clustering
+  - Causal identification strategy: variation exploited, confounders controlled,
+    identification threats
+  - List of expected output files
 - STOP HERE. Wait for PI approval before proceeding.
 
 ### Step 2 -- Analysis (Analyst role)
 *Begin only after PI has approved your rq.md.*
 - Write R code in `teams/team_%02d/analysis/analysis.R` (tidyverse style)
+- Your main analysis must use regression (lm, feols, or equivalent)
+- Text analysis is permitted for constructing outcome/control variables but must
+  feed into a regression as outcome or control
 - Produce 2-4 figures or tables; save to `teams/team_%02d/analysis/figures/`
 - Include at least one robustness check using an alternative regime measure
 - STOP HERE. Wait for PI review of your figures before writing the report.
@@ -66,17 +78,24 @@ Key data notes:
 *Begin only after PI has approved your analysis.*
 - Write a 4-5 page report to `teams/team_%02d/report/report.md`
 - Follow the standard report template in PLAN.md
+- Note: your report will be reviewed by an independent peer review agent after submission
 
 ## Constraints
 
 - R only for data analysis (tidyverse style)
 - Do not modify files outside your team folder (except reading shared data)
 - Do not modify `data/agent_corpus.rds`
+- Analysis approach: final analysis must use regression. Text analysis is permitted
+  for constructing outcome or control variables, but the main estimand must be
+  tested via regression.
+- Causal inference: aim for designs supporting causal identification (country FE,
+  year FE, DiD). If a fully causal design is not feasible, discuss identification
+  threats explicitly in the report.
 - Computationally heavy tasks: if your analysis will take more than ~5 minutes,
   or involves looping over individual abstracts at scale, ask the PI first.
 - External API calls: do not call any external APIs (OpenAI, Anthropic,
   HuggingFace, etc.) from your R code without explicit PI approval.
-', n, n, n, n, n, n)
+', n, n, n, n, n, n, n)
 }
 
 for (i in 1:10) {
