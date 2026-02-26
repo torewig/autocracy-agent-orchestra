@@ -1,0 +1,114 @@
+# WOS Subject Categories — Social Sciences and Humanities (SSH)
+# Used to filter agent_corpus in Phase 0.
+# Format: one category per line; lines starting with # are comments.
+# Categories marked [?] below are uncertain — review before using.
+#
+# Sources: Web of Science SSCI (Social Sciences Citation Index)
+#          and AHCI (Arts & Humanities Citation Index).
+# Last reviewed: 2026-02-26
+
+# -----------------------------------------------------------------------
+# SOCIAL SCIENCES (SSCI)
+# -----------------------------------------------------------------------
+
+Anthropology
+Area Studies
+Communication
+Criminology & Penology
+Demography
+Economics
+Education & Educational Research
+Education, Scientific Disciplines
+Education, Special
+Environmental Studies
+Ergonomics
+Ethnic Studies
+Family Studies
+Geography
+Health Policy & Services
+History
+History & Philosophy of Science
+Industrial Relations & Labor
+Information Science & Library Science
+International Relations
+Law
+Management
+Planning & Development
+Political Science
+Psychology, Applied
+Psychology, Clinical
+Psychology, Developmental
+Psychology, Educational
+Psychology, Experimental
+Psychology, Mathematical
+Psychology, Multidisciplinary
+Psychology, Psychoanalysis
+Psychology, Social
+Public Administration
+Regional & Urban Planning
+Social Issues
+Social Sciences, Biomedical
+Social Sciences, Interdisciplinary
+Social Sciences, Mathematical Methods
+Social Work
+Sociology
+Urban Studies
+Women's Studies
+
+# -----------------------------------------------------------------------
+# ARTS & HUMANITIES (AHCI)
+# -----------------------------------------------------------------------
+
+Art
+Asian Studies
+Classics
+Cultural Studies
+Dance
+Film, Radio, Television
+Folklore
+Humanities, Multidisciplinary
+Language & Linguistics
+Linguistics
+Literature
+Literature, African, Australian, Canadian
+Literature, American
+Literature, British Isles
+Literature, German, Dutch, Scandinavian
+Literature, Romance
+Literature, Slavic
+Medieval & Renaissance Studies
+Music
+Philosophy
+Poetry
+Religion
+Theater
+
+# -----------------------------------------------------------------------
+# UNCERTAIN / BORDERLINE — REVIEW BEFORE INCLUDING
+# -----------------------------------------------------------------------
+# These categories are adjacent to SSH but may be too applied, medical,
+# or technical for the scope of this project. Commented out by default.
+
+# Architecture
+# [?] Overlaps design, engineering, and art history. Include if broad SSH scope.
+
+Business
+Business, Finance
+
+# Hospitality, Leisure, Sport & Tourism
+# [?] Applied social science. Borderline; likely too vocational for this scope.
+
+# Nursing
+# [?] Health profession. Rarely included in SSH bibliometric studies.
+
+# Rehabilitation
+# [?] Clinical/applied psychology and medicine. Borderline.
+
+Science & Technology Studies
+
+# Substance Abuse
+# [?] Behavioral science / public health. Borderline.
+
+# Transportation
+# [?] Engineering/planning hybrid. Likely too technical; include only if urban
+#     planning and regional studies are emphasized.

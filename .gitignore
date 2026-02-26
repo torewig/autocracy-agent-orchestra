@@ -1,0 +1,27 @@
+# Large data files — not tracked
+data/agent_corpus.rds
+data/n_summary.txt
+data/country_match_log.txt
+
+# Team outputs — generated during study
+teams/
+
+# Synthesis outputs — PI-written
+synthesis/
+
+# PDF renders — regenerate from PLAN.md
+PLAN.pdf
+
+# Temp/admin scripts
+check_env.ps1
+check_git.ps1
+
+# R session artifacts
+.Rhistory
+.RData
+.Rproj.user/
+
+# Windows
+Thumbs.db
+desktop.ini
+~$*
