@@ -3,11 +3,11 @@
 **Project:** How does autocracy, and type of autocracy, impact on the contents,
 direction and scientific progress of the social sciences and humanities?
 **PI:** Tore Wig, University of Oslo
-**Last updated:** 2026-02-27
+**Last updated:** 2026-03-09
 
 ---
 
-## Current phase: Phase 0 complete — awaiting PI sign-off before Phase 1
+## Current phase: Phase 0 updated (new WOS corpus) — awaiting PI sign-off before Phase 1
 
 ---
 
@@ -17,74 +17,75 @@ direction and scientific progress of the social sciences and humanities?
 
 | Step | Description | Status | Notes |
 |------|-------------|--------|-------|
-| 0.1 | SSH field list finalized | Done | 69 categories loaded (50 confirmed + borderline included in ssh_fields.txt) |
+| 0.1 | SSH field list finalized | Done | 69 categories in ssh_fields.txt |
 | 0.2 | V-DEM downloaded | Done | 182 countries, 1970-2023 |
 | 0.3 | V-DEM extended with type-of-autocracy variables | Done | v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr |
-| 0.4 | 00_prepare_data.R written and run | Done | 2.3 min runtime |
-| 0.5 | Country matching fixed | Done | Added historical WOS strings (ENGLAND, FED REP GER, GER DEM REP, etc.) |
-| 0.6 | **PI validation gate** | **Open — sign-off needed** | See findings below |
+| 0.4 | **New WOS corpus added** | **Done (2026-03-09)** | wos_ssh_articles.rds: 2,744,129 SSH articles from all 3 WOS pulls |
+| 0.5 | 00_prepare_data.R updated and run | Done | 4.9 min runtime; reads wos_ssh_articles.rds |
+| 0.6 | Country matching fixed | Done | UK sub-nations now matched in both upper and title case |
+| 0.7 | **PI validation gate** | **Open — sign-off needed** | See findings and !! WARNING !! below |
 
-### Phase 0 outputs
+### Phase 0 outputs (2026-03-09 run)
 
 | Output | Value |
 |--------|-------|
-| Total SSH articles (distinct) | 202,246 |
-| Article-country rows | 207,287 |
-| ISO3 country match rate | **99.78%** (454 unmatched) |
-| V-DEM join rate | **98.21%** |
-| Corpus file size | ~0.01 GB (compressed RDS) |
-| Columns in corpus | 30 |
+| Total SSH articles (distinct) | **1,404,400** |
+| Article-country rows | **1,641,210** |
+| ISO3 country match rate | **99.96%** (586 unmatched) |
+| V-DEM join rate | **99.61%** |
+| Corpus file size | 0.57 GB on disk |
+| Columns in corpus | 31 |
 
 ### N by regime type (article-country rows, V-DEM matched)
 
 | Regime | N rows | % |
 |--------|--------|---|
-| 0 = closed autocracy | 5,078 | 2.5% |
-| 1 = electoral autocracy | 3,410 | 1.6% |
-| 2 = electoral democracy | 3,634 | 1.8% |
-| 3 = liberal democracy | 187,728 | 90.7% |
-| NA (unmatched) | 7,437 | 3.6% |
+| 0 = closed autocracy | 67,302 | 4.1% |
+| 1 = electoral autocracy | 106,868 | 6.5% |
+| 2 = electoral democracy | 130,411 | 7.9% |
+| 3 = liberal democracy | 1,171,318 | 71.4% |
+| NA (unmatched) | 65,311 | 4.0% |
+
+### Articles by decade
+
+| Decade | N articles |
+|--------|-----------|
+| 1970s | 161,294 |
+| 1980s | 98,710 |
+| 1990s | 248,939 |
+| **2000s** | **7,542** ← GAP (see below) |
+| 2010s | 887,915 |
 
 ### Top 10 countries
 
-United States (134,976), United Kingdom (16,794), Canada (12,151),
-Germany (6,090), France (4,964), Australia (3,808), Japan (2,307),
-Israel (2,243), Soviet Union (1,630), India (1,572)
+United States (595,823), United Kingdom (147,776), Canada (75,178),
+Germany (63,538), Australia (61,727), Spain (54,017), China (45,642),
+France (41,639), Italy (35,249), Netherlands (34,576)
 
 ### Top 10 SSH subject categories
 
-Education & Educational Research (15,160), Economics (12,965),
-Psychology Clinical (10,781), Political Science (7,561), Business (7,500),
-Psychology Multidisciplinary (6,663), History (6,579), Law (6,137),
-Literature (5,854), Anthropology (4,664)
+Education & Educational Research (116,727), Economics (108,315),
+Psychology Clinical (60,836), Business (54,563), History (43,270),
+Psychology Multidisciplinary (43,054), Law (41,646), Management (40,539),
+Business Finance (37,782), Political Science (36,913)
 
-### v2clacfree (academic freedom): mean=2.87, sd=1.08, range=-3.4 to 3.5
+### v2clacfree (academic freedom): mean=2.30, sd=1.40, range=-3.4 to 3.7
 
 ---
 
-## !! CRITICAL FINDING — PI DECISION REQUIRED !!
+## !! WARNING: GAP IN 2000s COVERAGE !!
 
-**The WOS data file covers only 1970–1983, not 1970–2023 as planned.**
+**The corpus has only 7,542 articles from 2000–2009 (vs. 249K in the 1990s and 888K in the 2010s).**
 
-- All 7.5M records are from the legacy/historical WOS archive (UT codes begin with "A")
-- The actual year range in the file: **1945–1983** (post-1970 filter gives 1970–1983)
-- Data beyond 1983 does not exist in this file
-- Articles by decade: 1970s = 161,237 | 1980s = 41,009 (ends ~1983)
+- This appears to be a gap between WOS Pull2 (ends ~late 1990s) and Pull3 (starts ~2010)
+- The 2000–2009 decade is effectively missing from the corpus
+- This will create a discontinuity in any time-series analysis spanning 2000–2009
 
-**Implications:**
-- The 1970-1983 corpus covers the Cold War era — interesting for the RQ
-- It captures USSR (1,630), Czechoslovakia (1,521), East Germany in the corpus
-- But it excludes post-1989 democratization, China's rise, and any post-Cold War dynamics
-- The strong USA dominance (65% of rows) and liberal democracy skew (91%) reflect Cold War academic geography
+**Implication for analysis:** Teams should be warned to treat the 2000s as a gap. Analyses that use time as a running variable should either:
+  (a) Exclude the 2000s decade, or
+  (b) Restrict to two separate periods: pre-2000 and post-2010
 
-**PI options:**
-1. **Proceed with 1970–1983 data** — the corpus is valid; the RQ is reframed as a
-   Cold War study of how autocracy shaped SSH production. Teams should be briefed on
-   the actual time window.
-2. **Obtain a modern WOS extract** — pull a new extract covering 1990–2023 (or
-   1970–2023) before launching teams. This would require a fresh WOS data download.
-
-**Do not proceed to Phase 1 until this decision is made.**
+**PI decision needed:** Is an additional WOS pull to fill the 2000–2009 gap feasible? Or should teams work around the gap?
 
 ---
 
@@ -123,14 +124,16 @@ Literature (5,854), Anthropology (4,664)
 | 2026-02-26 | Peer review step added (Step F) | Independent reviewer agent per team report |
 | 2026-02-27 | V-DEM extended: v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr | All confirmed present in vdemdata |
 | 2026-02-27 | Country matching fixed: ENGLAND→GBR, FED REP GER→DEU, GER DEM REP→DDR, etc. | Match rate now 99.78% |
-| **2026-02-27** | **WOS data scope: 1970–1983 only (not 1970–2023)** | **PI decision pending: proceed with Cold War corpus or obtain modern extract** |
+| 2026-02-27 | WOS data initially only covered 1970–1983 | PI chose Option B: obtain modern extract |
+| **2026-03-09** | **New WOS corpus added: 2,744,129 SSH articles from all 3 pulls** | **Now covers 1970–2023 but with a gap in 2000–2009. PI decision pending on gap.** |
+| 2026-03-09 | Country matching extended: title-case UK sub-nations added | Match rate 99.96% |
 
 ---
 
 ## Open items (prioritized)
 
-1. **[BLOCKER]** PI to decide on time coverage: proceed with 1970–1983 or obtain modern WOS extract
-2. Confirm borderline SSH fields (Architecture, Hospitality, Nursing, etc. — currently included via ssh_fields.txt)
-3. Decide whether to include "Review" doc_type alongside "Article"
-4. If proceeding with 1970–1983: update PLAN.md and brief.md templates to reflect actual time window
-5. Phase 0 validation gate: PI to spot-check agent_corpus.rds before Phase 1
+1. **[BLOCKER]** PI to decide on 2000–2009 gap: obtain a fill pull, or instruct teams to work around it
+2. **[GATE]** PI to validate updated corpus: spot-check agent_corpus.rds (1.4M articles, regime distribution above)
+3. Update team brief templates (teams/team_02 – team_10) to reflect actual coverage and 2000s gap warning
+4. Confirm borderline SSH fields (Architecture, Hospitality, Nursing, etc. — currently included via ssh_fields.txt)
+5. Decide whether to include "Review" doc_type alongside "Article" (currently Article only)

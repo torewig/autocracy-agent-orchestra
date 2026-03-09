@@ -3,9 +3,11 @@
 # Run from the project root directory.
 #
 # Inputs:
-#   DATA/bibliometric/WOS_scrapes/wos_articles.rds  (~3.9 GB in RAM)
+#   DATA/bibliometric/WOS_scrapes/wos_ssh_articles.rds  (~3-4 GB in RAM)
+#     2,744,129 SSH articles (Article + Review), pre-filtered from all 3 WOS pulls.
+#     No SSH filtering needed here — already applied upstream by build_ssh_corpus.R
+#     and wrangle_append_p3.R.
 #   DATA/vdem/vdem_clean.rds
-#   ssh_fields.txt
 #
 # Outputs:
 #   data/agent_corpus.rds
@@ -26,9 +28,8 @@ cat("Started:", format(t0), "\n\n")
 
 base <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG"
 
-wos_path   <- file.path(base, "DATA/bibliometric/WOS_scrapes/wos_articles.rds")
+wos_path   <- file.path(base, "DATA/bibliometric/WOS_scrapes/wos_ssh_articles.rds")
 vdem_path  <- file.path(base, "DATA/vdem/vdem_clean.rds")
-ssh_path   <- "ssh_fields.txt"    # relative to project root
 out_dir    <- "data"
 out_corpus <- file.path(out_dir, "agent_corpus.rds")
 out_nsumm  <- file.path(out_dir, "n_summary.txt")
@@ -36,37 +37,29 @@ out_cmatch <- file.path(out_dir, "country_match_log.txt")
 
 dir.create(out_dir, showWarnings = FALSE)
 
-# ── 1. SSH field list ─────────────────────────────────────────────────────────
-
-cat("Step 1: Loading SSH field list...\n")
-ssh_fields <- readLines(ssh_path) |>
-  str_subset("^[^#]") |>
-  str_trim() |>
-  (\(x) x[nchar(x) > 0])() |>
-  str_to_lower()
-cat("  SSH categories:", length(ssh_fields), "\n\n")
-
-# Build regex for efficient matching: field names as exact semicolon-delimited tokens
-ssh_escaped <- str_replace_all(ssh_fields, "([.+*?\\[\\]{}()|^$\\\\])", "\\\\\\1")
-ssh_regex   <- paste0("(?i)(?:^|;)\\s*(?:", paste(ssh_escaped, collapse = "|"), ")\\s*(?:;|$)")
+# ── 1. (SSH filter already applied) ───────────────────────────────────────────
+# wos_ssh_articles.rds is pre-filtered to SSH categories and research doc types.
+# No SSH regex filtering needed here.
 
 # ── 2. Load WOS data ──────────────────────────────────────────────────────────
 
-cat("Step 2: Loading WOS data (3.9 GB in RAM, may take several minutes)...\n")
+cat("Step 2: Loading WOS SSH corpus (~3-4 GB in RAM)...\n")
 wos <- readRDS(wos_path)
 cat("  Loaded:", format(nrow(wos), big.mark = ","), "rows x", ncol(wos), "cols\n")
 
 # Drop columns not needed for the corpus (free ~1.5 GB)
-keep_cols <- c("ut", "date", "doc_type", "title", "abstract", "keywords",
+keep_cols <- c("ut", "doi", "date", "doc_type", "title", "abstract", "keywords",
                "keywords_plus", "subject_categories", "journal", "tot_cites",
                "n_authors", "institutions", "grant_agencies", "countries")
 wos <- wos[, intersect(keep_cols, names(wos))]
 invisible(gc())
 cat("  After column drop:", format(object.size(wos), units = "GB"), "\n\n")
 
-# ── 3. Derive year and subject_primary; filter ────────────────────────────────
+# ── 3. Derive year and subject_primary; filter by year and doc type ────────────
 
-cat("Step 3: Filtering to Article / 1970-2023 / SSH...\n")
+cat("Step 3: Deriving year, filtering to Article / 1970-2023...\n")
+# doc_type: corpus contains Article and Review; keep Article only.
+# SSH filter already applied upstream — no regex filter needed.
 
 wos <- wos |>
   mutate(
@@ -79,9 +72,6 @@ wos <- wos |>
     !is.na(subject_categories)
   )
 cat("  After Article + year filter:", format(nrow(wos), big.mark = ","), "\n")
-
-wos <- wos |> filter(grepl(ssh_regex, subject_categories, perl = TRUE))
-cat("  After SSH filter:           ", format(nrow(wos), big.mark = ","), "\n")
 invisible(gc())
 
 # ── 4. Expand to article-country rows ─────────────────────────────────────────
@@ -108,10 +98,13 @@ cat("Step 5: Standardizing to ISO3...\n")
 # Map these to ISO3 (or V-DEM country_text_id equivalents for defunct states).
 # DDR = East Germany, CSK = Czechoslovakia — both coded in V-DEM.
 historical_map <- c(
-  "ENGLAND"         = "GBR",
-  "SCOTLAND"        = "GBR",
-  "WALES"           = "GBR",
-  "NORTH IRELAND"   = "GBR",
+  # UK sub-nations — WOS uses these instead of "United Kingdom".
+  # Both uppercase (older WOS records) and title case (newer records).
+  "ENGLAND"         = "GBR",  "England"         = "GBR",
+  "SCOTLAND"        = "GBR",  "Scotland"        = "GBR",
+  "WALES"           = "GBR",  "Wales"           = "GBR",
+  "NORTH IRELAND"   = "GBR",  "North Ireland"   = "GBR",
+  # Historical states (Cold War era, uppercase WOS strings)
   "FED REP GER"     = "DEU",
   "BUNDES REPUBLIK" = "DEU",
   "W GERMANY"       = "DEU",
@@ -124,7 +117,11 @@ historical_map <- c(
   "CESKOSLOVANSKO"  = "CSK",
   "USSR"            = "SUN",
   "SOVIET UNION"    = "SUN",
-  "YUGOSLAVIA"      = "YUG"
+  "YUGOSLAVIA"      = "YUG",
+  # Other non-standard strings
+  "PAPUA N GUINEA"  = "PNG",
+  "Papua N Guinea"  = "PNG",
+  "COLUMBIA"        = "COL"   # common WOS misspelling of Colombia
 )
 historical_names <- c(
   "DDR" = "East Germany",
