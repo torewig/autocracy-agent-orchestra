@@ -22,6 +22,15 @@ and exact instructions for what to produce.
 1. `teams/team_[N]/rq.md` — must contain:
    - Research question (one sentence)
    - Rationale (2-3 sentences)
+   - Theoretical mechanism (2-4 sentences): what is the causal pathway from
+     autocracy to your outcome? What direction do you expect, and why? Be
+     specific — name the actors, constraints, or incentives involved.
+   - Theory family (a short kebab-case label of your own choosing, e.g.
+     `political-suppression` or `self-censorship`). Propose the label that
+     best describes the theoretical root of your hypothesis. The PI will
+     review and consolidate labels across teams before analysis begins —
+     your label is a proposal, not final. This field is used later for
+     multiple-testing correction across teams.
    - Estimand (what quantity you are trying to estimate)
    - Unit of analysis
    - Outcome variable (exact column name from the corpus)

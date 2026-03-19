@@ -3,7 +3,7 @@
 **Paper:** How does autocracy, and type of autocracy, impact on the contents, direction and scientific progress of the social sciences and humanities?
 **Method:** Multi-agent research orchestra (10 teams x 3 agents + 1 peer review agent per team)
 **Status:** Planning phase
-**Last updated:** 2026-02-26
+**Last updated:** 2026-03-17
 
 ---
 
@@ -56,6 +56,8 @@ Key columns available to teams:
 | `institutions` | Author institutions (semicolon-separated) |
 | `grant_agencies` | Funding agencies (semicolon-separated) |
 | `date` | Full publication date |
+| `e_gdppc` | GDP per capita (thousands, 2011 USD, PPP) — V-DEM/Maddison; log-transform for regression |
+| `e_wb_pop` | Population (World Bank) — log-transform for regression |
 
 **Note on pre-1990 data:** WOS coverage before ~1990 is thin and biased toward
 English-language and Western-institution journals. Time-trend analyses should
@@ -91,6 +93,9 @@ Interpret citation patterns as indicators of visibility and uptake, not quality.
 | N estimation | Run Phase 0 before teams start; validate output before launching teams |
 | Analysis approach | Final analysis must use regression; text analysis permitted for measurement only |
 | Causal inference | Aim for designs supporting causal identification (country FE, year FE, DiD); discuss identification threats if full causal design is not feasible |
+| Theoretical justification | Each team must state the causal mechanism and expected direction in `rq.md` before any analysis |
+| Pre-registration | Hypotheses committed to GitHub (timestamped) after PI approval of RQs and before any Analyst session |
+| Multiple testing | Bonferroni correction applied within theory-family groups across teams; PI assigns final family labels at Step B |
 
 ---
 
@@ -172,7 +177,9 @@ Autocracy and science_Agent Orchestra/
 |-- scripts/
 |   |-- 00_prepare_data.R        <- Phase 0 data prep (run once)
 |   |-- scaffold_teams.R         <- creates all team folder structures
-|   `-- plot_pipeline.R          <- generates figures/pipeline.png
+|   |-- plot_pipeline.R          <- generates figures/pipeline.png
+|   |-- preregister.ps1          <- Step B': creates preregistration.md + git commit/push
+|   `-- bonferroni_adjust.R      <- Step D': reads primary_results.json, applies Bonferroni
 |
 |-- figures/
 |   `-- pipeline.png             <- pipeline visualization (embedded in PLAN.pdf)
@@ -181,16 +188,20 @@ Autocracy and science_Agent Orchestra/
 |   |-- agent_corpus.rds         <- shared analysis dataset (Phase 0 output)
 |   |-- n_summary.txt            <- N counts by regime, decade (Phase 0 output)
 |   |-- country_match_log.txt    <- unmatched country strings (Phase 0 output)
-|   `-- vdem_codebook.md         <- V-DEM variable definitions and guidance
+|   |-- vdem_codebook.md         <- V-DEM variable definitions and guidance
+|   |-- adjusted_pvalues.rds     <- Bonferroni-adjusted p-values (Step D' output)
+|   `-- adjusted_pvalues_report.md <- Human-readable adjustment table (Step D' output)
 |
 |-- teams/
 |   |-- team_01/
 |   |   |-- brief.md             <- PI-written mandate (copy template, fill N)
 |   |   |-- rq.md                <- team's RQ (Designer output; PI reviews before Analyst)
 |   |   |-- analysis_plan.md     <- method plan (Designer output; PI reviews before Analyst)
+|   |   |-- preregistration.md   <- timestamped pre-reg record (Step B' output; do not edit)
 |   |   |-- pi_notes.md          <- optional PI feedback at any point
 |   |   |-- analysis/
 |   |   |   |-- analysis.R       <- R script (Analyst output)
+|   |   |   |-- primary_results.json <- primary hypothesis test result (Analyst output)
 |   |   |   `-- figures/         <- plots and tables (Analyst output)
 |   |   `-- report/
 |   |       |-- report.md        <- 4-5 page report (Writer output)
@@ -214,29 +225,45 @@ Teams are **not** run fully in parallel from start to finish. The workflow
 has two mandatory PI review gates, a peer review step, and a final PI sign-off:
 
 ```
-Step A  All 10 Designers run (produce rq.md + analysis_plan.md)
-           |
-Step B  PI reviews all 10 rq.md files
-        -> check for RQ convergence (redirect duplicates)
-        -> check coverage gaps and causal logic
-        -> approve or redirect each team
-           |
-Step C  All 10 Analysts run (produce analysis.R + figures)
-           |
-Step D  PI reviews each team's figures and a numeric summary
-        -> confirm analysis is methodologically sound and causally justified
-        -> approve or redirect
-           |
-Step E  All 10 Writers run (produce report.md)
-           |
-Step F  All 10 Peer Review agents run (produce peer_review.md)
-           |
-Step G  PI reads all 10 reports + peer reviews -> proceed to Phase 2
+Step A   All 10 Designers run (produce rq.md + analysis_plan.md)
+            |
+Step B   PI reviews all 10 rq.md files
+         -> check for RQ convergence (redirect duplicates)
+         -> check coverage gaps and causal logic
+         -> check theoretical mechanism and theory family label in each rq.md
+         -> consolidate theory family labels across teams (PI assigns final groupings)
+         -> approve or redirect each team
+            |
+Step B'  Pre-registration
+         -> run scripts/preregister.ps1
+         -> creates preregistration.md per team and commits to GitHub (timestamped)
+         -> verify commit on GitHub before proceeding
+            |
+Step C   All 10 Analysts run (produce analysis.R + figures + primary_results.json)
+            |
+Step D   PI reviews each team's figures and a numeric summary
+         -> confirm analysis is methodologically sound and causally justified
+         -> verify primary_results.json exists and is correct for each team
+         -> approve or redirect
+            |
+Step D'  Bonferroni adjustment
+         -> run scripts/bonferroni_adjust.R
+         -> groups primary tests by theory_family, applies Bonferroni within each family
+         -> produces data/adjusted_pvalues.rds and data/adjusted_pvalues_report.md
+         -> PI reviews adjusted_pvalues_report.md before proceeding
+            |
+Step E   All 10 Writers run (produce report.md using adjusted p-values)
+            |
+Step F   All 10 Peer Review agents run (produce peer_review.md)
+            |
+Step G   PI reads all 10 reports + peer reviews -> proceed to Phase 2
 ```
 
-This structure catches RQ convergence before any computation is wasted,
-catches analytic errors before they are embedded in a report, and provides
-independent peer scrutiny of each report before synthesis.
+This structure: catches RQ convergence before computation is wasted; locks in
+hypotheses via pre-registration before any data are analysed; catches analytic
+errors before they are embedded in a report; controls family-wise error rate
+across related hypotheses; and provides independent peer scrutiny of each report
+before synthesis.
 
 ### How to invoke each step
 
@@ -248,19 +275,39 @@ Open a Claude Code session per team (can be parallel). Say:
 
 **Step B — PI review gate:**
 Read all `teams/team_##/rq.md` and `teams/team_##/analysis_plan.md`.
-If two teams have converged, open one session and redirect it.
-When satisfied, proceed to Step C.
+Check that each `rq.md` contains a `Theoretical mechanism` and a proposed
+`Theory family` label. Review all proposed labels and decide the final groupings
+— teams testing hypotheses from the same theoretical root should share an
+identical label. Edit `rq.md` directly for any team whose label needs changing.
+If two teams have converged on the same RQ, redirect one.
+When satisfied with all 10 RQs and all theory family labels are finalised,
+proceed to Step B'.
+
+**Step B' — Pre-registration:**
+Run `scripts/preregister.ps1` before starting any Analyst session. This creates
+`preregistration.md` in each approved team folder and commits all files to
+GitHub with a timestamp. Verify the commit appears on GitHub — the commit hash
+is the pre-registration record.
 
 **Step C — Analyst (all teams):**
-Resume or open each team session. Say:
-> "Your `rq.md` is approved. Proceed to Step 2 (Analyst role):
-> write and run `analysis/analysis.R`, save figures to `analysis/figures/`.
-> Stop after that and wait for PI review."
+Open a new Claude Code session per team (NOT a continuation of the Designer
+session). Paste `agents/prompt_analyst.md` with `[N]` filled in. The Analyst
+reads `rq.md`, `analysis_plan.md`, and any `pi_notes.md`; writes `analysis.R`;
+runs it; saves figures to `analysis/figures/`; writes `primary_results.json`
+with the primary hypothesis test result; stops.
 
 **Step D — PI review gate:**
-Open each team's `analysis/figures/` folder and review outputs.
-If the analysis has a methodological or identification error, open the session and redirect.
-When satisfied, proceed to Step E.
+Open each team's `analysis/figures/` folder and review outputs. Verify
+`primary_results.json` exists and looks correct for each team.
+If the analysis has a methodological or identification error, open a session
+and redirect. When satisfied with all teams, proceed to Step D'.
+
+**Step D' — Bonferroni adjustment:**
+Run `scripts/bonferroni_adjust.R` before starting any Writer session. It reads
+all teams' `primary_results.json`, groups by `theory_family`, and applies
+Bonferroni correction within each family. Review `data/adjusted_pvalues_report.md`
+to confirm groupings are sensible and no team is missing.
+Then proceed to Step E.
 
 **Step E — Writer (all teams):**
 Resume or open each team session. Say:
@@ -289,8 +336,10 @@ When satisfied with the quality of the reports, proceed to Phase 2.
 | `brief.md` | Before Step A | Initial mandate; the only pre-run instruction |
 | Chat input | Any step | Direct correction or guidance during a live session |
 | `pi_notes.md` | Any step | PI drops a note file in the team folder; agent checks for it |
-| Step B gate | After Designer | Review rq.md + analysis_plan.md; approve or redirect before any computation |
-| Step D gate | After Analyst | Review figures; approve or redirect before report is written |
+| Step B gate | After Designer | Review rq.md + analysis_plan.md; consolidate theory family labels; approve or redirect before any computation |
+| Step B' | After Step B | Pre-registration: run `preregister.ps1`; commits hypotheses to GitHub before analysis |
+| Step D gate | After Analyst | Review figures + `primary_results.json`; approve or redirect before report is written |
+| Step D' | After Step D | Bonferroni adjustment: run `bonferroni_adjust.R`; review `adjusted_pvalues_report.md` |
 | Step F | After Writer | Peer review of each team's report by a separate Reviewer agent |
 | Step G gate | After Peer Review | PI reads all reports + peer reviews; sign off before synthesis |
 
@@ -337,6 +386,9 @@ Key data notes:
   comparing counts across countries or regime types.
 - **Pre-1990 data:** Treat estimates before 1990 with caution — WOS coverage
   is thin and biased toward English-language and Western journals.
+- **Control variables:** `e_gdppc` (GDP per capita, log-transform) and
+  `e_wb_pop` (population, log-transform) are available for regression controls.
+  Both are from V-DEM/World Bank and cover ~99% and ~99% of corpus rows respectively.
 
 ## Your tasks — complete in order, stop between steps for PI review
 
@@ -346,6 +398,12 @@ Key data notes:
 - Write to `teams/team_[N]/rq.md`:
   - Your research question (one sentence)
   - Rationale (2-3 sentences)
+  - Theoretical mechanism (2-4 sentences): what is the causal pathway from
+    autocracy to your outcome? Name the specific actors, constraints, or
+    incentives involved. State the expected direction and why.
+  - Theory family (a short kebab-case label of your own choosing describing
+    the theoretical root of your hypothesis — the PI will review and
+    consolidate labels across teams before analysis begins)
   - Estimand: what quantity are you trying to estimate?
   - Unit of analysis
   - Outcome variable (exact column name)
@@ -390,9 +448,11 @@ Key data notes:
 - **Computationally heavy tasks:** If your planned analysis will take more than
   ~5 minutes to run, or involves looping over individual abstracts/keywords at
   scale, describe what you plan to do and ask the PI before starting.
-- **External API calls:** Do not make any calls to external APIs from your R
-  code (OpenAI, Anthropic, HuggingFace, or any other service) without explicit
-  PI approval. This includes embedding APIs, classification APIs, and LLMs.
+- **External API calls:** You may call external APIs (OpenAI, Anthropic,
+  HuggingFace, or similar services) from your R code if it serves your
+  analysis. Before making API calls, briefly state what you plan to use them
+  for. Be mindful of cost — avoid large-scale calls over the full corpus
+  without checking with the PI first.
 ```
 
 ### Handoff document schemas
@@ -400,6 +460,8 @@ Key data notes:
 **`rq.md` must contain:**
 - Research question (one sentence)
 - Rationale (2-3 sentences)
+- Theoretical mechanism (2-4 sentences): causal pathway, named actors/incentives, expected direction
+- Theory family (short kebab-case label, proposed by Designer, finalised by PI at Step B)
 - Estimand
 - Unit of analysis
 - Outcome variable (exact column name from corpus schema)
@@ -499,16 +561,25 @@ The figure below shows the full pipeline from raw data to synthesis paper.
 4. **Team setup** — Run `scaffold_teams.R`; 10 team folders created;
    `brief.md` written to each
 5. **Step A — Designer sessions (x10)** — Each team independently inspects
-   the corpus and produces `rq.md` + `analysis_plan.md` with a
-   regression-based causal analysis plan
+   the corpus and produces `rq.md` + `analysis_plan.md`. Each `rq.md` includes
+   a theoretical mechanism statement and a proposed theory family label.
 6. **PI Review Gate B** — Review all 10 RQs for convergence, feasibility, and
-   causal logic; approve or redirect before any computation
-7. **Step C — Analyst sessions (x10)** — Each team writes `analysis/analysis.R`
-   and produces 2-4 figures/tables using regression analysis
-8. **PI Review Gate D** — Review all figures; check methodology and
-   identification; approve or redirect before reports are written
-9. **Step E — Writer sessions (x10)** — Each team writes `report/report.md`
-   (4-5 pages) following the standard template
+   causal logic; consolidate theory family labels across teams; approve or
+   redirect before any computation
+7. **Step B' — Pre-registration** — Run `preregister.ps1`; creates
+   `preregistration.md` per team and commits to GitHub with a timestamp;
+   hypotheses are now locked before any analysis runs
+8. **Step C — Analyst sessions (x10)** — Each team writes `analysis/analysis.R`,
+   produces 2-4 figures/tables, and saves `primary_results.json` with the
+   primary hypothesis test result (coefficient, SE, p-value, theory family)
+9. **PI Review Gate D** — Review all figures; verify `primary_results.json`
+   for each team; approve or redirect before reports are written
+10. **Step D' — Bonferroni adjustment** — Run `bonferroni_adjust.R`; groups
+    primary tests by theory family, applies Bonferroni correction within each
+    family; produces `adjusted_pvalues.rds` and `adjusted_pvalues_report.md`
+    for PI review
+11. **Step E — Writer sessions (x10)** — Each team writes `report/report.md`
+    (4-5 pages) using Bonferroni-adjusted p-values for the primary test
 10. **Step F — Peer review sessions (x10)** — An independent peer review agent
     reviews each team's report and writes `report/peer_review.md`, assessing
     RQ validity, methodological quality, and interpretation
@@ -544,13 +615,20 @@ The figure below shows the full pipeline from raw data to synthesis paper.
 7. [ ] Run `scripts/scaffold_teams.R` to create all team folders
 8. [ ] Copy `brief.md` template to each team folder, fill in team number
 9. [ ] Run all 10 Designer sessions (Step A)
-10. [ ] **PI review gate B** — review all rq.md files, check convergence, approve
-11. [ ] Run all 10 Analyst sessions (Step C)
-12. [ ] **PI review gate D** — review all figures, approve methodology
-13. [ ] Run all 10 Writer sessions (Step E)
-14. [ ] Run all 10 Peer Review sessions (Step F)
-15. [ ] **PI review gate G** — read all reports + peer reviews; sign off
-16. [ ] Proceed to Phase 2 synthesis
+10. [ ] **PI review gate B** — review all rq.md files; check convergence;
+        verify theoretical mechanism and theory family in each; consolidate
+        theory family labels across teams
+11. [ ] **Step B' — Pre-registration** — run `scripts/preregister.ps1`;
+        verify commit on GitHub before any Analyst session starts
+12. [ ] Run all 10 Analyst sessions (Step C)
+13. [ ] **PI review gate D** — review all figures; verify primary_results.json
+        exists and is correct for each team; approve methodology
+14. [ ] **Step D' — Bonferroni adjustment** — run `scripts/bonferroni_adjust.R`;
+        review `data/adjusted_pvalues_report.md`; confirm theory family groupings
+15. [ ] Run all 10 Writer sessions (Step E)
+16. [ ] Run all 10 Peer Review sessions (Step F)
+17. [ ] **PI review gate G** — read all reports + peer reviews; sign off
+18. [ ] Proceed to Phase 2 synthesis
 
 ---
 

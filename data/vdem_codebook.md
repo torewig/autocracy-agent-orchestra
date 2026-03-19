@@ -39,6 +39,22 @@ Coverage: 182 countries, 1970-2023.
 - **Caution:** The cutpoint (>= 2) is a reasonable but debatable choice.
   Robustness to alternative cutpoints (>= 3) is worth checking for key results.
 
+### `e_gdppc` — GDP per Capita
+- **Type:** Continuous (thousands, 2011 USD, PPP-adjusted)
+- **Source:** Maddison Project / expanded V-DEM economic data
+- **Coverage:** ~90% of country-years 1970-2023; ~99.7% of corpus rows
+- **Use for:** Economic development control in regression models.
+  Log-transform (`log(e_gdppc)`) is standard to linearize the relationship.
+- **Caution:** Some pre-1980 values are extrapolated. Missing primarily for
+  small territories not in V-DEM.
+
+### `e_wb_pop` — Population (World Bank)
+- **Type:** Continuous (number of persons)
+- **Source:** World Bank via V-DEM
+- **Coverage:** ~92% of country-years 1970-2023; ~98.6% of corpus rows
+- **Use for:** Country-size control. Log-transform (`log(e_wb_pop)`) is standard.
+- **Caution:** Missing for same small-territory cases as `e_gdppc`.
+
 ---
 
 ## Guidance: which measure to use when

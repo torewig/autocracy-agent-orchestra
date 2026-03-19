@@ -61,6 +61,22 @@ See `PLAN.md` for the full workflow. In brief:
    - Step G: PI reads all reports + peer reviews; final sign-off
 3. **Phase 2** — PI writes synthesis paper assisted by synthesis agent
 
+## Administrative audit
+
+To check where the project stands relative to PLAN.md, run an admin audit:
+
+```
+# Option 1: In a Claude Code session, say:
+Run an admin audit
+
+# Option 2: From PowerShell:
+powershell -ExecutionPolicy Bypass -File scripts\admin_audit.ps1
+```
+
+The admin agent scans all directories, generates an updated `STATUS.md` with a
+team progress matrix, flags loose ends and blockers, and offers to commit changes
+to git. See `agents/prompt_admin.md` for the full agent prompt.
+
 ## Key design decisions
 
 - SSH scope defined by `ssh_fields.txt` (50 WOS subject categories)

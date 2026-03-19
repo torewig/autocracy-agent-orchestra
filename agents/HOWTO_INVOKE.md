@@ -45,11 +45,40 @@ You can run all 10 simultaneously in separate terminal windows.
 After all 10 Designer sessions finish:
 
 1. Read all 10 `teams/team_##/rq.md` files
-2. Check for convergence (two teams with the same angle)
-3. If redirecting a team: open a new session for that team and say:
+2. Check for RQ convergence (two teams with the same angle) and redirect if needed
+3. Check that each `rq.md` includes a `Theoretical mechanism` and a proposed
+   `Theory family` label
+4. **Consolidate theory family labels:** each Designer proposes their own label —
+   review all 10 proposals and decide the final groupings. Teams testing
+   hypotheses rooted in the same theoretical argument should share an identical
+   label; this determines the Bonferroni families later. Edit `rq.md` directly
+   for any team whose label you want to change.
+5. If redirecting a team: open a new session for that team and say:
    > "Read teams/team_[N]/rq.md. The PI would like you to revise the RQ
    > toward [different angle]. Update rq.md and analysis_plan.md."
-4. When satisfied with all 10, proceed to Step C
+6. When satisfied with all 10 RQs and all theory family labels are finalised,
+   proceed to Step B'
+
+---
+
+### Step B' — Pre-registration (run before any analysis)
+
+After PI approval of all RQs and **before starting any Analyst session**, run
+the pre-registration script. This commits each team's `rq.md` and
+`analysis_plan.md` to GitHub with a timestamp, creating a public record that
+hypotheses were fixed before data were analysed.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "scripts\preregister.ps1"
+```
+
+The script will:
+- Create `teams/team_##/preregistration.md` for each approved team
+- Git commit all pre-registration files with a timestamped message
+- Git push to the remote repository
+
+**Verify** the commit appears on GitHub before proceeding to Step C. The
+commit hash serves as the pre-registration timestamp.
 
 ---
 
@@ -71,11 +100,37 @@ the Designer session — it reads the files the Designer wrote.
 
 1. Open `teams/team_##/analysis/figures/` for each team
 2. Check methodology and figures
-3. If redirecting: open a session and say:
+3. Verify `teams/team_##/analysis/primary_results.json` exists and looks correct
+4. If redirecting: open a session and say:
    > "Read teams/team_[N]/rq.md and teams/team_[N]/analysis/analysis.R.
    > The PI notes: [specific issue]. Please revise."
    Write feedback to `teams/team_[N]/pi_notes.md` for the agent to pick up.
-4. When satisfied, proceed to Step E
+5. When satisfied with all teams, proceed to Step D'
+
+---
+
+### Step D' — Bonferroni adjustment (run before Writers)
+
+After PI approves all analysis outputs and **before starting any Writer session**,
+run the Bonferroni adjustment script. It reads all teams' `primary_results.json`,
+groups hypotheses by `theory_family`, and applies Bonferroni correction within
+each family.
+
+```powershell
+& "C:\Program Files\R\R-4.5.1\bin\Rscript.exe" "scripts\bonferroni_adjust.R"
+```
+
+The script writes:
+- `data/adjusted_pvalues.rds` — loaded by each Writer agent
+- `data/adjusted_pvalues_report.md` — human-readable table for PI review
+
+**Review `data/adjusted_pvalues_report.md`** before proceeding. Check that:
+- Theory family groupings are sensible (correct any misassigned labels by
+  editing the relevant `rq.md` and rerunning)
+- The number of tests per family is plausible
+- No team is missing from the table
+
+Then proceed to Step E.
 
 ---
 

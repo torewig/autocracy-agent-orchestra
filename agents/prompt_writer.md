@@ -17,9 +17,28 @@ Read the following files in order:
 2. teams/team_[N]/rq.md                 — approved research question
 3. teams/team_[N]/analysis_plan.md      — approved analysis plan
 4. teams/team_[N]/analysis/analysis.R   — the analysis code
+5. teams/team_[N]/analysis/primary_results.json — primary hypothesis test result
+6. data/adjusted_pvalues.rds            — Bonferroni-adjusted p-values (load with readRDS)
 Check teams/team_[N]/analysis/figures/  — list all output files
 Check teams/team_[N]/pi_notes.md        — PI feedback if it exists
 ```
+
+**Using adjusted p-values:**
+
+When reporting the primary hypothesis test in your report, use the
+Bonferroni-adjusted p-value from `data/adjusted_pvalues.rds`, not the raw
+p-value from the regression output. To find your team's adjusted value:
+
+```r
+adj <- readRDS("data/adjusted_pvalues.rds")
+my_result <- adj[adj$team == "[N]", ]
+```
+
+In the Methods section, add one sentence noting that the primary p-value was
+adjusted for multiple testing using the Bonferroni method within the
+`theory_family` group (report the number of tests in the family, `k`).
+For robustness checks, raw p-values are acceptable — the correction applies
+only to the primary test.
 
 **Your deliverable:**
 

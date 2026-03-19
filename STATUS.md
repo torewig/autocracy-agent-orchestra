@@ -3,113 +3,145 @@
 **Project:** How does autocracy, and type of autocracy, impact on the contents,
 direction and scientific progress of the social sciences and humanities?
 **PI:** Tore Wig, University of Oslo
-**Last updated:** 2026-03-09
+**Last updated:** 2026-03-19
 
 ---
 
-## Current phase: Phase 0 updated (new WOS corpus) — awaiting PI sign-off before Phase 1
+## Current phase: Phase 1, Step A (Designer) — partially complete
+
+Seven of ten teams have completed Step A (Designer: rq.md + analysis_plan.md).
+Teams 08, 09, and 10 have been scaffolded but have not yet run their Designer
+sessions. **Next action:** run Designer sessions for teams 08-10, then proceed
+to PI Review Gate B.
 
 ---
 
 ## Phase 0 — Data preparation
 
-**Status:** Complete — PI validation gate open
-
-| Step | Description | Status | Notes |
-|------|-------------|--------|-------|
-| 0.1 | SSH field list finalized | Done | 69 categories in ssh_fields.txt |
-| 0.2 | V-DEM downloaded | Done | 182 countries, 1970-2023 |
-| 0.3 | V-DEM extended with type-of-autocracy variables | Done | v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr |
-| 0.4 | **New WOS corpus added** | **Done (2026-03-09)** | wos_ssh_articles.rds: 2,744,129 SSH articles from all 3 WOS pulls |
-| 0.5 | 00_prepare_data.R updated and run | Done | 4.9 min runtime; reads wos_ssh_articles.rds |
-| 0.6 | Country matching fixed | Done | UK sub-nations now matched in both upper and title case |
-| 0.7 | **PI validation gate** | **Open — sign-off needed** | See findings and !! WARNING !! below |
-
-### Phase 0 outputs (2026-03-09 run)
+**Status:** Complete (last run: 2026-03-17)
 
 | Output | Value |
 |--------|-------|
-| Total SSH articles (distinct) | **1,404,400** |
-| Article-country rows | **1,641,210** |
-| ISO3 country match rate | **99.96%** (586 unmatched) |
-| V-DEM join rate | **99.61%** |
-| Corpus file size | 0.57 GB on disk |
-| Columns in corpus | 31 |
+| Total SSH articles (distinct) | **2,709,224** |
+| Article-country rows | **3,189,557** |
+| ISO3 country match rate | **99.98%** |
+| V-DEM join rate | **99.78%** |
+| Corpus file | `data/agent_corpus.rds` (1.1 GB, modified 2026-03-18) |
+| N summary | `data/n_summary.txt` (generated 2026-03-17) |
+| Country match log | `data/country_match_log.txt` (2026-03-17) |
 
-### N by regime type (article-country rows, V-DEM matched)
+### N by regime type (article-country rows)
 
-| Regime | N rows | % |
-|--------|--------|---|
-| 0 = closed autocracy | 67,302 | 4.1% |
-| 1 = electoral autocracy | 106,868 | 6.5% |
-| 2 = electoral democracy | 130,411 | 7.9% |
-| 3 = liberal democracy | 1,171,318 | 71.4% |
-| NA (unmatched) | 65,311 | 4.0% |
+| Regime | N rows |
+|--------|--------|
+| 0 = closed autocracy | 116,272 |
+| 1 = electoral autocracy | 168,302 |
+| 2 = electoral democracy | 212,995 |
+| 3 = liberal democracy | 2,344,887 |
 
 ### Articles by decade
 
 | Decade | N articles |
 |--------|-----------|
-| 1970s | 161,294 |
-| 1980s | 98,710 |
-| 1990s | 248,939 |
-| **2000s** | **7,542** ← GAP (see below) |
-| 2010s | 887,915 |
+| 1970s | 161,400 |
+| 1980s | 99,262 |
+| 1990s | 299,668 |
+| 2000s | 494,522 |
+| 2010s | 1,654,372 |
 
-### Top 10 countries
+**Note:** The 2000s gap flagged in the 2026-03-09 status is now resolved.
+The 2026-03-17 Phase 0 run shows 494,522 articles in the 2000s decade.
 
-United States (595,823), United Kingdom (147,776), Canada (75,178),
-Germany (63,538), Australia (61,727), Spain (54,017), China (45,642),
-France (41,639), Italy (35,249), Netherlands (34,576)
+### Phase 0 validation gate
 
-### Top 10 SSH subject categories
-
-Education & Educational Research (116,727), Economics (108,315),
-Psychology Clinical (60,836), Business (54,563), History (43,270),
-Psychology Multidisciplinary (43,054), Law (41,646), Management (40,539),
-Business Finance (37,782), Political Science (36,913)
-
-### v2clacfree (academic freedom): mean=2.30, sd=1.40, range=-3.4 to 3.7
+- [ ] PI to spot-check `data/agent_corpus.rds` (updated 2026-03-17 corpus: 2.7M articles)
+- [ ] PI to confirm N counts in `data/n_summary.txt` are plausible
+- [ ] PI to confirm `field_year_mean_cites` and `n_articles_country_year` are non-NA for majority of rows
 
 ---
 
-## !! WARNING: GAP IN 2000s COVERAGE !!
+## Team progress
 
-**The corpus has only 7,542 articles from 2000–2009 (vs. 249K in the 1990s and 888K in the 2010s).**
-
-- This appears to be a gap between WOS Pull2 (ends ~late 1990s) and Pull3 (starts ~2010)
-- The 2000–2009 decade is effectively missing from the corpus
-- This will create a discontinuity in any time-series analysis spanning 2000–2009
-
-**Implication for analysis:** Teams should be warned to treat the 2000s as a gap. Analyses that use time as a running variable should either:
-  (a) Exclude the 2000s decade, or
-  (b) Restrict to two separate periods: pre-2000 and post-2010
-
-**PI decision needed:** Is an additional WOS pull to fill the 2000–2009 gap feasible? Or should teams work around the gap?
-
----
-
-## Phase 1 — Team workflow
-
-**Status:** Not started — awaiting PI sign-off on Phase 0 (including time coverage decision)
-
-| Step | Description | Status |
-|------|-------------|--------|
-| 1.0 | scaffold_teams.R run (10 folders created) | Pending |
-| 1.1 | brief.md files filled in | Pending |
-| A | Designer sessions (x10): rq.md + analysis_plan.md | Pending |
-| B | **PI Review Gate B**: RQ convergence, causal logic | Pending |
-| C | Analyst sessions (x10): analysis.R + figures | Pending |
-| D | **PI Review Gate D**: methodology check | Pending |
-| E | Writer sessions (x10): report.md | Pending |
-| F | Peer Review sessions (x10): peer_review.md | Pending |
-| G | **PI Review Gate G**: reports + reviews | Pending |
+| Team | brief | rq | plan | prereg | analysis.R | results.json | figures | report | review | Status |
+|------|-------|----|------|--------|------------|--------------|---------|--------|--------|--------|
+| 01 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 02 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 03 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 04 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 05 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 06 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 07 | Y | Y | Y | - | - | - | - | - | - | Step A done |
+| 08 | Y | - | - | - | - | - | - | - | - | Scaffolded |
+| 09 | Y | - | - | - | - | - | - | - | - | Scaffolded |
+| 10 | Y | - | - | - | - | - | - | - | - | Scaffolded |
 
 ---
 
-## Phase 2 — Synthesis paper
+## Issues
 
-**Status:** Not started
+### Blockers
+
+- **Teams 08-10 have not completed Step A.** Designer sessions must be run for
+  these three teams before proceeding to PI Review Gate B.
+- **Phase 0 validation gate still open.** The corpus was re-run on 2026-03-17
+  with updated numbers (2.7M articles, 2000s gap resolved), but PI has not
+  formally signed off on the new data. The old STATUS.md validation gate items
+  remain unchecked.
+
+### Warnings
+
+- **STATUS.md was stale.** Previous STATUS.md was dated 2026-03-09 and still
+  referenced the 2000s gap (7,542 articles) which has been resolved in the
+  2026-03-17 Phase 0 run (494,522 articles).
+- **N counts differ from old STATUS.md.** The 2026-03-09 status reported
+  1,404,400 articles; the 2026-03-17 n_summary.txt reports 2,709,224. This
+  is a large change — likely reflects a re-run with the full 3-pull WOS corpus.
+  PI should confirm this is expected.
+- **PLAN.md has been modified but not committed.** Git shows `M PLAN.md`.
+- **Several agent prompts modified but not committed:** `agents/HOWTO_INVOKE.md`,
+  `agents/prompt_analyst.md`, `agents/prompt_designer.md`, `agents/prompt_writer.md`,
+  `data/vdem_codebook.md`.
+
+### Info
+
+- **Loose files in root** (not in expected folder structure):
+  `check_env.ps1`, `check_wos_size.ps1`, `check_years.R`, `check_years.ps1`,
+  `peek_wos.R`, `pilot_sample.R`, `run_peek.ps1`, `run_phase0.ps1`,
+  `run_pilot_sample.ps1`, `run_scaffold.ps1`
+  These appear to be utility/debugging scripts. Consider moving to `scripts/`
+  or adding to `.gitignore`.
+- **Extra files in team folders** (session artifacts, not in expected structure):
+  - team_01: `compile_plan.ps1`, `inspect_err.txt`, `inspect_out.txt`,
+    `inspect_sample.R`, `plan.pdf`, `plan_combined.md`, `run_inspect.ps1`
+  - team_02: `plan_team02.pdf`
+  - team_03: `analysis_plan.pdf`, `plan.pdf`, `plan_combined.md`
+  - team_04: `plan.pdf`, `plan_combined.md`
+  - team_05: `analysis_plan.pdf`, `plan.pdf`, `plan_combined.md`
+  - team_06: `team_06_plan.md`, `team_06_plan.pdf`
+- **Empty directories:** All 10 `analysis/figures/` and all 10 `report/` are
+  empty (expected at this stage — they will be populated by Analyst and Writer).
+- **`synthesis/` folder does not exist** (expected — it is created in Phase 2).
+- **Untracked scripts in `scripts/`:** `add_controls.R`, `admin_audit.ps1`,
+  `bonferroni_adjust.R`, `check_abstracts.R`, `check_missing_countries.R`,
+  `preregister.ps1`
+- **`.claude/` directory is untracked** (should be added to `.gitignore`).
+
+---
+
+## Loose files in root
+
+| File | Likely purpose | Suggestion |
+|------|---------------|------------|
+| `check_env.ps1` | Environment check | Move to `scripts/` or `.gitignore` |
+| `check_wos_size.ps1` | WOS data inspection | Move to `scripts/` |
+| `check_years.R` | Year coverage check | Move to `scripts/` |
+| `check_years.ps1` | Runner for above | Move to `scripts/` |
+| `peek_wos.R` | WOS data peek | Move to `scripts/` |
+| `pilot_sample.R` | Pilot sampling | Move to `scripts/` |
+| `run_peek.ps1` | Runner for peek_wos | Move to `scripts/` |
+| `run_phase0.ps1` | Runner for Phase 0 | Move to `scripts/` |
+| `run_pilot_sample.ps1` | Runner for pilot | Move to `scripts/` |
+| `run_scaffold.ps1` | Runner for scaffold | Move to `scripts/` |
 
 ---
 
@@ -123,17 +155,18 @@ Business Finance (37,782), Political Science (36,913)
 | 2026-02-26 | Teams required to use regression; text analysis for measurement only | Causal ID designs preferred |
 | 2026-02-26 | Peer review step added (Step F) | Independent reviewer agent per team report |
 | 2026-02-27 | V-DEM extended: v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr | All confirmed present in vdemdata |
-| 2026-02-27 | Country matching fixed: ENGLAND→GBR, FED REP GER→DEU, GER DEM REP→DDR, etc. | Match rate now 99.78% |
-| 2026-02-27 | WOS data initially only covered 1970–1983 | PI chose Option B: obtain modern extract |
-| **2026-03-09** | **New WOS corpus added: 2,744,129 SSH articles from all 3 pulls** | **Now covers 1970–2023 but with a gap in 2000–2009. PI decision pending on gap.** |
+| 2026-02-27 | Country matching fixed: ENGLAND->GBR, FED REP GER->DEU, GER DEM REP->DDR, etc. | Match rate now 99.78% |
+| 2026-02-27 | WOS data initially only covered 1970-1983 | PI chose Option B: obtain modern extract |
+| 2026-03-09 | New WOS corpus added: 2,744,129 SSH articles from all 3 pulls | Now covers 1970-2023; 2000s gap flagged |
 | 2026-03-09 | Country matching extended: title-case UK sub-nations added | Match rate 99.96% |
+| 2026-03-17 | Phase 0 re-run with updated corpus | 2,709,224 articles; 2000s gap resolved (494,522 articles); match rate 99.98% |
 
 ---
 
-## Open items (prioritized)
+## Next actions
 
-1. **[BLOCKER]** PI to decide on 2000–2009 gap: obtain a fill pull, or instruct teams to work around it
-2. **[GATE]** PI to validate updated corpus: spot-check agent_corpus.rds (1.4M articles, regime distribution above)
-3. Update team brief templates (teams/team_02 – team_10) to reflect actual coverage and 2000s gap warning
-4. Confirm borderline SSH fields (Architecture, Hospitality, Nursing, etc. — currently included via ssh_fields.txt)
-5. Decide whether to include "Review" doc_type alongside "Article" (currently Article only)
+1. **Run Designer sessions for teams 08, 09, 10** (Step A) — these are scaffolded but have no rq.md or analysis_plan.md yet
+2. **Sign off on Phase 0 validation gate** — spot-check the updated corpus (2.7M articles, 2000s gap resolved)
+3. **Commit modified files to git** — PLAN.md, agent prompts, and vdem_codebook.md have uncommitted changes
+4. **Proceed to PI Review Gate B** — once all 10 teams have rq.md + analysis_plan.md, review for RQ convergence and consolidate theory family labels
+5. **Consider cleanup** — move loose root scripts to `scripts/`, add `.claude/` to `.gitignore`

@@ -16,6 +16,9 @@ PLAN.pdf
 check_env.ps1
 check_git.ps1
 
+# Claude Code local config
+.claude/
+
 # R session artifacts
 .Rhistory
 .RData

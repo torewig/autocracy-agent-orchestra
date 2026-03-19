@@ -21,7 +21,7 @@ Check for a file teams/team_[N]/pi_notes.md — if it exists, read it for
 any PI feedback or changes to the plan.
 ```
 
-**Your deliverable:**
+**Your deliverables:**
 
 - `teams/team_[N]/analysis/analysis.R` — a single, well-structured R script
   (tidyverse style) that:
@@ -31,6 +31,30 @@ any PI feedback or changes to the plan.
   - Saves all figures and tables to `teams/team_[N]/analysis/figures/`
   - Produces 2-4 output files as listed in analysis_plan.md
   - Includes at least one robustness check using an alternative regime measure
+
+- `teams/team_[N]/analysis/primary_results.json` — a machine-readable record
+  of the primary hypothesis test (your main model only, not robustness checks).
+  Write this at the end of analysis.R using `jsonlite::write_json()`.
+  The file must contain exactly one JSON object with these fields:
+  ```json
+  {
+    "team": "[N]",
+    "hypothesis_label": "<one sentence from rq.md describing the hypothesis>",
+    "theory_family": "<theory_family value from rq.md>",
+    "predictor": "<exact column name of key independent variable>",
+    "outcome": "<exact column name of outcome variable>",
+    "model_description": "<brief model spec, e.g. feols(y ~ x | country + year)>",
+    "coefficient": <numeric>,
+    "se": <numeric>,
+    "t_stat": <numeric>,
+    "p_value": <numeric>,
+    "n_obs": <integer>,
+    "n_countries": <integer or null>
+  }
+  ```
+  Extract coefficient, SE, t-stat, and p-value directly from the fitted model
+  object (e.g. `coef(mod)`, `se(mod)`, `tstat(mod)`, `pvalue(mod)` for feols).
+  Do not round — keep full precision.
 
 **Constraints:**
 - R only; tidyverse style
