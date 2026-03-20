@@ -112,5 +112,5 @@ The WOS data file covers **1970–2023** as planned. This blocker is cleared.
 
 1. ~~**[BLOCKER]** PI to decide on time coverage~~ — **Resolved:** data covers 1970–2023 as planned
 2. Confirm borderline SSH fields (Architecture, Hospitality, Nursing, etc. — currently included via ssh_fields.txt)
-3. Decide whether to include "Review" doc_type alongside "Article"
+3. ~~Decide whether to include "Review" doc_type alongside "Article"~~ — **Resolved:** `00_prepare_data.R` filters to `doc_type == "Article"` only
 4. Phase 0 validation gate: PI to spot-check agent_corpus.rds before Phase 1

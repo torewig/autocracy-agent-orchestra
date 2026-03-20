@@ -17,7 +17,8 @@ involvement with this team.
 Read teams/team_[N]/report/report.md
 Also read teams/team_[N]/rq.md and teams/team_[N]/analysis_plan.md
 for context on what the team intended to do.
-Optionally glance at the figure filenames in teams/team_[N]/analysis/figures/
+Read teams/team_[N]/analysis/analysis.R to understand the analytical approach
+Review the figure files in teams/team_[N]/analysis/figures/
 ```
 
 **Your deliverable:**
