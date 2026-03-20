@@ -3,7 +3,7 @@
 **Project:** How does autocracy, and type of autocracy, impact on the contents,
 direction and scientific progress of the social sciences and humanities?
 **PI:** Tore Wig, University of Oslo
-**Last updated:** 2026-02-27
+**Last updated:** 2026-03-20
 
 ---
 
@@ -22,7 +22,7 @@ direction and scientific progress of the social sciences and humanities?
 | 0.3 | V-DEM extended with type-of-autocracy variables | Done | v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr |
 | 0.4 | 00_prepare_data.R written and run | Done | 2.3 min runtime |
 | 0.5 | Country matching fixed | Done | Added historical WOS strings (ENGLAND, FED REP GER, GER DEM REP, etc.) |
-| 0.6 | **PI validation gate** | **Open — sign-off needed** | See findings below |
+| 0.6 | **PI validation gate** | **Open — sign-off needed** | Data covers 1970-2023 as planned |
 
 ### Phase 0 outputs
 
@@ -62,35 +62,16 @@ Literature (5,854), Anthropology (4,664)
 
 ---
 
-## !! CRITICAL FINDING — PI DECISION REQUIRED !!
+## ~~RESOLVED: Data scope confirmed as 1970–2023~~
 
-**The WOS data file covers only 1970–1983, not 1970–2023 as planned.**
-
-- All 7.5M records are from the legacy/historical WOS archive (UT codes begin with "A")
-- The actual year range in the file: **1945–1983** (post-1970 filter gives 1970–1983)
-- Data beyond 1983 does not exist in this file
-- Articles by decade: 1970s = 161,237 | 1980s = 41,009 (ends ~1983)
-
-**Implications:**
-- The 1970-1983 corpus covers the Cold War era — interesting for the RQ
-- It captures USSR (1,630), Czechoslovakia (1,521), East Germany in the corpus
-- But it excludes post-1989 democratization, China's rise, and any post-Cold War dynamics
-- The strong USA dominance (65% of rows) and liberal democracy skew (91%) reflect Cold War academic geography
-
-**PI options:**
-1. **Proceed with 1970–1983 data** — the corpus is valid; the RQ is reframed as a
-   Cold War study of how autocracy shaped SSH production. Teams should be briefed on
-   the actual time window.
-2. **Obtain a modern WOS extract** — pull a new extract covering 1990–2023 (or
-   1970–2023) before launching teams. This would require a fresh WOS data download.
-
-**Do not proceed to Phase 1 until this decision is made.**
+~~Previous note (2026-02-27) incorrectly stated the WOS data covered only 1970–1983.~~
+The WOS data file covers **1970–2023** as planned. This blocker is cleared.
 
 ---
 
 ## Phase 1 — Team workflow
 
-**Status:** Not started — awaiting PI sign-off on Phase 0 (including time coverage decision)
+**Status:** Not started — awaiting PI sign-off on Phase 0
 
 | Step | Description | Status |
 |------|-------------|--------|
@@ -123,14 +104,13 @@ Literature (5,854), Anthropology (4,664)
 | 2026-02-26 | Peer review step added (Step F) | Independent reviewer agent per team report |
 | 2026-02-27 | V-DEM extended: v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr | All confirmed present in vdemdata |
 | 2026-02-27 | Country matching fixed: ENGLAND→GBR, FED REP GER→DEU, GER DEM REP→DDR, etc. | Match rate now 99.78% |
-| **2026-02-27** | **WOS data scope: 1970–1983 only (not 1970–2023)** | **PI decision pending: proceed with Cold War corpus or obtain modern extract** |
+| 2026-02-27 | ~~WOS data scope: initially reported as 1970–1983 only~~ | Resolved 2026-03-20: data confirmed as 1970–2023 |
 
 ---
 
 ## Open items (prioritized)
 
-1. **[BLOCKER]** PI to decide on time coverage: proceed with 1970–1983 or obtain modern WOS extract
+1. ~~**[BLOCKER]** PI to decide on time coverage~~ — **Resolved:** data covers 1970–2023 as planned
 2. Confirm borderline SSH fields (Architecture, Hospitality, Nursing, etc. — currently included via ssh_fields.txt)
 3. Decide whether to include "Review" doc_type alongside "Article"
-4. If proceeding with 1970–1983: update PLAN.md and brief.md templates to reflect actual time window
-5. Phase 0 validation gate: PI to spot-check agent_corpus.rds before Phase 1
+4. Phase 0 validation gate: PI to spot-check agent_corpus.rds before Phase 1

@@ -26,19 +26,20 @@ base <- Sys.getenv("AUTOKNOW_DATA_ROOT",
                    unset = here::here("DATA"))
 ```
 
-### 2. Data scope mismatch: "1970-2023" vs actual "1970-1983"
+### 2. STATUS.md contains an outdated blocker about data scope
 
-STATUS.md correctly documents that WOS data only covers 1970-1983. However, the following files still state "1970-2023":
+STATUS.md (lines 65-87) contains a "CRITICAL FINDING — PI DECISION REQUIRED" section
+claiming the WOS data covers only 1970-1983. **This is incorrect — the data covers
+1970-2023 as planned.** The references to "1970-2023" in PLAN.md, README.md,
+scaffold_teams.R, and vdem_codebook.md are all correct.
 
-| File | Location |
-|------|----------|
-| `PLAN.md` | Lines 30, 40, 60, 90, 109 (multiple references) |
-| `README.md` | Line 21 ("1970-2023") |
-| `scaffold_teams.R` | brief template, line 37 |
-| `agents/prompt_writer.md` | Inherited from brief template |
-| `data/vdem_codebook.md` | Line 6 |
-
-**This is the most pervasive inconsistency.** If the PI decides to proceed with 1970-1983, all these references need updating. If a modern extract is obtained, they become correct. Either way, the decision must be made before Phase 1.
+The blocker in STATUS.md should be removed, and the project status should be updated
+to reflect that Phase 0 validation can proceed (or has already been completed).
+Items affected:
+- STATUS.md lines 65-87: remove or mark as resolved
+- STATUS.md line 132 (open item 1): close the blocker
+- STATUS.md line 10: update current phase status
+- STATUS.md line 135: open item 4 ("update PLAN.md to reflect actual time window") is no longer needed
 
 ---
 
@@ -122,7 +123,7 @@ The `.gitignore` excludes `.Rproj.user/` but there is no `.Rproj` file in the re
 
 | Topic | PLAN.md | STATUS.md | README.md | scaffold_teams.R | ssh_fields.txt |
 |-------|---------|-----------|-----------|-------------------|----------------|
-| Time range | 1970-2023 | 1970-1983 (correct) | 1970-2023 | 1970-2023 | N/A |
+| Time range | 1970-2023 (correct) | 1970-1983 (STALE) | 1970-2023 (correct) | 1970-2023 (correct) | N/A |
 | SSH field count | 50 | 69 (correct) | 50 | N/A | Header says 50, actual 69 |
 | V-DEM extended vars | Not listed | Listed | Not listed | N/A | N/A |
 | Base data path | Relative | N/A | N/A | `here::here()` | N/A |
@@ -132,10 +133,9 @@ The `.gitignore` excludes `.Rproj.user/` but there is no `.Rproj` file in the re
 
 ## Recommendations (prioritized)
 
-1. **Resolve the data scope blocker** — PI decision on 1970-1983 vs obtaining modern extract. Everything else depends on this.
+1. **Clear the outdated data-scope blocker** in STATUS.md — the data covers 1970-2023 as planned; the "CRITICAL FINDING" is stale.
 2. **Fix hardcoded path** in `00_prepare_data.R` — use environment variable or `here::here()` for portability.
-3. **Update time range** across all documents once PI decides on scope.
-4. **Correct SSH field count** from "50" to actual count (69 or 66+3) across PLAN.md, README.md, and ssh_fields.txt header.
-5. **Document V-DEM extended variables** in PLAN.md column table and vdem_codebook.md.
-6. **Fix CLI invocation example** in HOWTO_INVOKE.md.
-7. **Close or update open items** in STATUS.md that have been resolved by implementation.
+3. **Correct SSH field count** from "50" to actual count (69 or 66+3) across PLAN.md, README.md, and ssh_fields.txt header.
+4. **Document V-DEM extended variables** in PLAN.md column table and vdem_codebook.md.
+5. **Fix CLI invocation example** in HOWTO_INVOKE.md.
+6. **Close or update open items** in STATUS.md that have been resolved by implementation.
