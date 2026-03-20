@@ -3,22 +3,37 @@
 **Project:** How does autocracy, and type of autocracy, impact on the contents,
 direction and scientific progress of the social sciences and humanities?
 **PI:** Tore Wig, University of Oslo
-**Last updated:** 2026-03-19
+**Last updated:** 2026-03-20 (admin audit)
 
 ---
 
-## Current phase: Phase 1, Step A (Designer) — partially complete
+## Current phase: Phase 1, Step A (Designer) — 7/10 complete
 
 Seven of ten teams have completed Step A (Designer: rq.md + analysis_plan.md).
-Teams 08, 09, and 10 have been scaffolded but have not yet run their Designer
-sessions. **Next action:** run Designer sessions for teams 08-10, then proceed
-to PI Review Gate B.
+Teams 08, 09, and 10 have briefs but have not yet run their Designer sessions.
+
+**Pipeline position (per PLAN.md ordered task sequence):**
+
+| # | Task | Status |
+|---|------|--------|
+| 1 | Finalize ssh_fields.txt borderline categories | Done (PI decided 2026-03-20) |
+| 2 | Decide whether to include "Review" doc_type | Done (PI decided 2026-03-20) |
+| 3 | Confirm ~10 GB RAM for Phase 0 | Done |
+| 4 | Run scripts/00_prepare_data.R | Done (2026-03-17) |
+| 5 | Phase 0 validation gate | Done (PI signed off 2026-03-20) |
+| 6 | Create data/vdem_codebook.md | Done |
+| 7 | Run scaffold_teams.R | Done |
+| 8 | Copy brief.md to each team | Done (all 10) |
+| 9 | Run all 10 Designer sessions (Step A) | **7/10 done** |
+| 10 | PI Review Gate B | Blocked by #5 and #9 |
+| 11 | Step B' — Pre-registration | Not started |
+| 12-18 | Steps C through Phase 2 | Not started |
 
 ---
 
 ## Phase 0 — Data preparation
 
-**Status:** Complete (last run: 2026-03-17)
+**Status:** Complete — PI signed off 2026-03-20
 
 | Output | Value |
 |--------|-------|
@@ -49,14 +64,12 @@ to PI Review Gate B.
 | 2000s | 494,522 |
 | 2010s | 1,654,372 |
 
-**Note:** The 2000s gap flagged in the 2026-03-09 status is now resolved.
-The 2026-03-17 Phase 0 run shows 494,522 articles in the 2000s decade.
+### Phase 0 validation gate (BLOCKING)
 
-### Phase 0 validation gate
-
-- [ ] PI to spot-check `data/agent_corpus.rds` (updated 2026-03-17 corpus: 2.7M articles)
-- [ ] PI to confirm N counts in `data/n_summary.txt` are plausible
-- [ ] PI to confirm `field_year_mean_cites` and `n_articles_country_year` are non-NA for majority of rows
+- [x] PI to spot-check `data/agent_corpus.rds` (2.7M articles)
+- [x] PI to confirm N counts in `data/n_summary.txt` are plausible
+- [x] PI to confirm `field_year_mean_cites` and `n_articles_country_year` are non-NA for majority of rows
+- **Signed off by PI: 2026-03-20**
 
 ---
 
@@ -71,9 +84,27 @@ The 2026-03-17 Phase 0 run shows 494,522 articles in the 2000s decade.
 | 05 | Y | Y | Y | - | - | - | - | - | - | Step A done |
 | 06 | Y | Y | Y | - | - | - | - | - | - | Step A done |
 | 07 | Y | Y | Y | - | - | - | - | - | - | Step A done |
-| 08 | Y | - | - | - | - | - | - | - | - | Scaffolded |
-| 09 | Y | - | - | - | - | - | - | - | - | Scaffolded |
-| 10 | Y | - | - | - | - | - | - | - | - | Scaffolded |
+| 08 | Y | - | - | - | - | - | - | - | - | Scaffolded only |
+| 09 | Y | - | - | - | - | - | - | - | - | Scaffolded only |
+| 10 | Y | - | - | - | - | - | - | - | - | Scaffolded only |
+
+### Team RQ summary (teams 01-07)
+
+| Team | Research Question | Theory Family | Outcome | IV |
+|------|-------------------|---------------|---------|-----|
+| 01 | Does political suppression of academic freedom shift SSH content away from politically engaged topics? | `self-censorship` | mean Political Content Index (country-year) | `v2clacfree` |
+| 02 | Does autocracy reduce topical diversity of SSH research? | `intellectual-conformity` | keywords per article (country-year) | `v2x_libdem` |
+| 03 | Does liberal democracy predict the share of SSH output in politically sensitive disciplines? | `regime-field-distortion` | share of articles in sensitive fields | `v2x_libdem` |
+| 04 | Does autocracy reduce prevalence of regime-sensitive research topics? | `topical-self-censorship` | share of articles with sensitive keywords | `v2x_libdem` |
+| 05 | Does democracy predict the number of distinct co-author countries? | `international-isolation` | distinct co-author countries per article | `v2x_libdem` |
+| 06 | Does autocracy reduce intellectual diversity (semantic similarity of abstracts)? | `intellectual-conformity` | semantic diversity (cosine distance) | `v2x_libdem` |
+| 07 | Does autocracy reduce the share of SSH research critically engaging with domestic governance? | `political-self-censorship` | binary: critical domestic engagement | `v2x_libdem` |
+
+### RQ completeness check (all required fields per PLAN.md)
+
+All 7 completed rq.md files contain: research question, rationale, theoretical mechanism, theory family, estimand, unit of analysis, outcome variable, key independent variable. **All pass.**
+
+All 7 completed analysis_plan.md files contain: method (with regression), model specification (formula, FE, clustering), causal identification strategy, expected output files. **All pass.**
 
 ---
 
@@ -81,67 +112,60 @@ The 2026-03-17 Phase 0 run shows 494,522 articles in the 2000s decade.
 
 ### Blockers
 
-- **Teams 08-10 have not completed Step A.** Designer sessions must be run for
-  these three teams before proceeding to PI Review Gate B.
-- **Phase 0 validation gate still open.** The corpus was re-run on 2026-03-17
-  with updated numbers (2.7M articles, 2000s gap resolved), but PI has not
-  formally signed off on the new data. The old STATUS.md validation gate items
-  remain unchecked.
+1. ~~Phase 0 validation gate not signed off.~~ **Resolved 2026-03-20.**
 
-### Warnings
+2. **Teams 08-10 need Designer sessions.** These three teams have briefs but no rq.md or analysis_plan.md. Step B (PI Review Gate) requires all 10 teams to have completed Step A.
 
-- **STATUS.md was stale.** Previous STATUS.md was dated 2026-03-09 and still
-  referenced the 2000s gap (7,542 articles) which has been resolved in the
-  2026-03-17 Phase 0 run (494,522 articles).
-- **N counts differ from old STATUS.md.** The 2026-03-09 status reported
-  1,404,400 articles; the 2026-03-17 n_summary.txt reports 2,709,224. This
-  is a large change — likely reflects a re-run with the full 3-pull WOS corpus.
-  PI should confirm this is expected.
-- **PLAN.md has been modified but not committed.** Git shows `M PLAN.md`.
-- **Several agent prompts modified but not committed:** `agents/HOWTO_INVOKE.md`,
-  `agents/prompt_analyst.md`, `agents/prompt_designer.md`, `agents/prompt_writer.md`,
-  `data/vdem_codebook.md`.
+3. ~~PLAN.md tasks #1 and #2 still open.~~ **Resolved 2026-03-20.**
 
-### Info
+### Warnings — RQ convergence issues
 
-- **Loose files in root** (not in expected folder structure):
-  `check_env.ps1`, `check_wos_size.ps1`, `check_years.R`, `check_years.ps1`,
-  `peek_wos.R`, `pilot_sample.R`, `run_peek.ps1`, `run_phase0.ps1`,
-  `run_pilot_sample.ps1`, `run_scaffold.ps1`
-  These appear to be utility/debugging scripts. Consider moving to `scripts/`
-  or adding to `.gitignore`.
-- **Extra files in team folders** (session artifacts, not in expected structure):
-  - team_01: `compile_plan.ps1`, `inspect_err.txt`, `inspect_out.txt`,
-    `inspect_sample.R`, `plan.pdf`, `plan_combined.md`, `run_inspect.ps1`
-  - team_02: `plan_team02.pdf`
-  - team_03: `analysis_plan.pdf`, `plan.pdf`, `plan_combined.md`
-  - team_04: `plan.pdf`, `plan_combined.md`
-  - team_05: `analysis_plan.pdf`, `plan.pdf`, `plan_combined.md`
-  - team_06: `team_06_plan.md`, `team_06_plan.pdf`
-- **Empty directories:** All 10 `analysis/figures/` and all 10 `report/` are
-  empty (expected at this stage — they will be populated by Analyst and Writer).
-- **`synthesis/` folder does not exist** (expected — it is created in Phase 2).
-- **Untracked scripts in `scripts/`:** `add_controls.R`, `admin_audit.ps1`,
-  `bonferroni_adjust.R`, `check_abstracts.R`, `check_missing_countries.R`,
-  `preregister.ps1`
-- **`.claude/` directory is untracked** (should be added to `.gitignore`).
+4. **Teams 02 and 06 share the same theory family (`intellectual-conformity`).** Both study conformity/diversity of research output under autocracy, but with different operationalizations:
+   - Team 02: keyword diversity (topical narrowing)
+   - Team 06: semantic similarity of abstracts (intellectual homogeneity)
 
----
+   PI should decide at Step B whether these are sufficiently distinct or whether one should be redirected. If kept, they will be in the same Bonferroni correction family.
 
-## Loose files in root
+5. **Teams 01, 04, and 07 all study self-censorship/avoidance of political content.** They use different theory family labels (`self-censorship`, `topical-self-censorship`, `political-self-censorship`) but the causal mechanism is essentially the same: autocracy suppresses politically sensitive research. PI should consolidate these into one or two theory families at Step B — this has major implications for Bonferroni correction.
 
-| File | Likely purpose | Suggestion |
-|------|---------------|------------|
-| `check_env.ps1` | Environment check | Move to `scripts/` or `.gitignore` |
-| `check_wos_size.ps1` | WOS data inspection | Move to `scripts/` |
-| `check_years.R` | Year coverage check | Move to `scripts/` |
-| `check_years.ps1` | Runner for above | Move to `scripts/` |
-| `peek_wos.R` | WOS data peek | Move to `scripts/` |
-| `pilot_sample.R` | Pilot sampling | Move to `scripts/` |
-| `run_peek.ps1` | Runner for peek_wos | Move to `scripts/` |
-| `run_phase0.ps1` | Runner for Phase 0 | Move to `scripts/` |
-| `run_pilot_sample.ps1` | Runner for pilot | Move to `scripts/` |
-| `run_scaffold.ps1` | Runner for scaffold | Move to `scripts/` |
+6. **Team 01 uses `v2clacfree` as the key IV, not `v2x_libdem`.** All other teams use `v2x_libdem`. This is not necessarily wrong (academic freedom is more proximate), but it deviates from the PLAN.md design decision that `v2x_libdem` is the "primary regime measure." PI should confirm this is acceptable.
+
+7. **Thematic coverage gap.** All 7 completed teams focus on either (a) content suppression/self-censorship or (b) intellectual diversity. No team yet addresses:
+   - Citation impact / visibility of autocracy-origin research
+   - Scientific progress / methodological quality
+   - International knowledge flows (beyond co-authorship counts)
+   - Temporal dynamics (how transitions affect research)
+
+   Teams 08-10 could fill these gaps if the PI provides steering via `pi_notes.md`.
+
+### Info — Housekeeping
+
+8. **Loose files in root directory:**
+   `check_env.ps1`, `check_wos_size.ps1`, `check_years.R`, `check_years.ps1`,
+   `peek_wos.R`, `pilot_sample.R`, `run_peek.ps1`, `run_phase0.ps1`,
+   `run_pilot_sample.ps1`, `run_scaffold.ps1`
+   These are utility/debugging scripts. Consider moving to `scripts/` or `.gitignore`.
+
+9. **Extra files in team folders** (session artifacts, not in expected structure):
+   - team_01: `compile_plan.ps1`, `inspect_err.txt`, `inspect_out.txt`, `inspect_sample.R`, `plan.pdf`, `plan_combined.md`, `run_inspect.ps1`
+   - team_02: `plan_team02.pdf`, `plan_team02_v2.pdf`
+   - team_03: `analysis_plan.pdf`, `plan.pdf`, `plan_combined.md`
+   - team_04: `plan.pdf`, `plan_combined.md`
+   - team_05: `analysis_plan.pdf`, `plan.pdf`, `plan_combined.md`
+   - team_06: `plan.pdf`, `plan_combined.md`, `team_06_plan.pdf`
+   - team_07: `compile_plan.ps1`, `plan.pdf`, `plan_combined.md`
+
+10. **Git tracking notes:**
+    - `.claude/` is properly in `.gitignore`
+    - `teams/` is entirely gitignored (all team output excluded from tracking)
+    - `data/agent_corpus.rds` and other large data files are gitignored
+    - No wildcard `*.pdf` or `*.rds` pattern — only specific files are ignored
+    - Working tree is clean (no uncommitted changes)
+
+11. **`synthesis/` folder does not yet exist** (expected — Phase 2).
+
+12. **Empty directories** (expected at this stage):
+    All 10 `analysis/figures/` and all 10 `report/` are empty.
 
 ---
 
@@ -163,10 +187,14 @@ The 2026-03-17 Phase 0 run shows 494,522 articles in the 2000s decade.
 
 ---
 
-## Next actions
+## Next actions (priority order)
 
-1. **Run Designer sessions for teams 08, 09, 10** (Step A) — these are scaffolded but have no rq.md or analysis_plan.md yet
-2. **Sign off on Phase 0 validation gate** — spot-check the updated corpus (2.7M articles, 2000s gap resolved)
-3. **Commit modified files to git** — PLAN.md, agent prompts, and vdem_codebook.md have uncommitted changes
-4. **Proceed to PI Review Gate B** — once all 10 teams have rq.md + analysis_plan.md, review for RQ convergence and consolidate theory family labels
-5. **Consider cleanup** — move loose root scripts to `scripts/`, add `.claude/` to `.gitignore`
+1. **Sign off on Phase 0 validation gate** — spot-check the updated corpus in R; check the three items above
+2. **Decide on PLAN.md open items #1-2** — borderline SSH categories and Review doc_type (if changed, Phase 0 must be re-run)
+3. **Run Designer sessions for teams 08-10** — consider using pi_notes.md to steer toward uncovered themes (citations, scientific progress, temporal dynamics)
+4. **Review RQ convergence (Step B preview):**
+   - Decide whether teams 02/06 (both `intellectual-conformity`) should both proceed
+   - Consolidate theory family labels for teams 01/04/07 (all study self-censorship variants)
+   - Confirm team 01's use of `v2clacfree` instead of `v2x_libdem`
+5. **Proceed to PI Review Gate B** — once all 10 RQs are in and convergence issues are resolved
+6. **Housekeeping** — move loose root scripts to `scripts/`, clean up extra team folder artifacts

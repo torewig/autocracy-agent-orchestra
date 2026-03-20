@@ -152,12 +152,12 @@ Interpret citation patterns as indicators of visibility and uptake, not quality.
 
 Before creating any team folder or launching any session, the PI must:
 
-- [ ] Open `data/n_summary.txt` and confirm N counts are plausible
-- [ ] Open `data/country_match_log.txt` and confirm unmatched rate is < 5%
-- [ ] Load `data/agent_corpus.rds` in R and spot-check 10 random rows
-- [ ] Confirm `field_year_mean_cites` and `n_articles_country_year` are non-NA
+- [x] Open `data/n_summary.txt` and confirm N counts are plausible
+- [x] Open `data/country_match_log.txt` and confirm unmatched rate is < 5%
+- [x] Load `data/agent_corpus.rds` in R and spot-check 10 random rows
+- [x] Confirm `field_year_mean_cites` and `n_articles_country_year` are non-NA
       for the majority of rows
-- [ ] Sign off: only then proceed to creating team folders
+- [x] Sign off: PI approved 2026-03-20
 
 ---
 
@@ -604,9 +604,9 @@ The figure below shows the full pipeline from raw data to synthesis paper.
 
 ### Ordered task sequence (do not skip steps)
 
-1. [ ] Finalize `ssh_fields.txt` borderline categories (Architecture, Hospitality,
-       Nursing, Rehabilitation, Substance Abuse, Transportation)
-2. [ ] Decide whether to include "Review" doc_type alongside "Article"
+1. [x] Finalize `ssh_fields.txt` borderline categories (Architecture, Hospitality,
+       Nursing, Rehabilitation, Substance Abuse, Transportation) — PI decided 2026-03-20
+2. [x] Decide whether to include "Review" doc_type alongside "Article" — PI decided 2026-03-20
 3. [ ] Confirm ~10 GB RAM available for Phase 0
 4. [ ] Run `scripts/00_prepare_data.R`
 5. [ ] **Phase 0 validation gate** — check n_summary.txt, country_match_log.txt,
