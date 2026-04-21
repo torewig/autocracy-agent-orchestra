@@ -1,0 +1,140 @@
+# Team 26 — Analysis Plan
+
+## Overview
+
+Outcome: share of SSH abstracts framed in collectivist vs. individualist terms (LLM-classified).
+IV: `v2x_libdem` (continuous, 0-1). Unit: country-year. Estimator: `fixest::feols` with country + year FE, SE clustered by `iso3`.
+
+---
+
+## Step 0 — Load corpus
+
+File: `analysis/00_load.R`
+
+Load `data/agent_corpus.rds`. Confirm columns: `wos_id` (or `ut`), `abstract`, `iso3`, `year`, `v2x_libdem`, `v2x_regime`, `lied_binary`, `e_gdppc`, `e_wb_pop`, `subject_primary`.
+
+---
+
+## Step 1 — Draw stratified sample
+
+File: `analysis/01_sample.R`
+
+`set.seed(42)`. Keep abstracts with `nchar(abstract) > 50`. Add `decade = (year %/% 10) * 10`. Use `group_by(iso3, v2x_regime, decade) |> slice_sample(n = 10)`. Target ~7,000-8,000 rows.
+
+Save: `data/team26_sample.rds`, `data/team26_sample.csv`.
+
+---
+
+## Step 2 — LLM classification
+
+File: `analysis/02_classify.R`
+
+Model: Claude Haiku 3 (primary); GPT-4o-mini (fallback). Hard stop if running cost > $20.
+
+Prompt: single-turn per abstract, returns exactly one label: `COLLECTIVIST`, `INDIVIDUALIST`, or `MIXED-NEUTRAL`. Full prompt text in `rq.md`.
+
+Notes:
+- Batch calls with rate-limiting delay.
+- Accumulate token cost estimate (~$0.00025/1K for Haiku); log to `output/team26_api_cost_log.txt`.
+- Write incrementally to `data/team26_classifications_raw.csv` (columns: `wos_id`, `label`, `model`, `tokens_used`). Skip already-classified IDs on resume.
+
+Validation: manually label 50 of a 100-abstract holdout; compute Cohen's kappa against LLM labels; save to `output/team26_validation.txt`. If kappa < 0.60, revise prompt before full run.
+
+---
+
+## Step 3 — Aggregate to country-year
+
+File: `analysis/03_aggregate.R`
+
+Join classifications to corpus on `wos_id`. For each `iso3` x `year` cell compute:
+- `n_classified`, `n_collectivist`, `n_individualist`, `n_mixed`
+- `share_collectivist = n_collectivist / (n_collectivist + n_individualist)` (MIXED-NEUTRAL excluded from denominator)
+- `share_individualist = n_individualist / (n_collectivist + n_individualist)`
+
+Filter to cells with `n_classified >= 5`. Carry through regime and control variables from first row.
+
+Save: `data/team26_country_year.rds`.
+
+---
+
+## Step 4 — Primary models
+
+File: `analysis/04_models.R`
+
+```r
+library(fixest)
+df <- readRDS("data/team26_country_year.rds") |>
+  mutate(log_gdppc = log(e_gdppc), log_pop = log(e_wb_pop))
+
+# Primary: share_collectivist
+m1 <- feols(share_collectivist ~ v2x_libdem | iso3 + year, data = df, cluster = ~iso3)
+m2 <- feols(share_collectivist ~ v2x_libdem + log_gdppc + log_pop | iso3 + year, data = df, cluster = ~iso3)
+
+# Secondary: share_individualist
+m3 <- feols(share_individualist ~ v2x_libdem | iso3 + year, data = df, cluster = ~iso3)
+m4 <- feols(share_individualist ~ v2x_libdem + log_gdppc + log_pop | iso3 + year, data = df, cluster = ~iso3)
+```
+
+Expected direction: `v2x_libdem` negative for `share_collectivist` (more autocracy = more collectivist framing); positive for `share_individualist`.
+
+---
+
+## Step 5 — Robustness checks
+
+File: `analysis/05_robustness.R`
+
+**RC1 — Alternative IV: `lied_binary`**
+Replace `v2x_libdem` with `lied_binary` in the fully-controlled specification.
+
+**RC2 — Field-restricted sample (primary compositional threat)**
+Exclude `subject_primary %in% c("Sociology", "International Relations")`, which may have higher baseline collectivist vocabulary independent of regime type. Re-aggregate and re-estimate. If the effect disappears, disciplinary sorting rather than ideological framing drives the result.
+
+**RC3 — Alternative denominator**
+Compute `share_collectivist_alt = n_collectivist / n_classified` (MIXED-NEUTRAL in denominator). Re-estimate primary specification.
+
+**RC4 — Decade x field fixed effects**
+Add `subject_primary^decade` FE to absorb field-level secular trends in framing vocabulary.
+
+---
+
+## Causal identification and threats
+
+**Strategy:** Within-country variation in `v2x_libdem` over time (country + year FE). Country FE absorbs deep cultural predispositions toward collectivism; year FE absorbs global trends.
+
+**Threats:**
+
+1. **Disciplinary composition (primary).** Different regime-type countries may have different field distributions; some disciplines have higher baseline collectivist vocabulary regardless of politics. RC2 (field-restricted) and RC4 (field x decade FE) are the primary robustness tests for this threat.
+
+2. **Reverse causality.** Collectivist academic culture may sustain autocracy rather than (only) autocracy driving collectivist framing. Cannot be fully resolved; noted as a limitation.
+
+3. **Selection into international publication.** WoS-indexed researchers in autocracies may already tilt toward internationally acceptable framing, attenuating estimates (conservative bias).
+
+4. **Abstract quality.** Short or non-English abstracts harder to classify; `nchar > 50` filter and kappa validation mitigate.
+
+5. **LLM classifier priors.** Model may associate regional vocabulary patterns with certain frames from training. Prompt targets framing not country; manual validation provides a partial diagnostic.
+
+---
+
+## Expected output files
+
+| File | Description |
+|---|---|
+| `data/team26_sample.rds` | Stratified sample |
+| `data/team26_sample.csv` | Same as CSV |
+| `data/team26_classifications_raw.csv` | Article-level LLM labels |
+| `data/team26_country_year.rds` | Country-year aggregates |
+| `output/team26_models.txt` | Primary model table |
+| `output/team26_robustness.txt` | Robustness check table |
+| `output/team26_validation.txt` | Kappa and confusion matrix |
+| `output/team26_api_cost_log.txt` | Running API cost log |
+| `output/team26_results.json` | Machine-readable results for meta-analysis |
+
+---
+
+## API cost disclosure
+
+- Model: Claude Haiku 3 (~$0.25/1M input tokens); GPT-4o-mini as fallback.
+- Sample: ~7,500 abstracts x ~250 tokens/call = ~1,875,000 input tokens.
+- Estimated cost: ~$0.47; conservative upper bound $2-4.
+- Hard stop at $20: write partial results and halt.
+- Running cost logged to `output/team26_api_cost_log.txt`.

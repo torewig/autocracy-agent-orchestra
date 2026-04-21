@@ -1,0 +1,1 @@
+Teams 01–10 from Agent Orchestra v1 (archived 2026-04-20). Superseded by v2 (30-team expansion, unified self-censorship theory). No analysis was run on these teams — only Designer sessions (rq.md + analysis_plan.md) were completed for teams 01–07.

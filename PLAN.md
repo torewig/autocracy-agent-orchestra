@@ -1,9 +1,8 @@
-# AutoKnow Agent Orchestra — Project Plan
+# AutoKnow Agent Orchestra — Project Plan (v2)
 
 **Paper:** How does autocracy, and type of autocracy, impact on the contents, direction and scientific progress of the social sciences and humanities?
-**Method:** Multi-agent research orchestra (10 teams x 3 agents + 1 peer review agent per team)
-**Status:** Planning phase
-**Last updated:** 2026-03-17
+**Method:** Multi-agent research orchestra — 25 teams, each testing one implication of the self-censorship theory
+**Version:** 2.2 | **Last updated:** 2026-04-20
 
 ---
 
@@ -12,12 +11,68 @@
 > How does autocracy, and type of autocracy, impact on the contents, direction
 > and scientific progress of the social sciences and humanities?
 
-This is the **overarching question** given to every team. It directs teams
-toward substantive and semantic dimensions of SSH knowledge production — *what*
-topics are studied, *what direction* research takes, *what* gets published and
-cited — not only simple volume metrics such as publication counts. Each team
-independently decides how to operationalize and investigate it. No topic is
-pre-assigned.
+All 25 teams investigate this overarching question through the lens of a single
+unified theory: **self-censorship**. Each team tests one specific, distinct
+implication of the theory using the shared bibliometric corpus.
+
+---
+
+## Unified theory: Self-censorship
+
+**Core claim:**
+> *Researchers in autocracies self-censor by avoiding politically sensitive
+> topics, methods, collaborations, and framings to minimize career risks.*
+
+This is the **organizing theory for all 25 teams**. Every team's RQ must state
+a specific, testable implication of this theory within their assigned domain.
+Every team's report must include a section (Section 8) evaluating whether their
+evidence supports this theory.
+
+### Five sub-families (Bonferroni groups)
+
+| Sub-family label | Core claim | Teams | k | Threshold |
+|-----------------|-----------|-------|---|-----------|
+| `topic-avoidance` | Autocracy reduces engagement with politically sensitive topics, keywords, or disciplines | 01–07 | 7 | p < 0.0071 |
+| `framing-neutrality` | Autocracy shifts the rhetorical and analytical stance of research toward neutral, technocratic, or hedged language | 08–13 | 6 | p < 0.0083 |
+| `collaboration-constraint` | Autocracy limits international and cross-institutional collaboration | 14–18 | 5 | p < 0.0100 |
+| `visibility-suppression` | Research from autocracies receives lower citation impact or diffusion | 19–22 | 4 | p < 0.0125 |
+| `ideological-alignment` | Autocracy shapes the positive ideological content of SSH output — not just what is avoided, but what political ideas are actively present | 23–25 | 3 | p < 0.0167 |
+
+Bonferroni correction is applied **within** each sub-family at Step D'. The
+significance threshold within a family of k tests is p < 0.05/k. Teams 26–30
+were dropped in the 2026-04-20 revision; their designs are archived.
+
+### 25-team domain assignments
+
+| Team | Domain (assigned angle) | Sub-family | Complexity |
+|------|------------------------|-----------|------------|
+| 01 | Political-content keyword score (PCI) in abstracts, aggregated to country-year | `topic-avoidance` | Simple |
+| 02 | Topical diversity: breadth of author-supplied keyword vocabulary per country-year | `topic-avoidance` | Simple |
+| 03 | Disciplinary composition: share of output in sensitive fields (pol. sci., law, sociology, IR) | `topic-avoidance` | Simple |
+| 04 | Regime-sensitive keyword prevalence: democracy, human rights, corruption, protest | `topic-avoidance` | Simple |
+| 05 | Critical domestic governance framing: LLM-classified share of articles examining own-country institutions | `topic-avoidance` | Complex |
+| 06 | Semantic diversity: pairwise cosine distance of text embeddings within country-field-year clusters | `topic-avoidance` | Complex |
+| 07 | Share of abstracts mentioning international funding agencies | `topic-avoidance` | Simple |
+| 08 | Epistemic hedging: frequency of hedging language (may, might, seem, appear, suggest) per abstract | `framing-neutrality` | Simple |
+| 09 | Normative language: frequency of evaluative/normative terms (should, ought, justice, rights, freedom) | `framing-neutrality` | Simple |
+| 10 | Technocratic framing: share of abstracts with exclusively technical vocabulary (LLM classifier) | `framing-neutrality` | Complex |
+| 11 | First-person argumentative stance: rate of "we argue / I argue / we show" per abstract | `framing-neutrality` | Simple |
+| 12 | Normative conclusion claims: whether abstracts make a normative/policy claim (LLM binary label) | `framing-neutrality` | Complex |
+| 13 | Journal domesticity: share of output in domestic vs. international journals | `framing-neutrality` | Medium |
+| 14 | International co-authorship: distinct co-author countries per article | `collaboration-constraint` | Simple |
+| 15 | Democratic co-authorship: co-authorship with liberal democracies (v2x_libdem > 0.5) | `collaboration-constraint` | Medium |
+| 16 | Domestic-only authorship: share of articles with all authors from one country | `collaboration-constraint` | Simple |
+| 17 | Author count: whether autocracy reduces mean team size at country-year level | `collaboration-constraint` | Simple |
+| 18 | Institutional diversity: distinct author institutions per article | `collaboration-constraint` | Medium |
+| 19 | Normalized citation impact: field-year adjusted citation rate from autocracies | `visibility-suppression` | Simple |
+| 20 | Citation gap by topic: whether sensitive articles from autocracies are cited less | `visibility-suppression` | Medium |
+| 21 | Citation-collaboration interaction: whether international co-authorship mediates the autocracy-citation gap | `visibility-suppression` | Medium |
+| 22 | Citation concentration: whether autocracy predicts higher Gini of citations within country-year | `visibility-suppression` | Simple |
+| 23 | Ideological lean (left–right): LLM-classified share of abstracts using left-wing vs. right-wing vs. neutral political-economy framing; tests whether regime ideology predicts ideological content of SSH output | `ideological-alignment` | Complex |
+| 24 | Regime legitimation framing: LLM-classified share of abstracts endorsing or positively framing the current political system, state authority, or leadership | `ideological-alignment` | Complex |
+| 25 | Anti-liberal-democracy framing: LLM-classified share of abstracts explicitly critiquing liberal democracy, Western political norms, or international democratic institutions | `ideological-alignment` | Complex |
+
+**Complexity ratings:** Simple = dictionary/regex/standard regression, no API. Medium = data construction required but no external API. Complex = external LLM or embedding API required. **Complex teams: 05, 06, 10, 12, 23, 24, 25** — all scheduled Day 15; estimated total API cost ~$32–65.
 
 ---
 
@@ -26,9 +81,8 @@ pre-assigned.
 ### Bibliometric corpus
 - **File:** `data/agent_corpus.rds` (produced by Phase 0)
 - **Source:** Web of Science, filtered to SSH articles, 1970-2023
-- **Unit:** One row = one article x one author-country
-- **Full WOS source:** `DATA/bibliometric/WOS_scrapes/wos_articles.rds`
-  (7,516,459 articles; ~8-10 GB RAM to load — use agent_corpus.rds instead)
+- **Unit:** One row = one article × one author-country
+- **Full WOS source:** `DATA/bibliometric/WOS_scrapes/wos_ssh_articles.rds`
 
 Key columns available to teams:
 
@@ -40,7 +94,9 @@ Key columns available to teams:
 | `year` | Publication year (1970-2023) |
 | `v2x_libdem` | V-DEM liberal democracy index (0-1, continuous) — **primary regime measure** |
 | `v2x_regime` | Regime type: 0=closed autocracy, 1=electoral autocracy, 2=electoral democracy, 3=liberal democracy |
-| `regime_binary` | 0 = autocracy (v2x_regime <= 1), 1 = democracy (v2x_regime >= 2) |
+| `lied_binary` | 0 = autocracy (v2x_regime ≤ 1), 1 = democracy (v2x_regime ≥ 2) |
+| `v2clacfree` | Academic freedom index (V-DEM) — use for team 30 and robustness checks |
+| `v2x_freexp_altinf` | Freedom of expression index (V-DEM) |
 | `title` | Article title |
 | `abstract` | Full abstract |
 | `keywords` | Author-supplied keywords |
@@ -49,34 +105,26 @@ Key columns available to teams:
 | `subject_primary` | First listed subject category |
 | `journal` | Journal name |
 | `tot_cites` | Raw lifetime citation count — **do not use as outcome without normalization** |
-| `field_year_mean_cites` | Mean citations for articles with same subject_primary and year — use to normalize tot_cites |
-| `n_articles_country_year` | Total SSH articles from that country in that year — use as denominator for volume analyses |
-| `n_articles_country_year_field` | Total SSH articles from that country, year, and subject_primary — field-specific denominator |
+| `field_year_mean_cites` | Mean citations for articles with same subject_primary and year |
+| `n_articles_country_year` | Total SSH articles from that country in that year |
+| `n_articles_country_year_field` | Total SSH articles from that country, year, and subject_primary |
 | `n_authors` | Number of authors |
 | `institutions` | Author institutions (semicolon-separated) |
 | `grant_agencies` | Funding agencies (semicolon-separated) |
 | `date` | Full publication date |
-| `e_gdppc` | GDP per capita (thousands, 2011 USD, PPP) — V-DEM/Maddison; log-transform for regression |
-| `e_wb_pop` | Population (World Bank) — log-transform for regression |
+| `e_gdppc` | GDP per capita (2011 USD PPP, V-DEM) — log-transform for regression; ~99.7% coverage |
+| `e_wb_pop` | Population (World Bank) — log-transform for regression; ~98.6% coverage |
 
-**Note on pre-1990 data:** WOS coverage before ~1990 is thin and biased toward
-English-language and Western-institution journals. Time-trend analyses should
-treat pre-1990 estimates with caution and consider restricting to 1990-2023.
+**Pre-1990 data:** WOS coverage before ~1990 is thin and biased toward English-language and Western journals. Treat pre-1990 estimates with caution; consider restricting to 1990-2023.
 
-**Note on citations:** `tot_cites` reflects raw lifetime counts. Citation norms
-differ by an order of magnitude across SSH fields (e.g. economics vs. history).
-Always normalize using `field_year_mean_cites` before making cross-field comparisons.
-Interpret citation patterns as indicators of visibility and uptake, not quality.
+**Citations:** Always normalize `tot_cites` using `field_year_mean_cites` before cross-field comparisons.
+
+**Control variables:** Include `e_gdppc` and `e_wb_pop` (log-transformed) as standard controls in all regression models.
 
 ### V-DEM (standalone)
 - **File:** `DATA/vdem/vdem_clean.rds`
-- **Coverage:** 182 countries, 1970-2023 (9,170 country-year rows)
-- **Variables:** `country_name`, `country_text_id`, `year`, `v2x_libdem`,
-  `v2x_regime`, `regime_binary`
-- **Regime distribution (country-years):** closed autocracy 2,626 /
-  electoral autocracy 2,789 / electoral democracy 2,006 / liberal democracy 1,748
-- **Codebook:** `data/vdem_codebook.md` — variable definitions, binary cutoff,
-  guidance on which measure to use for which type of analysis
+- **Coverage:** 182 countries, 1970-2023
+- **Codebook:** `data/vdem_codebook.md`
 
 ---
 
@@ -88,555 +136,283 @@ Interpret citation patterns as indicators of visibility and uptake, not quality.
 | SSH field list | `ssh_fields.txt` — 50 confirmed WOS subject categories |
 | Country assignment | All author countries (one article-country row per unique country per article) |
 | Primary democracy measure | `v2x_libdem` (continuous, 0-1) |
-| Secondary measures | `v2x_regime` (0-3 ordinal) + `regime_binary` — use for robustness checks |
-| Time window | 1970-2023 (treat pre-1990 with caution) |
-| N estimation | Run Phase 0 before teams start; validate output before launching teams |
+| Secondary measures | `v2x_regime` (0-3 ordinal) + `lied_binary` — use for robustness checks |
+| Time window | 1970-2023 (treat pre-1990 with caution; restrict to 1990-2023 where appropriate) |
+| Unified theory | Self-censorship (see Theory section above) |
 | Analysis approach | Final analysis must use regression; text analysis permitted for measurement only |
-| Causal inference | Aim for designs supporting causal identification (country FE, year FE, DiD); discuss identification threats if full causal design is not feasible |
-| Theoretical justification | Each team must state the causal mechanism and expected direction in `rq.md` before any analysis |
-| Pre-registration | Hypotheses committed to GitHub (timestamped) after PI approval of RQs and before any Analyst session |
-| Multiple testing | Bonferroni correction applied within theory-family groups across teams; PI assigns final family labels at Step B |
+| Causal inference | Aim for designs supporting causal identification (country FE, year FE, DiD, event study) |
+| Theoretical justification | Each team must state causal mechanism and expected direction in rq.md before any analysis |
+| Pre-registration | Hypotheses committed to GitHub (timestamped) after PI approval and before any Analyst session |
+| Multiple testing | Bonferroni correction within sub-families; PI confirms labels at Gate B; script at Step D' |
+| Control variables | `e_gdppc` and `e_wb_pop` (log-transformed) included in all regression models |
+| External APIs | Permitted for teams 05, 06, 10, 12, 23, 24, 25 (Complex); all others Simple/Medium — no external API needed |
+| Report format | Standardized 8-section structure; all teams use same template (see Report template below) |
 
 ---
 
 ## Phase 0 — Shared data preparation
 
-**Goal:** Produce one analysis-ready file used by all 10 teams.
+**Goal:** Produce one analysis-ready file used by all 25 teams.
 **Script:** `scripts/00_prepare_data.R`
 **Output:** `data/agent_corpus.rds` + `data/n_summary.txt`
 
-### Steps
+**Status:** Complete — PI signed off 2026-03-20
 
-1. **Load WOS data**
-   - Read `DATA/bibliometric/WOS_scrapes/wos_articles.rds` (~10 GB RAM)
-   - Check available system RAM at script start; abort with message if below 10 GB
-   - Filter to `doc_type == "Article"` (exclude reviews, meeting abstracts, etc.)
-   - Filter `date` to 1970-2023
+| Output | Value |
+|--------|-------|
+| Total SSH articles (distinct) | 2,709,224 |
+| Article-country rows | 3,189,557 |
+| ISO3 country match rate | 99.98% |
+| V-DEM join rate | 99.78% |
+| Control variables | e_gdppc and e_wb_pop added from V-DEM (2026-04-20) |
 
-2. **Filter to SSH fields**
-   - Read `ssh_fields.txt` (ignoring lines starting with `#`)
-   - Keep articles where any semicolon-delimited entry in `subject_categories`
-     matches the SSH list (case-insensitive, trimmed whitespace)
-
-3. **Expand to article-country rows**
-   - The `countries` field is semicolon-delimited (e.g. `"USA; Germany; China"`)
-   - Split on `"; "` -> one row per unique country per article (`ut` repeats)
-   - Standardize country strings to ISO3 using `countrycode` package
-   - Report and save the top 20 unmatched country strings to `data/country_match_log.txt`
-   - If unmatched rate > 5% of article-country rows, treat as a blocker and
-     do not proceed until resolved
-
-4. **Merge V-DEM**
-   - Load `DATA/vdem/vdem_clean.rds`
-   - Left-join to article-country rows on `iso3` x `year`
-   - Unmatched rows (small territories, etc.) retain NA regime scores
-
-5. **Compute derived variables**
-   - `field_year_mean_cites`: mean `tot_cites` grouped by `subject_primary` x `year`
-   - `n_articles_country_year`: count of distinct `ut` per `country` x `year`
-   - `n_articles_country_year_field`: count of distinct `ut` per `country` x `year`
-     x `subject_primary`
-   - Join these back to the article-country rows
-
-6. **N estimation** — print and save to `data/n_summary.txt`:
-   - Total SSH articles after filtering
-   - V-DEM join rate (% of article-country rows matched)
-   - Total article-country rows
-   - Breakdown by `v2x_regime` category
-   - Breakdown by decade
-   - Top 10 subject categories by article count
-
-7. **Save** `data/agent_corpus.rds`
-
-### Phase 0 validation gate (mandatory before Phase 1)
-
-Before creating any team folder or launching any session, the PI must:
-
-- [x] Open `data/n_summary.txt` and confirm N counts are plausible
-- [x] Open `data/country_match_log.txt` and confirm unmatched rate is < 5%
-- [x] Load `data/agent_corpus.rds` in R and spot-check 10 random rows
-- [x] Confirm `field_year_mean_cites` and `n_articles_country_year` are non-NA
-      for the majority of rows
-- [x] Sign off: PI approved 2026-03-20
+Phase 0 validation checklist (all checked):
+- [x] N counts plausible (data/n_summary.txt)
+- [x] Unmatched country rate < 5% (data/country_match_log.txt)
+- [x] Spot-checked 10 random rows in R
+- [x] field_year_mean_cites and n_articles_country_year non-NA for majority of rows
+- [x] PI sign-off: 2026-03-20
 
 ---
 
 ## Folder structure
 
-The full project folder layout. Each team has its own dedicated subfolder.
-Use `scripts/scaffold_teams.R` to create all 10 team directories at once.
-
 ```
 Autocracy and science_Agent Orchestra/
 |
 |-- PLAN.md                      <- this file
-|-- PLAN.pdf                     <- rendered version of this file
+|-- TIMELINE.md                  <- 30-day project schedule
+|-- STATUS.md                    <- current progress tracker
 |-- ssh_fields.txt               <- SSH WOS subject category list
 |-- render_plan.ps1              <- renders PLAN.md to PLAN.pdf
 |
 |-- scripts/
-|   |-- 00_prepare_data.R        <- Phase 0 data prep (run once)
-|   |-- scaffold_teams.R         <- creates all team folder structures
+|   |-- 00_prepare_data.R        <- Phase 0 data prep (done)
+|   |-- scaffold_teams.R         <- creates all 25 team folder structures
 |   |-- plot_pipeline.R          <- generates figures/pipeline.png
 |   |-- preregister.ps1          <- Step B': creates preregistration.md + git commit/push
-|   `-- bonferroni_adjust.R      <- Step D': reads primary_results.json, applies Bonferroni
+|   |-- bonferroni_adjust.R      <- Step D': reads primary_results.json, applies Bonferroni
+|   `-- add_controls.R           <- utility: merges GDP/pop controls from V-DEM
+|
+|-- agents/
+|   |-- README.md                <- agent overview and quick reference
+|   |-- HOWTO_INVOKE.md          <- step-by-step invocation guide
+|   |-- prompt_designer.md       <- Designer session prompt (Step A)
+|   |-- prompt_analyst.md        <- Analyst session prompt (Step C)
+|   |-- prompt_writer.md         <- Writer session prompt (Step E)
+|   |-- prompt_reviewer.md       <- Peer Reviewer session prompt (Step F)
+|   |-- prompt_overseer.md       <- Daily overseer prompt (any day)
+|   `-- prompt_synthesizer.md    <- Theory synthesis prompt (Step S)
 |
 |-- figures/
-|   `-- pipeline.png             <- pipeline visualization (embedded in PLAN.pdf)
+|   `-- pipeline.png             <- pipeline visualization
 |
 |-- data/
 |   |-- agent_corpus.rds         <- shared analysis dataset (Phase 0 output)
-|   |-- n_summary.txt            <- N counts by regime, decade (Phase 0 output)
-|   |-- country_match_log.txt    <- unmatched country strings (Phase 0 output)
+|   |-- n_summary.txt            <- N counts by regime, decade
+|   |-- country_match_log.txt    <- unmatched country strings
 |   |-- vdem_codebook.md         <- V-DEM variable definitions and guidance
 |   |-- adjusted_pvalues.rds     <- Bonferroni-adjusted p-values (Step D' output)
 |   `-- adjusted_pvalues_report.md <- Human-readable adjustment table (Step D' output)
 |
 |-- teams/
-|   |-- team_01/
-|   |   |-- brief.md             <- PI-written mandate (copy template, fill N)
+|   |-- team_01/ ... team_25/ (teams 26-30 dropped; folders preserved with DROPPED.md)
+|   |   |-- brief.md             <- domain assignment + mandate (scaffold output)
 |   |   |-- rq.md                <- team's RQ (Designer output; PI reviews before Analyst)
 |   |   |-- analysis_plan.md     <- method plan (Designer output; PI reviews before Analyst)
-|   |   |-- preregistration.md   <- timestamped pre-reg record (Step B' output; do not edit)
+|   |   |-- preregistration.md   <- timestamped pre-reg (Step B' output; do not edit)
 |   |   |-- pi_notes.md          <- optional PI feedback at any point
 |   |   |-- analysis/
 |   |   |   |-- analysis.R       <- R script (Analyst output)
-|   |   |   |-- primary_results.json <- primary hypothesis test result (Analyst output)
+|   |   |   |-- primary_results.json <- primary test result (Analyst output)
 |   |   |   `-- figures/         <- plots and tables (Analyst output)
 |   |   `-- report/
-|   |       |-- report.md        <- 4-5 page report (Writer output)
-|   |       `-- peer_review.md   <- structured peer review (separate Reviewer agent)
-|   |-- team_02/ ... team_10/
-|   |   `-- [same structure]
+|   |       |-- report.md        <- 4-5 page report (Writer output; 8-section format)
+|   |       `-- peer_review.md   <- structured peer review (Reviewer output)
 |
-`-- synthesis/
-    |-- outline.md               <- summaries, themes, pipeline description (agent output)
-    |-- synthesis_paper.md       <- joint paper (PI-written, agent-assisted)
-    `-- figures/                 <- figures used in synthesis paper (agent-drafted R code)
+|-- synthesis/
+|   `-- theory_evaluation.md     <- theory synthesis report (Synthesizer output, Step S)
+|
+`-- archive/
+    |-- teams_v1/                <- v1 teams 01-10 (archived 2026-04-21)
+    `-- root_scripts_v1/         <- v1 utility scripts (archived 2026-04-21)
 ```
 
 ---
 
 ## Phase 1 — Team workflow
 
-### Invocation sequence
-
-Teams are **not** run fully in parallel from start to finish. The workflow
-has two mandatory PI review gates, a peer review step, and a final PI sign-off:
+### Pipeline
 
 ```
-Step A   All 10 Designers run (produce rq.md + analysis_plan.md)
-            |
-Step B   PI reviews all 10 rq.md files
-         -> check for RQ convergence (redirect duplicates)
-         -> check coverage gaps and causal logic
-         -> check theoretical mechanism and theory family label in each rq.md
-         -> consolidate theory family labels across teams (PI assigns final groupings)
-         -> approve or redirect each team
-            |
-Step B'  Pre-registration
-         -> run scripts/preregister.ps1
-         -> creates preregistration.md per team and commits to GitHub (timestamped)
-         -> verify commit on GitHub before proceeding
-            |
-Step C   All 10 Analysts run (produce analysis.R + figures + primary_results.json)
-            |
-Step D   PI reviews each team's figures and a numeric summary
-         -> confirm analysis is methodologically sound and causally justified
-         -> verify primary_results.json exists and is correct for each team
-         -> approve or redirect
-            |
-Step D'  Bonferroni adjustment
-         -> run scripts/bonferroni_adjust.R
-         -> groups primary tests by theory_family, applies Bonferroni within each family
-         -> produces data/adjusted_pvalues.rds and data/adjusted_pvalues_report.md
-         -> PI reviews adjusted_pvalues_report.md before proceeding
-            |
-Step E   All 10 Writers run (produce report.md using adjusted p-values)
-            |
-Step F   All 10 Peer Review agents run (produce peer_review.md)
-            |
-Step G   PI reads all 10 reports + peer reviews -> proceed to Phase 2
+Step A   All 25 Designer sessions (Days 2-5) — COMPLETE 2026-04-20
+         Each Designer reads brief.md, loads corpus sample, develops specific
+         RQ within assigned domain, checks uniqueness against other teams' rq.md,
+         writes rq.md + analysis_plan.md, stops
+              |
+Step B   PI Review Gate B (Day 7)
+         Read all 25 rq.md; check uniqueness, self-censorship framing, domain
+         compliance, theory family labels; approve or redirect
+              |
+Step B'  Pre-registration (Day 9)
+         Run scripts/preregister.ps1; commits hypotheses to GitHub (timestamped)
+              |
+Step C   All 25 Analyst sessions (Days 10-16)
+         Analyst reads rq.md + analysis_plan.md; writes analysis.R; runs it;
+         saves figures; saves primary_results.json; stops
+         [Complex teams 05,06,10,12,23,24,25 scheduled Day 15]
+              |
+Step D   PI Review Gate D (Day 18)
+         Review all 25 figures + primary_results.json; approve or redirect
+              |
+Step D'  Bonferroni adjustment (Day 20)
+         Run scripts/bonferroni_adjust.R; produces adjusted_pvalues.rds
+         PI reviews adjusted_pvalues_report.md
+              |
+Step E   All 25 Writer sessions (Days 20-22)
+         Writer reads all files; writes report.md in 8-section format
+              |
+Step F   All 25 Reviewer sessions (Days 23-24)
+         Reviewer reads report.md + rq.md; writes peer_review.md
+              |
+Step G   PI Review Gate G (Day 25)
+         Read all 25 reports + peer reviews; flag issues; approve
+              |
+Step S   Theory Synthesis (Day 28)
+         Synthesizer reads all 25 rq.md + report.md + peer_review.md +
+         adjusted_pvalues; writes synthesis/theory_evaluation.md
 ```
 
-This structure: catches RQ convergence before computation is wasted; locks in
-hypotheses via pre-registration before any data are analysed; catches analytic
-errors before they are embedded in a report; controls family-wise error rate
-across related hypotheses; and provides independent peer scrutiny of each report
-before synthesis.
-
-### How to invoke each step
-
-**Step A — Designer (all teams):**
-Open a Claude Code session per team (can be parallel). Say:
-> "You are research team [N]. Read `teams/team_[N]/brief.md`. Complete
-> Step 1 only (Designer role): write `rq.md` and `analysis_plan.md`.
-> Stop after that and wait for PI approval."
-
-**Step B — PI review gate:**
-Read all `teams/team_##/rq.md` and `teams/team_##/analysis_plan.md`.
-Check that each `rq.md` contains a `Theoretical mechanism` and a proposed
-`Theory family` label. Review all proposed labels and decide the final groupings
-— teams testing hypotheses from the same theoretical root should share an
-identical label. Edit `rq.md` directly for any team whose label needs changing.
-If two teams have converged on the same RQ, redirect one.
-When satisfied with all 10 RQs and all theory family labels are finalised,
-proceed to Step B'.
-
-**Step B' — Pre-registration:**
-Run `scripts/preregister.ps1` before starting any Analyst session. This creates
-`preregistration.md` in each approved team folder and commits all files to
-GitHub with a timestamp. Verify the commit appears on GitHub — the commit hash
-is the pre-registration record.
-
-**Step C — Analyst (all teams):**
-Open a new Claude Code session per team (NOT a continuation of the Designer
-session). Paste `agents/prompt_analyst.md` with `[N]` filled in. The Analyst
-reads `rq.md`, `analysis_plan.md`, and any `pi_notes.md`; writes `analysis.R`;
-runs it; saves figures to `analysis/figures/`; writes `primary_results.json`
-with the primary hypothesis test result; stops.
-
-**Step D — PI review gate:**
-Open each team's `analysis/figures/` folder and review outputs. Verify
-`primary_results.json` exists and looks correct for each team.
-If the analysis has a methodological or identification error, open a session
-and redirect. When satisfied with all teams, proceed to Step D'.
-
-**Step D' — Bonferroni adjustment:**
-Run `scripts/bonferroni_adjust.R` before starting any Writer session. It reads
-all teams' `primary_results.json`, groups by `theory_family`, and applies
-Bonferroni correction within each family. Review `data/adjusted_pvalues_report.md`
-to confirm groupings are sensible and no team is missing.
-Then proceed to Step E.
-
-**Step E — Writer (all teams):**
-Resume or open each team session. Say:
-> "Your analysis is approved. Proceed to Step 3 (Writer role):
-> write `report/report.md` using the standard report template."
-
-**Step F — Peer Reviewer (all teams):**
-After all Writer sessions are complete, open one new Claude Code session per team (can be parallel). Say:
-> "You are a peer reviewer. Read `teams/team_[N]/report/report.md` and write
-> a structured peer review to `teams/team_[N]/report/peer_review.md`. Your
-> review should address: (1) validity of the research question and
-> operationalization; (2) methodological quality and causal identification —
-> is the estimand well-defined and are identification threats acknowledged?
-> (3) interpretation — are the claims supported by the evidence or overstated?
-> (4) key limitations not adequately acknowledged. Be constructive and specific.
-> Aim for 1-2 pages."
-
-**Step G — PI final review:**
-Read all `teams/team_*/report/report.md` and `teams/team_*/report/peer_review.md`.
-When satisfied with the quality of the reports, proceed to Phase 2.
+See `TIMELINE.md` for the full day-by-day schedule and `agents/HOWTO_INVOKE.md` for invocation instructions.
 
 ### PI communication channels
 
 | Channel | When | Purpose |
 |---------|------|---------|
-| `brief.md` | Before Step A | Initial mandate; the only pre-run instruction |
-| Chat input | Any step | Direct correction or guidance during a live session |
-| `pi_notes.md` | Any step | PI drops a note file in the team folder; agent checks for it |
-| Step B gate | After Designer | Review rq.md + analysis_plan.md; consolidate theory family labels; approve or redirect before any computation |
-| Step B' | After Step B | Pre-registration: run `preregister.ps1`; commits hypotheses to GitHub before analysis |
-| Step D gate | After Analyst | Review figures + `primary_results.json`; approve or redirect before report is written |
-| Step D' | After Step D | Bonferroni adjustment: run `bonferroni_adjust.R`; review `adjusted_pvalues_report.md` |
-| Step F | After Writer | Peer review of each team's report by a separate Reviewer agent |
-| Step G gate | After Peer Review | PI reads all reports + peer reviews; sign off before synthesis |
+| `brief.md` | Before Step A | Domain assignment and mandate |
+| Chat input | Any step | Direct guidance during a live session |
+| `pi_notes.md` | Any step | PI drops a note in team folder; agent checks for it |
+| Gate B (Day 7) | After Designer | Review 25 RQs; confirm theory families; pre-reg authorisation |
+| Gate D (Day 18) | After Analyst | Review figures + results.json; Bonferroni authorisation |
+| Gate G (Day 25) | After Reviewer | Read all reports + reviews; synthesis authorisation |
 
-### Team brief template
+---
 
-Copy this to `teams/team_[N]/brief.md` before invoking the team.
-Fill in the team number wherever `[N]` appears.
+## Report template
+
+All 25 teams follow this exact 8-section structure. Writers must not merge,
+rename, or skip sections. Section 8 verdict must use one of the four exact
+phrases specified.
 
 ```markdown
-# Research Team [N] — Brief
+# Team [N]: [Short title — 6 words max]
 
-## Your mandate
+## 1. Research question
+[50-80 words]
+One sentence RQ + 2-3 sentences of rationale connecting to the
+self-censorship theory.
 
-You are an independent research team. Investigate the overarching research
-question below using the provided data. You decide how to approach it.
-Do not coordinate with or look at other teams' folders.
+## 2. Theoretical mechanism
+[100-150 words]
+Specific causal pathway from autocracy (via self-censorship incentives)
+to the outcome variable. Name actors, constraints, behavioral responses.
+Expected direction and why the corpus provides relevant evidence.
 
-## Overarching research question
+## 3. Data and operationalization
+[150-200 words]
+Analytic sample (filtering, final N). Precise definition of outcome variable
+(exact column name or construction steps). Key independent variable. Any
+intermediate variables constructed. Deviations from pre-registered plan if any.
 
-> How does autocracy, and type of autocracy, impact on the contents, direction
-> and scientific progress of the social sciences and humanities?
+## 4. Methods
+[150-200 words]
+Regression model specification, unit of analysis, fixed effects, SE clustering,
+causal identification strategy. Text analysis approach if used (2-3 sentences).
+One sentence noting Bonferroni adjustment within the [sub-family] family of k tests.
 
-You are free to operationalize this in any way you find interesting and
-tractable with the available data. The question asks about substantive and
-semantic dimensions of SSH knowledge production: what topics are studied, what
-directions research takes, what findings are published, how knowledge progresses.
-Focus on content and direction, not only on simple volume indicators.
+## 5. Main findings
+[250-350 words]
+3-5 key results in plain language. Primary hypothesis: direction, coefficient,
+adjusted p-value, significance. Reference each figure by filename. Describe what
+figures show. At least one robustness check result.
 
-## Available data
+## 6. Figures and tables
+[50-100 words for captions]
+`figures/fig_main.png` — [description]
+`figures/fig_robustness.png` — [description]
 
-- `data/agent_corpus.rds` — SSH articles from Web of Science, 1970-2023,
-  merged with V-DEM regime data. One row = one article x one author-country.
-  See PLAN.md for the full variable list and usage notes.
-- `DATA/vdem/vdem_clean.rds` — V-DEM country-year data (standalone).
-- `data/vdem_codebook.md` — variable definitions and guidance.
+## 7. Discussion
+[300-400 words]
+Para 1: Interpret findings in relation to self-censorship theory.
+Para 2: Limitations — confounders, alternative explanations, what the
+observational design cannot establish.
+Para 3 (optional): Connection to other teams' angles.
 
-Key data notes:
-- **Primary regime measure:** `v2x_libdem` (continuous, 0-1). Use this as
-  your main independent variable. Report at least one robustness check using
-  `v2x_regime` or `regime_binary`.
-- **Citations:** Do not use `tot_cites` raw as an outcome. Use
-  `field_year_mean_cites` to normalize, or restrict comparisons to within-field.
-- **Volume analyses:** Use `n_articles_country_year` as the denominator when
-  comparing counts across countries or regime types.
-- **Pre-1990 data:** Treat estimates before 1990 with caution — WOS coverage
-  is thin and biased toward English-language and Western journals.
-- **Control variables:** `e_gdppc` (GDP per capita, log-transform) and
-  `e_wb_pop` (population, log-transform) are available for regression controls.
-  Both are from V-DEM/World Bank and cover ~99% and ~99% of corpus rows respectively.
-
-## Your tasks — complete in order, stop between steps for PI review
-
-### Step 1 — Research question (Designer role)
-- Load and inspect `data/agent_corpus.rds` (use a small sample first)
-- Develop a specific, answerable research question addressing the overarching question
-- Write to `teams/team_[N]/rq.md`:
-  - Your research question (one sentence)
-  - Rationale (2-3 sentences)
-  - Theoretical mechanism (2-4 sentences): what is the causal pathway from
-    autocracy to your outcome? Name the specific actors, constraints, or
-    incentives involved. State the expected direction and why.
-  - Theory family (a short kebab-case label of your own choosing describing
-    the theoretical root of your hypothesis — the PI will review and
-    consolidate labels across teams before analysis begins)
-  - Estimand: what quantity are you trying to estimate?
-  - Unit of analysis
-  - Outcome variable (exact column name)
-  - Key independent variable (exact column name)
-- Write to `teams/team_[N]/analysis_plan.md`:
-  - Method (regression is required for the final analysis; text analysis
-    may be used to construct outcome or control measures)
-  - Model specification: outcome, key predictors, fixed effects, SE clustering
-  - Causal identification strategy: what variation are you exploiting, what
-    confounders are controlled, what identification threats remain?
-  - Expected output files (list each figure/table you plan to produce)
-- **Stop here. Wait for PI approval before proceeding.**
-
-### Step 2 — Analysis (Analyst role)
-*Begin only after PI has approved your rq.md.*
-- Write R code in `teams/team_[N]/analysis/analysis.R` (tidyverse style)
-- Your main analysis must use regression (lm, feols, or equivalent)
-- Text analysis (e.g. topic models, keyword counts) is permitted as a measurement
-  tool but must feed into a regression as outcome or control variable
-- Produce 2-4 figures or tables; save to `teams/team_[N]/analysis/figures/`
-- Include at least one robustness check using an alternative regime measure
-- If data cannot adequately address your RQ, revise `rq.md` first, then analyze
-- **Stop here. Wait for PI review of your figures before writing the report.**
-
-### Step 3 — Report (Writer role)
-*Begin only after PI has approved your analysis.*
-- Write a 4-5 page report to `teams/team_[N]/report/report.md`
-- Follow the standard report template (see PLAN.md)
-- Note: your report will be reviewed by an independent peer review agent after submission
-
-## Constraints
-
-- R only for data analysis (tidyverse style)
-- Do not modify files outside your team folder (except reading shared data)
-- Do not modify `data/agent_corpus.rds`
-- **Analysis approach:** Final analysis must use regression. Text analysis
-  (e.g. topic models, keyword counts) is permitted for constructing outcome or
-  control variables, but the main estimand must be tested via regression.
-- **Causal inference:** Aim for designs supporting causal identification (country
-  fixed effects, year fixed effects, DiD). If a fully causal design is not
-  feasible, discuss identification threats explicitly in the report.
-- **Computationally heavy tasks:** If your planned analysis will take more than
-  ~5 minutes to run, or involves looping over individual abstracts/keywords at
-  scale, describe what you plan to do and ask the PI before starting.
-- **External API calls:** You may call external APIs (OpenAI, Anthropic,
-  HuggingFace, or similar services) from your R code if it serves your
-  analysis. Before making API calls, briefly state what you plan to use them
-  for. Be mindful of cost — avoid large-scale calls over the full corpus
-  without checking with the PI first.
+## 8. Self-censorship theory verdict
+[50-80 words]
+Verdict (use exactly one): Supports / Partially supports /
+Mixed evidence / Does not support
+One-sentence justification. This section is read directly by the synthesis agent.
 ```
 
-### Handoff document schemas
+**Total target length:** 1,100-1,560 words (approximately 4-5 pages).
+
+---
+
+## rq.md and analysis_plan.md schema
 
 **`rq.md` must contain:**
 - Research question (one sentence)
 - Rationale (2-3 sentences)
-- Theoretical mechanism (2-4 sentences): causal pathway, named actors/incentives, expected direction
-- Theory family (short kebab-case label, proposed by Designer, finalised by PI at Step B)
+- Theoretical mechanism (2-4 sentences): causal pathway, actors, incentives, expected direction
+- Theory family: exactly one of the five approved sub-family labels
 - Estimand
 - Unit of analysis
-- Outcome variable (exact column name from corpus schema)
+- Outcome variable (exact column name or construction description)
 - Key independent variable (exact column name)
+- Uniqueness check note
 
 **`analysis_plan.md` must contain:**
-- Method (must include regression for the final analysis)
+- Method (regression required for final analysis)
 - Model specification (formula, fixed effects, SE clustering)
 - Causal identification strategy (variation exploited, confounders controlled, threats)
-- List of expected output files (each figure/table by name)
+- List of expected output files
 
-If either file is missing required fields, the PI will redirect before Step C.
-
-### Report template
-
-Each team's `report/report.md` must follow this structure:
-
-```markdown
-# Team [N]: [Short title]
-
-## Research question
-One sentence stating the specific RQ.
-
-## Data and operationalization
-Describe what you measured and how: which variables, what filtering, how the
-regime variable was operationalized. State the final analytic sample size (N
-articles or N article-country rows). Note any deviations from the data schema.
-
-## Methods
-Specify the regression model, unit of analysis, outcome variable, key independent
-variable, fixed effects, SE clustering, and causal identification strategy —
-what variation is exploited, what is controlled, what threats remain. If text
-analysis was used for measurement, describe the approach. 2-4 sentences.
-
-## Main findings
-2-4 key results stated in plain language. Reference each figure or table by
-filename (e.g. "Figure 1: `figures/cites_by_regime.png`"). Include the
-direction, magnitude, and statistical significance of the main estimate.
-Report at least one robustness check.
-
-## Figures and tables
-List each output file with a one-line caption.
-
-## Discussion
-Interpret the findings in relation to the overarching research question.
-Note the main limitations: what confounders are unaddressed, what the data
-cannot establish, what causal claims are and are not supported. 1-2 paragraphs.
+**`primary_results.json` must contain:**
+```json
+{
+  "team": "[N]",
+  "hypothesis_label": "[short description]",
+  "theory_family": "[one of the five sub-family labels]",
+  "predictor": "v2x_libdem",
+  "outcome": "[exact column name or description]",
+  "coefficient": [number],
+  "SE": [number],
+  "p_value": [number],
+  "n_obs": [integer]
+}
 ```
 
 ---
 
-## Phase 2 — Synthesis paper
+## Phase 2 — Theory synthesis
 
-**The PI writes the synthesis paper.** The agent's role is to assist with
-structure, drafting, and visualization — all drafts are treated as raw material
-for PI editing.
+After all 25 teams complete Steps A-G, run the **Synthesizer agent** (Step S, Day 28).
 
-**Invocation:**
-> "Read all files in `teams/team_*/rq.md`, `teams/team_*/report/report.md`,
-> and `teams/team_*/report/peer_review.md`. Then produce `synthesis/outline.md`
-> containing: (1) a 1-2 sentence summary of each team's RQ and key finding,
-> (2) a proposed paper outline with section headers and bullet-point content
-> for each section, (3) a list of cross-cutting themes you identify across the
-> 10 reports, (4) a concise description of the overall research pipeline and
-> the agent-orchestra methodology for the 'Data and method' section (2-3
-> paragraphs), (5) for each cross-cutting theme, propose one aggregate
-> visualization and save draft R code to `synthesis/figures/`."
+The Synthesizer reads all 25 rq.md + report.md + peer_review.md files plus the
+Bonferroni-adjusted results table. It produces `synthesis/theory_evaluation.md`:
+a structured evaluation of the self-censorship theory across all 25 studies, with
+vote counts by sub-family, narrative synthesis, quality assessment, and an overall
+theory verdict. See `agents/prompt_synthesizer.md` for full specification.
 
-| Section | Content |
-|---------|---------|
-| Abstract | 150-word summary |
-| Introduction | Overall RQ, motivation, what the agent orchestra method contributes |
-| Data and method | Data sources; Phase 0 pipeline; agent team structure and peer review workflow; agent-drafted description of methodology |
-| Findings | One subsection per team (~1 page each): RQ, approach, key result |
-| Synthesis | Cross-cutting themes; aggregate picture of autocracy and SSH; agent-drafted visualizations |
-| Conclusion | What we learn; what this method can and cannot establish |
-| Appendix A | N summary from `data/n_summary.txt` |
-| Appendix B | All 10 team RQs |
+The PI then uses this evaluation as the foundation for the synthesis paper.
 
 ---
 
-## Pipeline overview
+## Daily oversight
 
-The figure below shows the full pipeline from raw data to synthesis paper.
+Invoke the **Overseer agent** each morning (any day) to get a prioritised task
+list calibrated to the 30-day timeline. Paste `agents/prompt_overseer.md` into
+a new Claude Code session. It scans all 25 team folders, reads the timeline, and
+outputs a structured daily report. See `agents/HOWTO_INVOKE.md` for details.
 
-![Pipeline](figures/pipeline.png){height=8in}
-
-### Step-by-step
-
-1. **Raw data** — WOS bibliometric corpus (7.5M SSH-eligible articles, 1970-2023)
-   + V-DEM regime data (182 countries)
-2. **Phase 0: data preparation** — Filter to SSH fields; expand to
-   article x country rows; merge V-DEM; compute derived variables
-   (field-year citation norms, country-year article counts)
-3. **PI: Validate corpus** — Review N counts, join rate, and spot-check rows;
-   sign off before any team work begins
-4. **Team setup** — Run `scaffold_teams.R`; 10 team folders created;
-   `brief.md` written to each
-5. **Step A — Designer sessions (x10)** — Each team independently inspects
-   the corpus and produces `rq.md` + `analysis_plan.md`. Each `rq.md` includes
-   a theoretical mechanism statement and a proposed theory family label.
-6. **PI Review Gate B** — Review all 10 RQs for convergence, feasibility, and
-   causal logic; consolidate theory family labels across teams; approve or
-   redirect before any computation
-7. **Step B' — Pre-registration** — Run `preregister.ps1`; creates
-   `preregistration.md` per team and commits to GitHub with a timestamp;
-   hypotheses are now locked before any analysis runs
-8. **Step C — Analyst sessions (x10)** — Each team writes `analysis/analysis.R`,
-   produces 2-4 figures/tables, and saves `primary_results.json` with the
-   primary hypothesis test result (coefficient, SE, p-value, theory family)
-9. **PI Review Gate D** — Review all figures; verify `primary_results.json`
-   for each team; approve or redirect before reports are written
-10. **Step D' — Bonferroni adjustment** — Run `bonferroni_adjust.R`; groups
-    primary tests by theory family, applies Bonferroni correction within each
-    family; produces `adjusted_pvalues.rds` and `adjusted_pvalues_report.md`
-    for PI review
-11. **Step E — Writer sessions (x10)** — Each team writes `report/report.md`
-    (4-5 pages) using Bonferroni-adjusted p-values for the primary test
-10. **Step F — Peer review sessions (x10)** — An independent peer review agent
-    reviews each team's report and writes `report/peer_review.md`, assessing
-    RQ validity, methodological quality, and interpretation
-11. **PI: Read reports + reviews** — PI reads all 10 reports and peer reviews;
-    final sign-off before synthesis
-12. **Synthesis agent** — Reads all reports and peer reviews; produces
-    `synthesis/outline.md` with per-team summaries, cross-cutting themes, a
-    prose description of the pipeline and methodology, and draft R
-    visualization code in `synthesis/figures/`
-13. **Synthesis paper** — PI writes the synthesis paper; agent assists with
-    structure, drafting, and figures
-
----
-
-## Status and pending tasks
-
-### Done
-- [x] SSH field list (`ssh_fields.txt`) — 50 confirmed categories
-- [x] V-DEM data downloaded (`DATA/vdem/vdem_clean.rds`)
-- [x] Plan written and rendered to PDF
-- [x] Pipeline figure generated (`figures/pipeline.png`)
-
-### Ordered task sequence (do not skip steps)
-
-1. [x] Finalize `ssh_fields.txt` borderline categories (Architecture, Hospitality,
-       Nursing, Rehabilitation, Substance Abuse, Transportation) — PI decided 2026-03-20
-2. [x] Decide whether to include "Review" doc_type alongside "Article" — PI decided 2026-03-20
-3. [ ] Confirm ~10 GB RAM available for Phase 0
-4. [ ] Run `scripts/00_prepare_data.R`
-5. [ ] **Phase 0 validation gate** — check n_summary.txt, country_match_log.txt,
-       spot-check agent_corpus.rds (see validation checklist above)
-6. [ ] Create `data/vdem_codebook.md` (done — see data folder)
-7. [ ] Run `scripts/scaffold_teams.R` to create all team folders
-8. [ ] Copy `brief.md` template to each team folder, fill in team number
-9. [ ] Run all 10 Designer sessions (Step A)
-10. [ ] **PI review gate B** — review all rq.md files; check convergence;
-        verify theoretical mechanism and theory family in each; consolidate
-        theory family labels across teams
-11. [ ] **Step B' — Pre-registration** — run `scripts/preregister.ps1`;
-        verify commit on GitHub before any Analyst session starts
-12. [ ] Run all 10 Analyst sessions (Step C)
-13. [ ] **PI review gate D** — review all figures; verify primary_results.json
-        exists and is correct for each team; approve methodology
-14. [ ] **Step D' — Bonferroni adjustment** — run `scripts/bonferroni_adjust.R`;
-        review `data/adjusted_pvalues_report.md`; confirm theory family groupings
-15. [ ] Run all 10 Writer sessions (Step E)
-16. [ ] Run all 10 Peer Review sessions (Step F)
-17. [ ] **PI review gate G** — read all reports + peer reviews; sign off
-18. [ ] Proceed to Phase 2 synthesis
-
----
-
-## Open questions (deferred)
-
-- Should the synthesis paper treat this as primarily a methodological or
-  substantive contribution? Likely both; the method section should be prominent.
-- If two teams converge on the same RQ at Step B, redirect one — the PI
-  can suggest a different angle without specifying a full topic.
-- Estimated session time per team: ~45-90 min (Designer ~15 min, Analyst ~45-60
-  min, Writer ~15-20 min, Reviewer ~10-15 min). Plan for ~20 hours total.

@@ -1,0 +1,55 @@
+# Team 27 — Research Question
+
+## Research Question
+
+Among SSH articles that discuss collective action (protests, strikes, social movements), does residing in a more autocratic country predict a higher share of articles that frame such collective action as a threat to social order or stability — rather than as legitimate political expression?
+
+---
+
+## Rationale
+
+Autocratic regimes perceive protest and collective mobilization as direct threats to their survival, and they communicate this threat framing through state media, official discourse, and institutional incentives. Researchers operating under autocratic conditions face career risks when they treat protest as a legitimate political phenomenon, since doing so implicitly challenges the regime's narrative of disorder and its justification for repression. The self-censorship logic thus predicts not only avoidance of protest as a topic but also a systematic tilt in *how* protest is framed when it is studied — toward de-legitimating language that is safer to publish in a regime-controlled academic environment.
+
+---
+
+## Theoretical Mechanism
+
+When career incentives are shaped by regime-controlled funding bodies, editorial boards, and institutional review processes, researchers learn that framing protest as legitimate political participation is riskier than framing it as a threat to order. Over time, the equilibrium of published scholarship in more autocratic settings should show a higher proportion of de-legitimating framings — not necessarily because all individual researchers endorse such frames, but because articles with regime-threatening framings face systematic barriers to publication (editorial self-censorship, reviewer bias, or direct suppression). This ideological-alignment mechanism is distinct from topic avoidance: researchers may still study protest, but the framing of published articles is filtered by political context. The predicted gradient is monotonic: as `v2x_libdem` decreases (more autocratic), the share of de-legitimating protest framing increases.
+
+---
+
+## Theory Family
+
+`ideological-alignment`
+
+---
+
+## Estimand and Measurement
+
+- **Unit of analysis:** Country-year (iso3 × year), constructed from individual protest-related articles classified by an LLM.
+- **Outcome variable:** `share_delegitimating` — the proportion of LLM-classified protest articles in a given country-year coded as DE-LEGITIMATING (see classifier specification below). Constructed as `mean(label == "DE-LEGITIMATING")` among classified (non-NA) articles, restricted to country-years with ≥3 classified protest articles.
+- **Key independent variable:** `v2x_libdem` (V-Dem Liberal Democracy Index, continuous 0–1; lower = more autocratic). Expected sign: negative coefficient (more autocratic → higher share de-legitimating).
+- **Controls:** `log(e_gdppc)`, `log(e_wb_pop)`.
+- **Fixed effects:** Country (`iso3`) + year; cluster-robust SE by `iso3`.
+
+---
+
+## LLM Classifier Specification
+
+**Model:** Claude Haiku or GPT-4o-mini (whichever is available at runtime; record model used in output metadata).
+
+**Task:** Given an article abstract, classify the framing of the collective action as one of three labels:
+
+- **DE-LEGITIMATING:** The abstract frames collective action as a threat to social order, stability, security, or the state; describes participants as criminals, rioters, extremists, or destabilizing agents; or treats state repression of the action as justified or necessary.
+- **LEGITIMATE:** The abstract frames collective action as a form of political expression, representing genuine grievances, a civil right, or an important mode of political participation; describes participants sympathetically or neutrally as citizens or political actors.
+- **AMBIGUOUS/NOT-APPLICABLE:** The abstract discusses methodology, historical cases without clear framing, or does not clearly fall into either category. Code as `NA` and exclude from the regression analysis.
+
+**Format:** JSON output `{"label": "DE-LEGITIMATING" | "LEGITIMATE" | "AMBIGUOUS/NOT-APPLICABLE", "confidence": 0–1, "reason": "<one sentence>"}`.
+
+**Validation:** Human review of a 50-article random sample (25 DE-LEGITIMATING, 25 LEGITIMATE); target Cohen's κ ≥ 0.70.
+
+---
+
+## Uniqueness Note
+
+Team 04 uses keyword matching to flag whether a given article touches on protest/contention as one of several sensitive topic categories, producing a binary indicator of topic presence. Team 27 is categorically distinct: it operates *within* the protest-related subsample and tests the *direction of framing* — how protest is characterized normatively — rather than whether the topic is present at all. No other team in the orchestra addresses the framing polarity of collective action scholarship.

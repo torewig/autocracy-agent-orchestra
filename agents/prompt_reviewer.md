@@ -42,6 +42,13 @@ Are identification threats acknowledged adequately?
 Is the robustness check meaningful?
 Specific concerns (if any):
 
+## Self-censorship framing
+Does the Discussion section correctly frame the findings in relation to the
+unified self-censorship theory? Flag if the framing is generic or disconnected
+from the core claim (that researchers avoid sensitive topics/methods/
+collaborations under autocracy). Assess whether Section 8 (theory verdict)
+is justified by the reported evidence.
+
 ## Interpretation of findings
 Are the results interpreted accurately?
 Are any claims overstated or understated?

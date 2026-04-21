@@ -10,114 +10,113 @@
 C:\...\Autocracy and science_Agent Orchestra\
 ```
 
+See `TIMELINE.md` for the schedule. **Active teams: 27** (Teams 28–30 dropped 2026-04-20).
+
 ---
 
 ## Step-by-step invocation
 
-### Step A — Run all 10 Designer sessions
+### Step A — Run all 27 Designer sessions
 
-For each team (can run in parallel — open 10 terminals):
+Run in batches of 5–8 per day. Can run in parallel — open multiple terminals.
 
-1. Open a terminal
-2. Navigate to the project root (or open the folder in your IDE)
-3. Start Claude Code: `claude` (CLI) or open IDE with Claude extension
-4. Paste the contents of `agents/prompt_designer.md` as your first message,
+For each team:
+1. Open a terminal; navigate to project root
+2. Start Claude Code: `claude` (CLI) or open IDE with Claude extension
+3. Paste the contents of `agents/prompt_designer.md` as your first message,
    replacing `[N]` with the team number (e.g. `01`)
 
-**Shortcut — open the prompt file and copy:**
+**Shortcut — copy prompt to clipboard:**
 ```powershell
-Get-Content agents\prompt_designer.md
-# Copy the output, replace [N] with 01, paste into Claude Code
+Get-Content agents\prompt_designer.md | Set-Clipboard
+# Then paste into Claude Code and manually replace [N]
 ```
 
 The session will:
-- Read `teams/team_01/brief.md`
+- Read `teams/team_[N]/brief.md` (domain assignment + self-censorship framing)
 - Sample the corpus to understand available data
-- Write `teams/team_01/rq.md` and `teams/team_01/analysis_plan.md`
+- Scan other teams' rq.md files for uniqueness check
+- Write `teams/team_[N]/rq.md` and `teams/team_[N]/analysis_plan.md`
 - Stop and say "Step 1 complete"
 
-You can run all 10 simultaneously in separate terminal windows.
+**Batching schedule (from TIMELINE.md):**
+- Day 2: Teams 01–06
+- Day 3: Teams 07–13
+- Day 4: Teams 14–20
+- Day 5: Teams 21–27 (Teams 23–27 are ideological-alignment, all Complex)
 
 ---
 
-### Step B — PI review gate
+### Step B — PI Review Gate (Day 7)
 
-After all 10 Designer sessions finish:
+After all 30 Designer sessions finish:
 
-1. Read all 10 `teams/team_##/rq.md` files
-2. Check for RQ convergence (two teams with the same angle) and redirect if needed
-3. Check that each `rq.md` includes a `Theoretical mechanism` and a proposed
-   `Theory family` label
-4. **Consolidate theory family labels:** each Designer proposes their own label —
-   review all 10 proposals and decide the final groupings. Teams testing
-   hypotheses rooted in the same theoretical argument should share an identical
-   label; this determines the Bonferroni families later. Edit `rq.md` directly
-   for any team whose label you want to change.
-5. If redirecting a team: open a new session for that team and say:
-   > "Read teams/team_[N]/rq.md. The PI would like you to revise the RQ
-   > toward [different angle]. Update rq.md and analysis_plan.md."
-6. When satisfied with all 10 RQs and all theory family labels are finalised,
-   proceed to Step B'
+1. Read all 30 `teams/team_##/rq.md` files
+2. Check for uniqueness: verify no two teams have the same outcome variable +
+   measurement approach. Each rq.md has a "Uniqueness check" note at the bottom.
+3. Check self-censorship framing: each RQ must state a clear implication of the
+   self-censorship theory. Redirect any team whose mechanism is unclear.
+4. Confirm theory family labels match the five approved sub-families:
+   `topic-avoidance`, `framing-neutrality`, `collaboration-constraint`,
+   `visibility-suppression`, `ideological-alignment`
+5. If redirecting a team: open a new session and say:
+   > "Read teams/team_[N]/rq.md and teams/team_[N]/brief.md. The PI asks you
+   > to revise the RQ: [specific issue]. Update rq.md and analysis_plan.md."
+6. When satisfied with all 30 RQs, proceed to Step B'
 
 ---
 
-### Step B' — Pre-registration (run before any analysis)
+### Step B' — Pre-registration (Day 9)
 
-After PI approval of all RQs and **before starting any Analyst session**, run
-the pre-registration script. This commits each team's `rq.md` and
-`analysis_plan.md` to GitHub with a timestamp, creating a public record that
-hypotheses were fixed before data were analysed.
+After PI approval of all 27 RQs and **before starting any Analyst session**:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File "scripts\preregister.ps1"
 ```
 
-The script will:
-- Create `teams/team_##/preregistration.md` for each approved team
-- Git commit all pre-registration files with a timestamped message
-- Git push to the remote repository
+The script creates `teams/team_##/preregistration.md` per team,
+commits all files to GitHub with a timestamp.
 
-**Verify** the commit appears on GitHub before proceeding to Step C. The
-commit hash serves as the pre-registration timestamp.
+**Verify** the commit appears on GitHub before proceeding.
 
 ---
 
-### Step C — Run all 10 Analyst sessions
+### Step C — Run all 27 Analyst sessions (Days 10–16)
 
-For each approved team:
-
+For each approved team (run in batches per the TIMELINE.md schedule):
 1. Open a new Claude Code session (NOT a continuation of the Designer session)
 2. Paste `agents/prompt_analyst.md` with `[N]` filled in
-3. The session will read rq.md + analysis_plan.md, write analysis.R, run it,
-   save figures, stop
+3. Session reads rq.md + analysis_plan.md, writes analysis.R, runs it,
+   saves figures and primary_results.json, stops
 
-**Important:** This is a FRESH session. The Analyst does not have memory of
-the Designer session — it reads the files the Designer wrote.
+**Important:** Fresh session each time. The Analyst reads only the files
+the Designer wrote — it has no memory of prior sessions.
+
+**Complex teams (API-dependent) — run on Day 15:**
+Teams 05, 06, 10, 12, 23, 24, 25, 26, 27 require external API calls.
+Confirm API access and budget before starting their Analyst sessions.
+Total estimated API cost: ~$35–75. Run in parallel on Day 15.
 
 ---
 
-### Step D — PI review gate
+### Step D — PI Review Gate (Day 18)
 
 1. Open `teams/team_##/analysis/figures/` for each team
-2. Check methodology and figures
-3. Verify `teams/team_##/analysis/primary_results.json` exists and looks correct
-4. If redirecting: open a session and say:
+2. Verify `teams/team_##/analysis/primary_results.json` exists and looks correct
+3. Write feedback to `teams/team_[N]/pi_notes.md` for any team needing revision;
+   open a new session and say:
    > "Read teams/team_[N]/rq.md and teams/team_[N]/analysis/analysis.R.
-   > The PI notes: [specific issue]. Please revise."
-   Write feedback to `teams/team_[N]/pi_notes.md` for the agent to pick up.
-5. When satisfied with all teams, proceed to Step D'
+   > PI notes: [specific issue]. Please revise."
+4. When satisfied with all 27 teams, proceed to Step D'
 
 ---
 
-### Step D' — Bonferroni adjustment (run before Writers)
+### Step D' — Bonferroni adjustment (Day 20)
 
-After PI approves all analysis outputs and **before starting any Writer session**,
-run the Bonferroni adjustment script. It reads all teams' `primary_results.json`,
-groups hypotheses by `theory_family`, and applies Bonferroni correction within
-each family.
+After PI approves all analysis outputs and **before starting any Writer session**:
 
 ```powershell
-& "C:\Program Files\R\R-4.5.1\bin\Rscript.exe" "scripts\bonferroni_adjust.R"
+& "C:\Program Files\R\R-4.4.2\bin\Rscript.exe" "scripts\bonferroni_adjust.R"
 ```
 
 The script writes:
@@ -125,48 +124,69 @@ The script writes:
 - `data/adjusted_pvalues_report.md` — human-readable table for PI review
 
 **Review `data/adjusted_pvalues_report.md`** before proceeding. Check that:
-- Theory family groupings are sensible (correct any misassigned labels by
-  editing the relevant `rq.md` and rerunning)
-- The number of tests per family is plausible
+- Theory family groupings match what you approved at Gate B
+- Each of the 5 sub-families has the expected number of teams
 - No team is missing from the table
 
-Then proceed to Step E.
-
 ---
 
-### Step E — Run all 10 Writer sessions
+### Step E — Run all 30 Writer sessions (Days 20–22)
 
-For each approved team:
-
+For each team (run in batches):
 1. Open a new Claude Code session
 2. Paste `agents/prompt_writer.md` with `[N]` filled in
-3. Session reads all prior files, writes `report/report.md`, stops
+3. Session reads all prior files, writes `report/report.md` in 8-section
+   format, stops
+
+**Batching:** Day 20: teams 01–10; Day 21: teams 11–20; Day 22: teams 21–27
 
 ---
 
-### Step F — Run all 10 Reviewer sessions
+### Step F — Run all 30 Reviewer sessions (Days 23–24)
 
 After all Writer sessions are done:
-
 1. Open a new Claude Code session per team
 2. Paste `agents/prompt_reviewer.md` with `[N]` filled in
 3. Session reads report.md + rq.md, writes `report/peer_review.md`, stops
 
-Note: The reviewer for team_01 is a completely independent session — it has
-no connection to the sessions that worked on team_01. This is intentional.
+**Batching:** Day 23: teams 01–15; Day 24: teams 16–27
 
 ---
 
-### Step G — PI final review
+### Step G — PI Final Review (Day 25)
 
-Read all `teams/team_##/report/report.md` and `teams/team_##/report/peer_review.md`.
-When satisfied, proceed to Phase 2 synthesis.
+Read all 27 `teams/team_##/report/report.md` and `peer_review.md`.
+Flag any reports for revision. When satisfied, proceed to Step S.
+
+---
+
+### Step S — Theory Synthesis (Day 28)
+
+Run once after all 30 reports and peer reviews are complete.
+
+1. Open a new Claude Code session from the project root
+2. Paste the full contents of `agents/prompt_synthesizer.md`
+   (no `[N]` substitution needed — this is a project-level session)
+3. Session reads all 27 rq.md + report.md + peer_review.md + adjusted p-values
+4. Writes `synthesis/theory_evaluation.md`
+
+---
+
+### Daily Overseer (any day)
+
+Run at the start of each working day to get a prioritised task list.
+
+1. Open a new Claude Code session from the project root
+2. Paste the full contents of `agents/prompt_overseer.md`
+   (no `[N]` substitution needed)
+3. Session scans all team folders + TIMELINE.md + STATUS.md
+4. Outputs a structured report: what was done, what to do today, blockers
 
 ---
 
 ## CLI tips
 
-### Starting Claude Code from terminal (Windows)
+### Starting Claude Code
 ```powershell
 # Navigate to project root
 Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
@@ -174,33 +194,31 @@ Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_
 claude
 ```
 
-### Non-interactive mode (for scripted invocation)
+### Copy a prompt with team number filled in
 ```powershell
-# Pass the opening message directly (no interactive session)
-claude --print "$(Get-Content agents\prompt_designer.md -Raw)" |
-    ForEach-Object { $_ -replace '\[N\]', '01' }
+(Get-Content agents\prompt_designer.md -Raw) -replace '\[N\]', '01' | Set-Clipboard
+# Then paste into Claude Code
 ```
-This runs the session to completion and exits. Useful for running all 10
-Designer sessions one after another from a script.
 
-### Parallel invocation (10 windows)
-Open 10 PowerShell windows. In each, run:
-```powershell
-Set-Location "C:\...\Autocracy and science_Agent Orchestra"
-claude
-# Then paste the Designer prompt for team 01, 02, ... 10
-```
+### Parallel invocation (multiple windows)
+Open 5–8 PowerShell windows. In each, navigate to project root and start
+`claude`, then paste the Designer (or Analyst, Writer) prompt for one team.
+This is the recommended approach for batch days.
 
 ---
 
 ## Context management tips
 
-- **Keep sessions focused**: each session should do ONE role only
-- **File reads are cheap**: agents re-reading brief.md, rq.md etc. at the
-  start of each session is intentional and correct
-- **Long-running analyses**: if an Analyst session says the analysis will
-  take >5 min, it should ask you before running. Approve explicitly.
-- **Session crashes**: if a session crashes mid-analysis, the partially
-  written analysis.R may be intact. Open a new session, tell it:
+- **Keep sessions focused**: each session does ONE role only (Designer, Analyst,
+  Writer, Reviewer, Overseer, or Synthesizer)
+- **Fresh sessions are intentional**: Analyst/Writer/Reviewer sessions have no
+  memory of prior work — they read state from files, which is the design
+- **Long-running analyses**: if an Analyst session estimates >5 min runtime,
+  it will ask before proceeding. Approve explicitly.
+- **Session crashes**: if an Analyst crashes mid-run, analysis.R may be
+  partially written. Open a new session and say:
   > "Your analysis.R was partially written. Read it and continue from
   > where it stopped."
+- **API cost tracking**: Teams 05, 06, 10, 12, 23, 24, 25, 26, 27 use external APIs.
+  Each agent will disclose estimated and actual cost in analysis.R comments.
+  Total estimated budget: ~$35–75.

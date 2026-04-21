@@ -1,0 +1,54 @@
+Dimensions: 207287 x 30
+
+Column names: ut, date, doc_type, title, abstract, keywords, keywords_plus, subject_categories, journal, tot_cites, n_authors, institutions, grant_agencies, year, subject_primary, country_raw, iso3, country, country_name, country_id, v2x_libdem, v2x_regime, v2clacfree, v2x_freexp_altinf, v2csreprss, v2xnp_regcorr, regime_binary, field_year_mean_cites, n_articles_country_year, n_articles_country_year_field
+
+Column classes: ut=character, date=Date, doc_type=character, title=character, abstract=character, keywords=character, keywords_plus=character, subject_categories=character, journal=character, tot_cites=integer, n_authors=integer, institutions=character, grant_agencies=character, year=numeric, subject_primary=character, country_raw=character, iso3=character, country=character, country_name=character, country_id=numeric, v2x_libdem=numeric, v2x_regime=numeric, v2clacfree=numeric, v2x_freexp_altinf=numeric, v2csreprss=numeric, v2xnp_regcorr=numeric, regime_binary=integer, field_year_mean_cites=numeric, n_articles_country_year=integer, n_articles_country_year_field=integer
+
+Abstract coverage: 0 / 207287
+Title coverage: 207287 / 207287
+Keywords coverage: 0 / 207287
+Keywords_plus coverage: 34 / 207287
+Year range: 1970 - 1983
+
+Articles by decade:
+  1940s: 0
+  1950s: 0
+  1960s: 0
+  1970s: 164881
+  1980s: 42406
+
+Top 25 subject_primary values:
+  Education & Educational Research: 15388
+  Economics: 13707
+  Psychology, Clinical: 10994
+  Political Science: 7720
+  Business: 7708
+  Psychology, Multidisciplinary: 6842
+  History: 6646
+  Law: 6191
+  Literature: 5876
+  Anthropology: 4986
+  Business, Finance: 4732
+  Philosophy: 4440
+  Psychology, Social: 4150
+  Psychology, Educational: 4133
+  Sociology: 4071
+  Psychology, Developmental: 4025
+  Humanities, Multidisciplinary: 3953
+  International Relations: 3949
+  Management: 3386
+  Psychology, Biological: 3307
+  Information Science & Library Science: 3167
+  Criminology & Penology: 3129
+  Psychology, Experimental: 3086
+  Psychology, Applied: 3015
+  Psychology: 2747
+
+Regime distribution (v2x_regime):
+  regime=0: 5120
+  regime=1: 3430
+  regime=2: 3638
+  regime=3: 191382
+
+v2x_libdem: mean= 0.726 sd= 0.132 min= 0.015 max= 0.884
+v2clacfree: mean= 2.873 sd= 1.078

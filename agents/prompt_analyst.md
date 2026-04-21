@@ -33,7 +33,8 @@ any PI feedback or changes to the plan.
   - Includes at least one robustness check using an alternative regime measure
 
 - `teams/team_[N]/analysis/primary_results.json` — a machine-readable record
-  of the primary hypothesis test (your main model only, not robustness checks).
+  of the **one** pre-registered hypothesis test (your main model only, not
+  robustness checks). Each team registers exactly one hypothesis.
   Write this at the end of analysis.R using `jsonlite::write_json()`.
   The file must contain exactly one JSON object with these fields:
   ```json

@@ -1,0 +1,65 @@
+# Team 26 — Research Question
+
+## Research question
+
+Does autocracy predict a higher share of SSH scholarship that frames political and social phenomena in collectivist rather than individualist terms?
+
+## Rationale
+
+Authoritarian regimes have strong incentives to promote ideological frameworks that subordinate individuals to the state, nation, or collective — and to discourage scholarship that centers civil liberties, personal autonomy, or individual rights as primary values. Researchers operating under autocracy face career risks if their work implicitly challenges the normative foundations of authoritarian rule, creating pressure to adopt collectivist framings even when studying topics where individualist frames are equally valid. This is distinct from topic avoidance: the mechanism operates at the level of political philosophy and normative framing, not just subject matter selection.
+
+## Theoretical mechanism
+
+Autocratic institutions reward ideological conformity and sanction implicit challenges to state authority. Framing scholarship in collectivist terms — emphasizing the state, national interest, social harmony, or public order as primary values — signals ideological alignment and reduces the risk of political scrutiny. Individualist framings that center civil liberties, personal rights, or democratic participation as individual entitlements are more likely to be read as critical of authoritarian governance, even when the underlying topic is ostensibly neutral. Over time, this creates a systematic skew in the normative vocabulary of SSH scholarship produced under autocracy: not just which topics are studied, but the fundamental political philosophy embedded in how those topics are analyzed and evaluated. The mechanism is reinforced by selection effects in hiring, promotion, journal review, and grant allocation within autocratic academic systems.
+
+## Theory family
+
+`ideological-alignment`
+
+## Estimand, unit of analysis, outcome variable, key IV
+
+- **Estimand:** The effect of regime type on the share of SSH abstracts classified as collectivist (vs. individualist) in framing, within country-year cells.
+- **Unit of analysis:** Country-year (aggregated from article-level LLM classifications).
+- **Primary outcome:** `share_collectivist` — proportion of classified abstracts (excluding MIXED-NEUTRAL) in a country-year that are labeled COLLECTIVIST. Secondary outcome: `share_individualist`.
+- **Key IV:** `v2x_libdem` (continuous, 0–1; lower values = more autocratic). Robustness: `lied_binary`.
+
+## LLM classifier specification
+
+**Task:** For each abstract, assign exactly one of three labels: `COLLECTIVIST`, `INDIVIDUALIST`, or `MIXED-NEUTRAL`.
+
+**Label definitions:**
+
+### COLLECTIVIST
+The abstract explicitly or implicitly treats collective entities — the state, the nation, the party, the community, social harmony, public order, or national interest — as the primary agent or normative referent in political or social life. Individual interests are subordinated to or defined by the collective. Indicators include: framing policy in terms of state authority or national goals rather than individual entitlements; treating social cohesion, stability, or collective welfare as ends in themselves that override individual claims; centering the state or party as the legitimate arbiter of social outcomes; emphasizing duties to the collective over rights of individuals.
+
+### INDIVIDUALIST
+The abstract explicitly or implicitly treats individuals as the primary agent and locus of moral and political value. Civil liberties, personal freedom, human rights of individuals, democratic participation as individual rights, or personal autonomy are central normative referents. Indicators include: framing political phenomena in terms of individual rights, freedoms, or entitlements; centering the protection of individuals from state overreach; treating democratic institutions as mechanisms for aggregating individual preferences or protecting individual rights; emphasizing personal autonomy and self-determination as ends in themselves.
+
+### MIXED-NEUTRAL
+The abstract does not clearly prioritize one normative frame over the other, combines elements of both frames, or is primarily about methodological, empirical, or technical topics that do not invoke the collectivist/individualist dimension. This is the appropriate label when the framing is genuinely ambiguous, when both frames are invoked roughly equally, or when the abstract lacks sufficient normative content to classify.
+
+**Critical instruction:** Classify the *framing and implicit normative assumptions* of the abstract, not its topic. A paper about social welfare policy is not inherently collectivist — it is collectivist only if it frames welfare in terms of collective goods, state authority, or social harmony rather than individual entitlements or rights. A paper about elections is not inherently individualist — it is individualist only if it frames electoral institutions in terms of individual rights and freedoms rather than, e.g., national stability or collective legitimacy.
+
+**Classifier prompt structure (to be used in `analysis/01_classify.R`):**
+
+```
+You are a political philosophy classifier. Read the following abstract from a social science or humanities article and assign exactly one label:
+
+COLLECTIVIST: The abstract frames political or social phenomena by treating collective entities (state, nation, party, community, social harmony, public order, national interest) as primary agents or normative values, to which individual interests are subordinated.
+
+INDIVIDUALIST: The abstract frames political or social phenomena by treating individuals as the primary agents and locus of rights — centering civil liberties, personal autonomy, individual human rights, or democratic participation as individual entitlements.
+
+MIXED-NEUTRAL: The abstract does not clearly prioritize either frame, or is primarily methodological/empirical without significant normative framing.
+
+Classify the FRAMING, not the topic. Reply with exactly one word: COLLECTIVIST, INDIVIDUALIST, or MIXED-NEUTRAL.
+
+Abstract: [ABSTRACT TEXT]
+```
+
+**Sample size:** ~7,000–8,000 abstracts; `set.seed(42)`; stratified by `iso3` × `v2x_regime` × decade, cap 10 per stratum.
+
+**Model:** Claude Haiku (primary) or GPT-4o-mini (fallback). Halt if estimated API cost exceeds $20.
+
+## Uniqueness check
+
+Team 09 counts normative vocabulary frequency (e.g., counts of rights/harmony terms) but does not distinguish collectivist vs. individualist framing, does not classify abstracts, and does not test the political-philosophy dimension of the self-censorship hypothesis. Team 26 is the only team testing whether regime type predicts the fundamental normative frame — collectivist vs. individualist — embedded in SSH scholarship.

@@ -38,7 +38,7 @@ if (length(json_files) == 0) {
        "Analysts must produce this file as part of their deliverable.")
 }
 
-cat(sprintf("Found %d primary_results.json file(s)\n", length(json_files)))
+cat(sprintf("Found %d primary_results.json file(s) (expecting 30)\n", length(json_files)))
 
 results <- lapply(json_files, function(f) {
   cat("  Reading:", f, "\n")
@@ -180,4 +180,7 @@ cat("Saved: data/adjusted_pvalues_report.md\n\n")
 cat("=== Bonferroni adjustment complete ===\n\n")
 print(summary_df)
 cat("\nReview data/adjusted_pvalues_report.md before starting Writer sessions.\n")
-cat("Check that theory_family groupings are sensible and all teams are present.\n")
+cat("Check that theory_family groupings are sensible and all 30 teams are present.\n")
+cat("Expected sub-families: topic-avoidance (7), framing-neutrality (6),\n")
+cat("  collaboration-constraint (5), visibility-suppression (4),\n")
+cat("  temporal-dynamics (4), heterogeneity-moderation (4)\n")
