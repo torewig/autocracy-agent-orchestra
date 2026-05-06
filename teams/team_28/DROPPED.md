@@ -1,0 +1,1 @@
+This team was dropped in the 2026-04-20 project revision. The original regime-channels design is archived in archive/teams_v2_regime_channels/. Teams 23-27 were redesigned as the ideological-alignment sub-family.
