@@ -11,8 +11,7 @@
 $projectdir = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
 Set-Location $projectdir
 
-$timestamp    = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-$ts_commit    = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+$timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 # Find approved teams (both rq.md and analysis_plan.md present)
 $teams = Get-ChildItem -Path "teams" -Directory | Where-Object {
@@ -31,42 +30,23 @@ Write-Host ""
 $created = @()
 
 foreach ($team in $teams) {
-    $teamname    = $team.Name
-    $rq_content  = Get-Content "$($team.FullName)\rq.md"  -Raw -Encoding UTF8
+    $teamname     = $team.Name
+    $rq_content   = Get-Content "$($team.FullName)\rq.md" -Raw -Encoding UTF8
     $plan_content = Get-Content "$($team.FullName)\analysis_plan.md" -Raw -Encoding UTF8
-    $prereg_path = "$($team.FullName)\preregistration.md"
+    $prereg_path  = "$($team.FullName)\preregistration.md"
 
     # Skip if preregistration already exists (avoid overwriting a prior commit)
     if (Test-Path $prereg_path) {
-        Write-Host "  SKIP $teamname — preregistration.md already exists"
+        Write-Host "  SKIP $teamname -- preregistration.md already exists"
         continue
     }
 
-    $content = @"
-# Pre-registration: $teamname
+    $header = "# Pre-registration: $teamname`n`n**Timestamp:** $timestamp`n**Project:** AutoKnow ERC -- Autocracy and science`n**PI:** Tore Wig, University of Oslo`n`n> This document was committed to version control before any analysis was run.`n> The Git commit hash and timestamp serve as the pre-registration record.`n> The contents of this file must not be modified after the initial commit.`n`n---`n`n## Research Question`n`n"
+    $separator = "`n`n---`n`n## Analysis Plan`n`n"
 
-**Timestamp:** $timestamp
-**Project:** AutoKnow ERC — Autocracy and science
-**PI:** Tore Wig, University of Oslo
+    $content = $header + $rq_content + $separator + $plan_content
+    [System.IO.File]::WriteAllText($prereg_path, $content, [System.Text.Encoding]::UTF8)
 
-> This document was committed to version control before any analysis was run.
-> The Git commit hash and timestamp serve as the pre-registration record.
-> The contents of this file must not be modified after the initial commit.
-
----
-
-## Research Question
-
-$rq_content
-
----
-
-## Analysis Plan
-
-$plan_content
-"@
-
-    $content | Set-Content $prereg_path -Encoding UTF8
     Write-Host "  Written: $teamname\preregistration.md"
     $created += "teams/$teamname/preregistration.md"
 }
@@ -81,10 +61,10 @@ Write-Host ""
 Write-Host "Staging files for git commit..."
 
 foreach ($f in $created) {
-    git add $f
+    git add -f $f
 }
 
-$msg = "Pre-registration: $($created.Count) team(s) — $timestamp"
+$msg = "Pre-registration: $($created.Count) team(s) - $timestamp"
 git commit -m $msg
 
 if ($LASTEXITCODE -ne 0) {

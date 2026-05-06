@@ -3,7 +3,8 @@ data/agent_corpus.rds
 data/n_summary.txt
 data/country_match_log.txt
 
-# Team outputs — generated during study
+# Team outputs — generated during study (analysis files not tracked)
+# Preregistration files are force-added via preregister.ps1
 teams/
 
 # Synthesis outputs — PI-written
