@@ -13,6 +13,13 @@ synthesis/
 # PDF renders — regenerate from PLAN.md
 PLAN.pdf
 
+# LaTeX auxiliary files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+
 # Temp/admin scripts
 check_env.ps1
 check_git.ps1

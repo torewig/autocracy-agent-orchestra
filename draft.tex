@@ -1,0 +1,700 @@
+% draft.tex
+% How Autocracy Shapes the Social Sciences: Synthetized evidence from an agent-orchestra
+% Status: SKELETON — structure, tables, placeholders only. PI writes prose.
+
+\documentclass[12pt,a4paper]{article}
+
+% -------------------------------------------------------------------
+% Packages
+% -------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{pdflscape}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, fit, backgrounds}
+
+% -------------------------------------------------------------------
+% Colours / notes
+% -------------------------------------------------------------------
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\placeholder}[1]{\textcolor{gray}{\textit{[#1]}}}
+\newcommand{\kw}[1]{\textbf{#1}}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
+
+% -------------------------------------------------------------------
+% Title block
+% -------------------------------------------------------------------
+\title{\textbf{How Autocracy Shapes the Social Sciences:\\
+Synthesized Evidence from an Agent Orchestra}\\[0.5em]
+\large\normalfont\textit{Pre-analysis draft --- not for circulation}}
+\author{Tore Wig\thanks{University of Oslo. \texttt{tore.wig@stv.uio.no}}
+\and \todo{co-authors TBD}}
+\date{Pre-registration date: 6 May 2026\\
+\small Draft: \today}
+
+% -------------------------------------------------------------------
+\begin{document}
+\maketitle
+\onehalfspacing
+
+\begin{abstract}
+\placeholder{%
+Does authoritarian rule constrain the production of social science and
+humanities (SSH) knowledge? We test 25 pre-registered hypotheses across
+five behavioral families using a corpus of \textasciitilde2.7 million SSH
+articles from the Web of Science (1970--2023), matched to V-DEM
+country-year democracy scores. Each hypothesis is estimated by a
+dedicated analyst agent using two-way fixed effects regression.
+Preliminary results: \todo{fill after analysis.}}
+\end{abstract}
+
+\tableofcontents
+\clearpage
+
+% ===================================================================
+\section{Introduction}
+\label{sec:intro}
+% ===================================================================
+
+\placeholder{Motivating question: How does autocracy constrain what
+social scientists study, how they frame it, who they collaborate with,
+and how visible their work becomes?}
+
+\paragraph{Contribution.}
+\begin{itemize}
+  \item Pre-registered multi-hypothesis test of self-censorship theory
+  \item 25 teams, 5 behavioral families, Bonferroni correction within families
+  \item Agent-orchestra methodology: reproducible, scalable, transparent
+  \item Corpus: 2.7M SSH articles, 1970--2023, 167 countries
+\end{itemize}
+
+\paragraph{Roadmap.} \placeholder{Section outline.}
+
+% ===================================================================
+\section{Theory: Self-Censorship under Autocracy}
+\label{sec:theory}
+% ===================================================================
+
+\placeholder{Core theoretical claim: researchers in autocracies face
+career costs for politically sensitive topics, methods, collaborations,
+and framings. This produces five families of observable behavioral
+adaptations.}
+
+\subsection{Mechanisms}
+
+\begin{enumerate}
+  \item \kw{Topic avoidance} --- steer away from politically sensitive subjects
+  \item \kw{Framing neutrality} --- hedge, depoliticize, adopt technocratic language
+  \item \kw{Collaboration constraint} --- avoid international/liberal-democratic partners
+  \item \kw{Visibility suppression} --- reduced citation uptake of self-censored output
+  \item \kw{Ideological alignment} --- active production of regime-consonant framing
+\end{enumerate}
+
+\subsection{Bonferroni families and thresholds}
+
+Table~\ref{tab:families} lists the five theory sub-families, the teams
+assigned to each, and the Bonferroni-corrected significance threshold.
+
+\begin{table}[ht]
+\centering
+\caption{Theory families, team assignments, and Bonferroni thresholds}
+\label{tab:families}
+\begin{tabular}{llcc}
+\toprule
+Sub-family & Teams & $k$ & Adjusted $\alpha$ ($0.05/k$) \\
+\midrule
+topic-avoidance          & 01--07 & 7 & $p < 0.0071$ \\
+framing-neutrality       & 08--13 & 6 & $p < 0.0083$ \\
+collaboration-constraint & 14--18 & 5 & $p < 0.0100$ \\
+visibility-suppression   & 19--22 & 4 & $p < 0.0125$ \\
+ideological-alignment    & 23--25 & 3 & $p < 0.0167$ \\
+\midrule
+\textbf{Total}           & 01--25 & \textbf{25} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===================================================================
+\section{Data and Corpus}
+\label{sec:data}
+% ===================================================================
+
+\subsection{Bibliometric corpus (\texttt{agent\_corpus.rds})}
+
+\begin{itemize}
+  \item Source: Web of Science (WOS), Social Sciences and Humanities categories
+  \item Raw rows: 3,189,557 (multi-author; one row per author-article pair)
+  \item Unique articles (\texttt{wos\_id}): 2,709,224
+  \item Years covered: 1970--2023
+  \item Country match rate: 99.98\% (by \texttt{iso3} affiliation)
+  \item Fields: all WOS SSH subject categories (see \texttt{ssh\_fields.txt})
+\end{itemize}
+
+\subsection{Political data}
+
+\begin{itemize}
+  \item Primary IV: \texttt{v2x\_libdem} (V-DEM Liberal Democracy Index, 0--1)
+  \item Alternative IV: \texttt{lied\_binary} (dichotomous democracy indicator)
+  \item Controls: \texttt{e\_gdppc} (GDP per capita), \texttt{e\_wb\_pop} (population)
+  \item Regime category: \texttt{v2x\_regime} (0--3, for heterogeneity tests)
+\end{itemize}
+
+\subsection{Data preparation}
+
+\begin{itemize}
+  \item Script: \texttt{scripts/00\_prepare\_data.R} (de-duplicates, merges V-DEM)
+  \item Country-year controls added: \texttt{scripts/add\_controls.R}
+  \item Country-year minimum: 10 distinct articles (most teams)
+  \item Pre-registered corpus: locked before any analysis
+\end{itemize}
+
+% ===================================================================
+\section{Agent-Orchestra Methodology}
+\label{sec:method}
+% ===================================================================
+
+\subsection{Pipeline overview}
+
+\placeholder{The multi-agent pipeline consists of five sequential agent
+types. Each team is assigned one instance of each agent. All designs
+are pre-registered before any analysis is run.}
+
+Figure~\ref{fig:pipeline} illustrates the full pipeline.
+
+\begin{figure}[ht]
+\centering
+
+% --- Colour palette ---
+% Agent stages: blue; Gate checks: amber; Milestone: teal; Synthesis: violet
+\definecolor{agentblue}{RGB}{31,97,163}
+\definecolor{gateamber}{RGB}{200,120,20}
+\definecolor{milestoneteal}{RGB}{20,140,110}
+\definecolor{synthviolet}{RGB}{110,50,160}
+\definecolor{lightgray}{RGB}{240,240,240}
+
+\begin{tikzpicture}[
+  %--- node styles ---
+  agent/.style  = {rectangle, rounded corners=4pt,
+                   draw=agentblue, fill=agentblue!12, thick,
+                   text=agentblue!80!black, font=\small\bfseries,
+                   minimum width=2.3cm, minimum height=0.85cm,
+                   align=center},
+  gate/.style   = {diamond, aspect=2.2,
+                   draw=gateamber, fill=gateamber!15, thick,
+                   text=gateamber!80!black, font=\small\bfseries,
+                   inner sep=1pt, align=center},
+  mile/.style   = {rectangle, rounded corners=3pt,
+                   draw=milestoneteal, fill=milestoneteal!12, thick,
+                   text=milestoneteal!80!black, font=\small\bfseries,
+                   minimum width=2.5cm, minimum height=0.85cm,
+                   align=center},
+  synth/.style  = {rectangle, rounded corners=4pt,
+                   draw=synthviolet, fill=synthviolet!12, thick,
+                   text=synthviolet!80!black, font=\small\bfseries,
+                   minimum width=2.3cm, minimum height=0.85cm,
+                   align=center},
+  sub/.style    = {font=\scriptsize, text=black!60, align=center},
+  arr/.style    = {-{Stealth[length=6pt]}, thick, black!50},
+  %--- positioning ---
+  node distance = 0.55cm and 0.65cm,
+]
+
+% === Row 1: main pipeline (left to right) ===
+\node[agent]   (des)  {Designer};
+\node[gate,    right=of des]   (gB)   {Gate B\\(PI)};
+\node[mile,    right=of gB]    (prereg) {Pre-\\registration};
+\node[agent,   right=of prereg](ana)  {Analyst};
+\node[gate,    right=of ana]   (gD)   {Gate D\\(PI)};
+\node[agent,   right=of gD]    (wri)  {Writer};
+\node[gate,    right=of wri]   (gG)   {Gate G\\(PI)};
+\node[agent,   right=of gG]    (rev)  {Reviewer};
+\node[synth,   right=of rev]   (syn)  {Synthesizer};
+
+% === Sub-labels (session counts / notes) ===
+\node[sub, below=0.18cm of des]    {25 sessions};
+\node[sub, below=0.35cm of gB]     {approve /\\redirect};
+\node[sub, below=0.18cm of prereg] {GitHub commit\\(locked)};
+\node[sub, below=0.18cm of ana]    {25 sessions\\(R analysis)};
+\node[sub, below=0.35cm of gD]     {approve /\\redirect};
+\node[sub, below=0.18cm of wri]    {25 sessions\\(8-sec report)};
+\node[sub, below=0.35cm of gG]     {approve /\\revise};
+\node[sub, below=0.18cm of rev]    {25 sessions\\(peer review)};
+\node[sub, below=0.18cm of syn]    {1 session\\(theory eval.)};
+
+% === Arrows ===
+\draw[arr] (des)    -- (gB);
+\draw[arr] (gB)     -- (prereg);
+\draw[arr] (prereg) -- (ana);
+\draw[arr] (ana)    -- (gD);
+\draw[arr] (gD)     -- (wri);
+\draw[arr] (wri)    -- (gG);
+\draw[arr] (gG)     -- (rev);
+\draw[arr] (rev)    -- (syn);
+
+% === Dashed feedback loops from gates ===
+\draw[-{Stealth[length=5pt]}, dashed, gateamber!70, thick,
+      bend left=40]  (gB.north) to node[above, font=\scriptsize,
+      text=gateamber!80!black] {redesign} (des.north);
+\draw[-{Stealth[length=5pt]}, dashed, gateamber!70, thick,
+      bend left=35]  (gD.north) to node[above, font=\scriptsize,
+      text=gateamber!80!black] {revise} (ana.north);
+\draw[-{Stealth[length=5pt]}, dashed, gateamber!70, thick,
+      bend left=35]  (gG.north) to node[above, font=\scriptsize,
+      text=gateamber!80!black] {revise} (wri.north);
+
+% === Phase bracket labels ===
+\begin{scope}[on background layer]
+  % Phase 1A
+  \node[draw=agentblue!30, fill=agentblue!4, rounded corners=3pt,
+        fit=(des)(gB), inner sep=6pt, label={[font=\tiny\color{agentblue},
+        anchor=south]above:Phase 1A}] {};
+  % Phase 1B
+  \node[draw=milestoneteal!30, fill=milestoneteal!4, rounded corners=3pt,
+        fit=(prereg), inner sep=6pt, label={[font=\tiny\color{milestoneteal},
+        anchor=south]above:Pre-reg}] {};
+  % Phase 1C
+  \node[draw=agentblue!30, fill=agentblue!4, rounded corners=3pt,
+        fit=(ana)(gD), inner sep=6pt, label={[font=\tiny\color{agentblue},
+        anchor=south]above:Phase 1B}] {};
+  % Phase 2
+  \node[draw=agentblue!30, fill=agentblue!4, rounded corners=3pt,
+        fit=(wri)(gG), inner sep=6pt, label={[font=\tiny\color{agentblue},
+        anchor=south]above:Phase 2}] {};
+  % Phase 3
+  \node[draw=agentblue!30, fill=agentblue!4, rounded corners=3pt,
+        fit=(rev), inner sep=6pt, label={[font=\tiny\color{agentblue},
+        anchor=south]above:Phase 3}] {};
+  % Phase 4
+  \node[draw=synthviolet!30, fill=synthviolet!4, rounded corners=3pt,
+        fit=(syn), inner sep=6pt, label={[font=\tiny\color{synthviolet},
+        anchor=south]above:Phase 4}] {};
+\end{scope}
+
+% === Legend ===
+\matrix [below right=1.2cm and -2cm of des,
+         column sep=6pt, row sep=2pt,
+         font=\scriptsize] {
+  \node[agent,  minimum width=1.4cm, minimum height=0.55cm]{Agent}; &
+  \node[gate,   inner sep=2pt, font=\scriptsize\bfseries]{Gate}; &
+  \node[mile,   minimum width=1.6cm, minimum height=0.55cm]{Milestone}; &
+  \node[synth,  minimum width=1.6cm, minimum height=0.55cm]{Synthesis}; \\
+};
+
+\end{tikzpicture}
+
+\caption{Agent-orchestra pipeline. \textbf{Blue}: agent sessions (Claude Sonnet/Haiku);
+\textbf{amber}: PI gate reviews; \textbf{teal}: pre-registration milestone;
+\textbf{violet}: synthesis. Dashed arrows indicate redesign/revision loops possible at each gate.
+Current status: pre-registration complete (gate B passed); analyst sessions pending.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Agent roles}
+
+\begin{description}
+  \item[Designer] Develops the research question, operationalization, and
+    analysis plan within a pre-assigned theoretical domain.
+    Output: \texttt{rq.md} + \texttt{analysis\_plan.md}.
+  \item[Analyst] Executes the pre-registered analysis in R using the locked
+    corpus. Output: \texttt{analysis.R}, figures, \texttt{primary\_results.json}.
+  \item[Writer] Drafts the team report following a standardized 8-section template.
+    Output: \texttt{report.md}.
+  \item[Reviewer] Peer-reviews the report against rubric criteria.
+    Output: \texttt{peer\_review.md}.
+  \item[Synthesizer] Reads all 25 reports and writes the cross-team theory
+    evaluation. Output: \texttt{synthesis/theory\_evaluation.md}.
+\end{description}
+
+\subsection{Pre-registration}
+
+All 25 teams' hypotheses and analysis plans were committed to GitHub
+(commit \texttt{960525f}) on 6 May 2026, before any analyst session was run.
+The timestamp and Git commit hash constitute the pre-registration record.
+Bonferroni adjustment is computed programmatically post-analysis using
+\texttt{scripts/bonferroni\_adjust.R}.
+
+\subsection{Estimation strategy}
+
+\paragraph{Primary specification (all teams, country-year level).}
+Two-way fixed effects (TWFE):
+\begin{equation}
+  Y_{it} = \beta \cdot \texttt{v2x\_libdem}_{it}
+           + \gamma_1 \log(\texttt{gdppc}_{it})
+           + \gamma_2 \log(\texttt{pop}_{it})
+           + \alpha_i + \delta_t + \varepsilon_{it}
+\end{equation}
+where $\alpha_i$ = country FE, $\delta_t$ = year FE, SE clustered by \texttt{iso3}.
+
+\paragraph{Secondary specification (pooled OLS).}
+Year FE only (no country FE), SE clustered by \texttt{iso3}. Checks whether
+the within-country estimate is consistent with the cross-sectional pattern.
+
+\paragraph{Robustness checks.} All teams pre-specify RC1 (sample restriction
+or alternative operationalization) and RC2 (replace \texttt{v2x\_libdem} with
+\texttt{lied\_binary}).
+
+% ===================================================================
+\section{Pre-registered Hypotheses}
+\label{sec:hypotheses}
+% ===================================================================
+
+Table~\ref{tab:hypotheses} lists all 25 pre-registered hypotheses with
+outcome variable, expected direction of the \texttt{v2x\_libdem} coefficient,
+and additional controls beyond the baseline.
+
+% -- requires landscape for width --
+\begin{landscape}
+\small
+\begin{longtable}{
+  @{}
+  p{0.6cm}   % Team
+  p{3.6cm}   % Domain / Outcome
+  p{6.0cm}   % H1 (condensed)
+  p{1.4cm}   % Direction
+  p{4.0cm}   % Additional controls / notes
+  p{1.2cm}   % Type
+  @{}
+}
+\caption{Pre-registered hypotheses, all 25 teams}
+\label{tab:hypotheses} \\
+\toprule
+\textbf{T} & \textbf{Outcome variable} & \textbf{H1 (condensed)} &
+\textbf{Sign on $\hat{\beta}$} & \textbf{Extra controls / notes} & \textbf{Type} \\
+\midrule
+\endfirsthead
+\multicolumn{6}{l}{\footnotesize\textit{(continued)}} \\
+\toprule
+\textbf{T} & \textbf{Outcome variable} & \textbf{H1 (condensed)} &
+\textbf{Sign on $\hat{\beta}$} & \textbf{Extra controls / notes} & \textbf{Type} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r}{\footnotesize\textit{(continued on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+
+%--- TOPIC AVOIDANCE (Teams 01-07) ---
+\multicolumn{6}{l}{\textbf{Sub-family: topic-avoidance} \quad $k=7$, $\alpha^* = 0.0071$} \\[2pt]
+01 & \texttt{pci\_mean} \newline \footnotesize{Mean PCI score (political-content keyword share of abstract)}
+   & Higher libdem $\to$ higher political-content keyword share
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+02 & \texttt{keyword\_entropy\_cy} \newline \footnotesize{Shannon entropy of author keyword distribution}
+   & Higher libdem $\to$ higher topical breadth of keyword vocabulary
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+03 & \texttt{share\_sensitive\_fields} \newline \footnotesize{Share of output in sensitive WOS disciplines}
+   & Higher libdem $\to$ higher share in politically sensitive fields (PolSci, IR, Law, Soc, etc.)
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+04 & \texttt{share\_sensitive} \newline \footnotesize{Share of articles with regime-sensitive terms}
+   & Higher libdem $\to$ higher share mentioning democracy, rights, corruption, protest
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+05 & \texttt{share\_critical\_framing} \newline \footnotesize{Share critically examining own-country governance (LLM)}
+   & Higher libdem $\to$ higher share critically examining own-country institutions
+   & $\beta > 0$ & --- & Complex \\[4pt]
+
+06 & \texttt{mean\_semantic\_diversity} \newline \footnotesize{Mean pairwise cosine distance of embeddings}
+   & Higher libdem $\to$ higher semantic diversity within country-field-year clusters
+   & $\beta > 0$ & --- & Complex \\[4pt]
+
+07 & \texttt{share\_intl\_funded} \newline \footnotesize{Share acknowledging international funding agencies}
+   & Higher libdem $\to$ higher share with international funding acknowledgement
+   & $\beta > 0$ & --- & Simple \\[10pt]
+
+%--- FRAMING NEUTRALITY (Teams 08-13) ---
+\multicolumn{6}{l}{\textbf{Sub-family: framing-neutrality} \quad $k=6$, $\alpha^* = 0.0083$} \\[2pt]
+
+08 & \texttt{hedging\_rate} \newline \footnotesize{Mean epistemic hedging phrases per abstract word}
+   & Higher libdem $\to$ lower hedging rate (autocracies hedge more)
+   & $\beta < 0$ & --- & Simple \\[4pt]
+
+09 & \texttt{normative\_rate} \newline \footnotesize{Mean normative/prescriptive terms per abstract word}
+   & Higher libdem $\to$ higher normative language rate
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+10 & \texttt{share\_technocratic} \newline \footnotesize{Share purely technocratic abstracts (LLM)}
+   & Higher libdem $\to$ lower share of exclusively technocratic abstracts
+   & $\beta < 0$ & --- & Complex \\[4pt]
+
+11 & \texttt{stance\_rate} \newline \footnotesize{Rate of 1st-person argumentative stance phrases}
+   & Higher libdem $\to$ higher first-person argumentative stance rate
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+12 & \texttt{share\_normative\_conclusion} \newline \footnotesize{Share with explicit normative/policy conclusion (LLM)}
+   & Higher libdem $\to$ higher share of abstracts ending with normative conclusion
+   & $\beta > 0$ & --- & Complex \\[4pt]
+
+13 & \texttt{share\_domestic\_journal} \newline \footnotesize{Share published in domestically dominated journals}
+   & Higher libdem $\to$ lower share in domestically dominated journals
+   & $\beta < 0$ & --- & Medium \\[10pt]
+
+%--- COLLABORATION CONSTRAINT (Teams 14-18) ---
+\multicolumn{6}{l}{\textbf{Sub-family: collaboration-constraint} \quad $k=5$, $\alpha^* = 0.0100$} \\[2pt]
+
+14 & \texttt{mean\_n\_coauthor\_cntry} \newline \footnotesize{Mean distinct co-author countries per article}
+   & Higher libdem $\to$ higher international collaboration breadth
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+15 & \texttt{share\_libdem\_coauth} \newline \footnotesize{Share with $\geq 1$ co-author from liberal democracy}
+   & Higher libdem $\to$ higher share co-authored with liberal-democratic partner
+   & $\beta > 0$ & --- & Medium \\[4pt]
+
+16 & \texttt{share\_domestic\_only} \newline \footnotesize{Share with exclusively domestic authorship}
+   & Higher libdem $\to$ lower share of domestically-only authored articles
+   & $\beta < 0$ & --- & Simple \\[4pt]
+
+17 & \texttt{mean\_n\_authors} \newline \footnotesize{Mean author count per article}
+   & Higher libdem $\to$ higher mean team size
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+18 & \texttt{mean\_n\_institutions} \newline \footnotesize{Mean distinct author institutions per article}
+   & Higher libdem $\to$ higher institutional diversity per article
+   & $\beta > 0$ & \texttt{mean\_n\_coauthor\_cntry} (separate mechanism) & Medium \\[10pt]
+
+%--- VISIBILITY SUPPRESSION (Teams 19-22) ---
+\multicolumn{6}{l}{\textbf{Sub-family: visibility-suppression} \quad $k=4$, $\alpha^* = 0.0125$} \\[2pt]
+
+19 & \texttt{log\_cite\_ratio\_mean} \newline \footnotesize{Mean log normalized citation ratio}
+   & Higher libdem $\to$ higher normalized citation impact
+   & $\beta > 0$ & --- & Simple \\[4pt]
+
+20 & \texttt{log1p(cite\_ratio)} \newline \footnotesize{Article-level; interaction with sensitive flag}
+   & Citation penalty for autocracy $\times$ sensitive topic (positive interaction on libdem $\times$ sensitive)
+   & $\beta_{\text{interaction}} > 0$ & Field FE; article-level & Medium \\[4pt]
+
+21 & \texttt{prop\_ever\_cited} \newline \footnotesize{Proportion of articles with $\geq 1$ citation}
+   & Higher libdem $\to$ higher share of articles receiving at least one citation
+   & $\beta > 0$ & --- & Medium \\[4pt]
+
+22 & \texttt{gini\_cites} \newline \footnotesize{Gini coefficient of \texttt{tot\_cites} within country-year}
+   & Higher libdem $\to$ lower citation concentration (Gini)
+   & $\beta < 0$ & \texttt{log(n\_articles)} (mechanical compression) & Simple \\[10pt]
+
+%--- IDEOLOGICAL ALIGNMENT (Teams 23-25) ---
+\multicolumn{6}{l}{\textbf{Sub-family: ideological-alignment} \quad $k=3$, $\alpha^* = 0.0167$} \\[2pt]
+
+23 & \texttt{share\_apolitical} \newline \footnotesize{Share NEUTRAL + NONE in 5-label ideology classifier (LLM)}
+   & Higher libdem $\to$ higher share of liberal/neutral political-economy framing
+   & $\beta > 0$ & Regime ideology heterogeneity test; ${\sim}$1M abstracts & Complex \\[4pt]
+
+24 & \texttt{share\_legitimating} \newline \footnotesize{Share actively legitimizing own political system (LLM)}
+   & Higher libdem $\to$ lower share of regime-legitimating scholarship
+   & $\beta < 0$ & ${\sim}$1M abstracts, \$500 ceiling & Complex \\[4pt]
+
+25 & \texttt{share\_anti\_liberal} \newline \footnotesize{Share with anti-liberal-democracy framing (LLM)}
+   & Higher libdem $\to$ lower share of anti-liberal framing in SSH abstracts
+   & $\beta < 0$ & ${\sim}$1M abstracts, \$500 ceiling & Complex \\[4pt]
+
+\end{longtable}
+\end{landscape}
+
+\noindent Notes: All teams use TWFE (country + year FE, SE clustered by \texttt{iso3}) as primary specification
+and pooled OLS (year FE only) as secondary. Baseline controls: \texttt{log(e\_gdppc)},
+\texttt{log(e\_wb\_pop)}. RC1 = pre-specified robustness check 1 (sample or operationalization).
+RC2 = replace \texttt{v2x\_libdem} with \texttt{lied\_binary} (dichotomous). LLM teams use Claude Haiku API.
+``Simple'' = no API; ``Medium'' = derived variable; ``Complex'' = LLM classification.
+
+% ===================================================================
+\section{Project Disposition and Current Stage}
+\label{sec:disposition}
+% ===================================================================
+
+\subsection{Phase 0 --- Data preparation (Complete)}
+
+\begin{itemize}
+  \item Raw WOS SSH records downloaded and parsed: 3,189,557 rows
+  \item De-duplicated to 2,709,224 unique articles (\texttt{wos\_id})
+  \item V-DEM political data merged at \texttt{iso3} $\times$ \texttt{year} level
+  \item Country coverage: 99.98\% match rate
+  \item Controls added: log GDP per capita, log population
+  \item Output: \texttt{data/agent\_corpus.rds} (locked; not tracked in Git)
+\end{itemize}
+
+\subsection{Phase 1A --- Designer sessions (Complete)}
+
+\begin{itemize}
+  \item 25 Designer agent sessions run (Claude Sonnet)
+  \item Each session: read brief + data description, develop RQ within domain
+  \item Output: \texttt{rq.md} + \texttt{analysis\_plan.md} per team
+  \item Uniqueness check enforced: no two teams share outcome + unit + strategy
+\end{itemize}
+
+\subsection{Gate B --- PI review (Complete, 6 May 2026)}
+
+\begin{itemize}
+  \item All 25 teams reviewed by PI
+  \item Gate criteria: clear H1, specified controls, $\geq 2$ robustness checks,
+    uniqueness verified, self-censorship framing coherent
+  \item Revisions: Teams 15--25 revised post-review; Team 21 fully redesigned
+    (original interaction design rejected; replaced with \texttt{prop\_ever\_cited})
+  \item All 25 teams approved
+\end{itemize}
+
+\subsection{Pre-registration (Complete, 6 May 2026)}
+
+\begin{itemize}
+  \item Script: \texttt{scripts/preregister.ps1}
+  \item Creates timestamped \texttt{preregistration.md} = RQ + analysis plan
+  \item Git commit: \texttt{960525f} (``Pre-registration: 25 teams'')
+  \item Repository: GitHub (remote \texttt{origin/main})
+  \item All 25 hypotheses and analysis plans locked
+\end{itemize}
+
+\subsection{Phase 1B --- Analyst sessions (\emph{Pending})}
+
+\begin{itemize}
+  \item 25 Analyst agent sessions to be run
+  \item Each session: read \texttt{preregistration.md}, execute analysis in R,
+    write \texttt{primary\_results.json} and produce figures
+  \item Simple teams (no API): estimated \textasciitilde2h per session
+  \item Complex teams (LLM API): estimated \textasciitilde4--8h per session,
+    \$2--500 API budget per team
+  \item Planned order: Simple and Medium teams first (01--04, 07--09, 11, 13--17,
+    19, 22); Complex teams in parallel (05, 06, 10, 12, 23--25)
+\end{itemize}
+
+\subsection{Gate D --- PI review of results (\emph{Pending})}
+
+\begin{itemize}
+  \item Review all 25 figures and \texttt{primary\_results.json} files
+  \item Criteria: analysis executed as pre-registered, results interpretable
+  \item Option to redirect teams with implementation errors only
+    (no outcome-driven changes)
+\end{itemize}
+
+\subsection{Phase 2 --- Writer sessions (\emph{Pending})}
+
+\begin{itemize}
+  \item 25 Writer agent sessions (8-section standardized report template)
+  \item Bonferroni adjustment computed first: \texttt{scripts/bonferroni\_adjust.R}
+\end{itemize}
+
+\subsection{Gate G --- PI review of reports (\emph{Pending})}
+
+\subsection{Phase 3 --- Reviewer sessions (\emph{Pending})}
+
+\begin{itemize}
+  \item Peer review of each report by a separate Reviewer agent instance
+\end{itemize}
+
+\subsection{Phase 4 --- Synthesis (\emph{Pending})}
+
+\begin{itemize}
+  \item Synthesizer agent reads all 25 reports + peer reviews
+  \item Output: \texttt{synthesis/theory\_evaluation.md}
+  \item One verdict per sub-family: Supports / Partially supports / Mixed / Does not support
+\end{itemize}
+
+% ===================================================================
+\section{Results}
+\label{sec:results}
+% ===================================================================
+
+\placeholder{Section to be written after Analyst sessions complete.}
+
+\subsection{Main findings by sub-family}
+
+\todo{Table: Team | Direction | Coefficient | SE | p\_raw | p\_adj | Sig?}
+
+\subsection{Consistency across specifications}
+
+\todo{TWFE vs. pooled OLS comparison.}
+
+\subsection{Robustness}
+
+\todo{RC1 and RC2 results summary.}
+
+% ===================================================================
+\section{Discussion}
+\label{sec:discussion}
+% ===================================================================
+
+\placeholder{To be written after synthesis.}
+
+\paragraph{Key points (skeleton).}
+\begin{itemize}
+  \item Which sub-families show most consistent evidence?
+  \item Heterogeneity: where is self-censorship concentrated?
+  \item Limitations: observational, cannot rule out selection, corpus skewed to WOS-indexed output
+  \item Implications for academic freedom research
+\end{itemize}
+
+% ===================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ===================================================================
+
+\placeholder{To be written after analysis.}
+
+% ===================================================================
+% References
+% ===================================================================
+\clearpage
+\bibliographystyle{apsr}
+\bibliography{references}
+% \todo{Build references.bib}
+
+% ===================================================================
+% Appendix
+% ===================================================================
+\appendix
+
+\section{Team roster and file map}
+\label{app:teams}
+
+\begin{table}[ht]
+\centering
+\caption{Team file structure (one row per team)}
+\label{tab:filemap}
+\small
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Team & Sub-family & \texttt{rq.md} & \texttt{analysis\_plan.md} & \texttt{preregistration.md} \\
+\midrule
+01--07  & topic-avoidance          & \checkmark & \checkmark & \checkmark \\
+08--13  & framing-neutrality       & \checkmark & \checkmark & \checkmark \\
+14--18  & collaboration-constraint & \checkmark & \checkmark & \checkmark \\
+19--22  & visibility-suppression   & \checkmark & \checkmark & \checkmark \\
+23--25  & ideological-alignment    & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{LLM classification prompts}
+\label{app:prompts}
+
+\placeholder{Full prompts for Teams 05, 10, 12, 23, 24, 25 --- to be
+extracted from analysis plans.}
+
+\section{Variable codebook}
+\label{app:codebook}
+
+\placeholder{Key variables from \texttt{agent\_corpus.rds}. Cross-reference
+\texttt{data/vdem\_codebook.md}.}
+
+\end{document}

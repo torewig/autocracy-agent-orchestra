@@ -10,13 +10,21 @@ minimize career risks.
 **PI:** Tore Wig, University of Oslo
 **Version:** 2.2 (25 active teams; Teams 26–30 dropped; Teams 23–25 form ideological-alignment family)
 **Project start date:** 2026-04-21
-**Last updated:** 2026-04-20 (sub-family 5 revision)
+**Today's date:** 2026-05-06
+**Current day:** 16 of 30
+**Last updated:** 2026-05-06 (Gate B complete; pre-registration committed; analyst sessions next)
 
 ---
 
-## Current phase: All 25 Designer sessions complete — ready for PI Review Gate B
+## *** CURRENT PHASE: ANALYST SESSIONS — READY TO START ***
 
-All 25 active teams have rq.md + analysis_plan.md. Teams 23–25 form the `ideological-alignment` sub-family. Teams 26–30 dropped. Awaiting Day 7: PI Review Gate B.
+**Gate B:** Complete (2026-05-06) — all 25 teams approved by PI
+**Pre-registration:** Complete (2026-05-06) — GitHub commit `960525f` (25 teams locked)
+**Next step:** Run Analyst sessions — start with Simple/Medium teams; Complex teams last
+
+> **Note on timeline:** Project is running ~9 days behind the original schedule
+> (Gate B completed Day 16 instead of Day 7). Analyst sessions begin today.
+> Adjusted target completion: ~May 29–31 (add ~9 days to all downstream steps).
 
 ---
 
@@ -39,31 +47,31 @@ All 25 active teams have rq.md + analysis_plan.md. Teams 23–25 form the `ideol
 
 | Team | Sub-family | Brief | RQ | Plan | Prereg | Analysis.R | Results.json | Report | Review | Status |
 |------|-----------|-------|----|------|--------|------------|--------------|--------|--------|--------|
-| 01 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 02 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 03 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 04 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 05 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 06 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 07 | topic-avoidance | Y | Y | Y | – | – | – | – | – | Design complete |
-| 08 | framing-neutrality | Y | Y | Y | – | – | – | – | – | Design complete |
-| 09 | framing-neutrality | Y | Y | Y | – | – | – | – | – | Design complete |
-| 10 | framing-neutrality | Y | Y | Y | – | – | – | – | – | Design complete |
-| 11 | framing-neutrality | Y | Y | Y | – | – | – | – | – | Design complete |
-| 12 | framing-neutrality | Y | Y | Y | – | – | – | – | – | Design complete |
-| 13 | framing-neutrality | Y | Y | Y | – | – | – | – | – | Design complete |
-| 14 | collaboration-constraint | Y | Y | Y | – | – | – | – | – | Design complete |
-| 15 | collaboration-constraint | Y | Y | Y | – | – | – | – | – | Design complete |
-| 16 | collaboration-constraint | Y | Y | Y | – | – | – | – | – | Design complete |
-| 17 | collaboration-constraint | Y | Y | Y | – | – | – | – | – | Design complete |
-| 18 | collaboration-constraint | Y | Y | Y | – | – | – | – | – | Design complete |
-| 19 | visibility-suppression | Y | Y | Y | – | – | – | – | – | Design complete |
-| 20 | visibility-suppression | Y | Y | Y | – | – | – | – | – | Design complete |
-| 21 | visibility-suppression | Y | Y | Y | – | – | – | – | – | Design complete |
-| 22 | visibility-suppression | Y | Y | Y | – | – | – | – | – | Design complete |
-| 23 | ideological-alignment | Y | Y | Y | – | – | – | – | – | Design complete |
-| 24 | ideological-alignment | Y | Y | Y | – | – | – | – | – | Design complete |
-| 25 | ideological-alignment | Y | Y | Y | – | – | – | – | – | Design complete |
+| 01 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 02 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 03 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 04 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 05 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
+| 06 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
+| 07 | topic-avoidance | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 08 | framing-neutrality | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 09 | framing-neutrality | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 10 | framing-neutrality | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
+| 11 | framing-neutrality | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 12 | framing-neutrality | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
+| 13 | framing-neutrality | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 14 | collaboration-constraint | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 15 | collaboration-constraint | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 16 | collaboration-constraint | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 17 | collaboration-constraint | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 18 | collaboration-constraint | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 19 | visibility-suppression | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 20 | visibility-suppression | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 21 | visibility-suppression | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 22 | visibility-suppression | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** |
+| 23 | ideological-alignment | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
+| 24 | ideological-alignment | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
+| 25 | ideological-alignment | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex) |
 | 26 | DROPPED | – | – | – | – | – | – | – | – | Dropped 2026-04-20 |
 | 27 | DROPPED | – | – | – | – | – | – | – | – | Dropped 2026-04-20 |
 | 28 | DROPPED | – | – | – | – | – | – | – | – | Dropped 2026-04-20 |
@@ -74,39 +82,78 @@ All 25 active teams have rq.md + analysis_plan.md. Teams 23–25 form the `ideol
 
 ## Pipeline position
 
-| Step | Task | Status |
-|------|------|--------|
-| 0 | Phase 0 data preparation | Done |
-| A | Designer sessions — Teams 01–22 | **Done — 2026-04-21** |
-| A' | Designer sessions — Teams 23–25 (redesigned) | **Done — 2026-04-20** |
-| B | PI Review Gate B (Day 7) | Ready |
-| B' | Pre-registration (Day 9) | Blocked by B |
-| C | All 25 Analyst sessions (Days 10–16) | Blocked by B' |
-| D | PI Review Gate D (Day 18) | Blocked by C |
-| D' | Bonferroni adjustment (Day 20) | Blocked by D |
-| E | All 25 Writer sessions (Days 20–22) | Blocked by D' |
-| F | All 25 Reviewer sessions (Days 23–24) | Blocked by E |
-| G | PI Review Gate G (Day 25) | Blocked by F |
-| S | Synthesis session (Day 28) | Blocked by G |
+| Step | Task | Status | Actual date |
+|------|------|--------|-------------|
+| 0 | Phase 0 data preparation | **Done** | 2026-03-20 |
+| A | Designer sessions (Teams 01–25) | **Done** | 2026-04-21 |
+| B | PI Review Gate B (revisions + approval) | **Done** | 2026-05-06 |
+| B' | Pre-registration (GitHub commit `960525f`) | **Done** | 2026-05-06 |
+| C | Analyst sessions — Simple/Medium (Teams 01–04, 07–09, 11, 13–22) | **NEXT** | — |
+| C' | Analyst sessions — Complex (Teams 05, 06, 10, 12, 23–25) | Pending | — |
+| D | PI Review Gate D (figures + results) | Blocked by C/C' | — |
+| D' | Bonferroni adjustment (`bonferroni_adjust.R`) | Blocked by D | — |
+| E | Writer sessions (Teams 01–25) | Blocked by D' | — |
+| F | Reviewer sessions (Teams 01–25) | Blocked by E | — |
+| G | PI Review Gate G (reports + peer reviews) | Blocked by F | — |
+| S | Synthesis session | Blocked by G | — |
+
+---
+
+## Analyst session instructions
+
+### Simple / Medium teams — run first (no external API required)
+
+Invoke one Analyst agent session per team by pasting `agents/prompt_analyst.md`
+with `[N]` replaced by the team number. Run as many in parallel as feasible.
+
+**Batch A — topic/framing/collab (simple):**
+Teams 01, 02, 03, 04, 07, 08, 09, 11, 13, 14, 16, 17
+
+**Batch B — medium (derived variables, no API):**
+Teams 15, 18, 19, 20, 21, 22
+
+### Complex teams — run after Simple/Medium complete (external API required)
+
+| Team | API | Est. cost | Notes |
+|------|-----|-----------|-------|
+| 05 | Claude Haiku | ~$5–10 | LLM: critical framing classifier |
+| 06 | Text embeddings | ~$10–20 | Cosine distance of abstract embeddings |
+| 10 | Claude Haiku | ~$5–10 | LLM: technocratic framing classifier |
+| 12 | Claude Haiku | ~$5–10 | LLM: normative conclusion classifier |
+| 23 | Claude Haiku | ~$500 ceiling | LLM: 5-label ideology classifier; ~1M abstracts |
+| 24 | Claude Haiku | ~$500 ceiling | LLM: regime legitimation binary; ~1M abstracts |
+| 25 | Claude Haiku | ~$500 ceiling | LLM: anti-liberal framing binary; ~1M abstracts |
+
+**Run cost preflight check before Teams 23–25**: each has a hard $500 ceiling
+built into the analysis plan. Confirm API key and Anthropic billing limits first.
+
+### What each Analyst session should produce
+
+Each team's `teams/team_NN/analysis/` folder should contain:
+- `analysis.R` — complete analysis script, self-contained
+- `primary_results.json` — machine-readable results (coef, SE, p-values, N)
+- `figures/fig_main.png` — main result figure
+- `figures/fig_robustness.png` — robustness check figure(s)
+
+### Estimation specs (all teams)
+
+**Primary:** `feols(outcome ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)`
+**Secondary (pooled OLS):** `feols(outcome ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | year, cluster = ~iso3)`
+
+Team-specific additional controls and model specs are in each team's `preregistration.md`.
 
 ---
 
 ## Issues
 
 ### Blockers
-None — ready to begin Designer sessions (Day 2).
+None — analyst sessions can begin immediately.
 
 ### Warnings
-- Teams 05, 06, 10, 12, **23, 24, 25** are marked **Complex** (external API required).
-  Confirm API access and budget before Analyst sessions. Teams 23–25 add ~$7–15;
-  total API budget estimate: ~$32–65.
-- Teams 21–22 (visibility-suppression): ideal designs require citation network
-  data not in corpus. Fallback designs specified in brief.md; confirm at Gate B.
-
-### Info
-- v1 team work (teams 01–10, including rq.md files for teams 01–07) archived
-  to `archive/teams_v1/`
-- v1 utility scripts archived to `archive/root_scripts_v1/`
+- **Complex teams 23–25**: each may cost up to $500 in API calls. Verify Anthropic
+  billing ceiling before starting. Cost estimate preflight is built into analysis plans.
+- **Team 06**: requires text embedding API (OpenAI or similar). Check access separately.
+- **Team 20**: article-level regression (not country-year) — largest dataset; may be slow.
 
 ---
 
@@ -121,9 +168,8 @@ None — ready to begin Designer sessions (Day 2).
 | ideological-alignment | 23–25 | 3 | p < 0.0167 |
 | **Total active teams** | **25** | | |
 
-Teams 26–30 dropped (2026-04-20 revision). `regime-channels` family eliminated.
-
-Bonferroni correction applied within each sub-family. Tests across sub-families are independent.
+Bonferroni correction applied within each sub-family. Computed by `scripts/bonferroni_adjust.R`
+after all Analyst sessions complete.
 
 ---
 
@@ -132,22 +178,29 @@ Bonferroni correction applied within each sub-family. Tests across sub-families 
 | Date | Decision | Notes |
 |------|----------|-------|
 | 2026-02-26 | RQ sharpened to focus on contents, direction, scientific progress | Carried from v1 |
-| 2026-02-26 | SSH scope: 50 WOS categories in ssh_fields.txt | Carried from v1 |
-| 2026-02-26 | Primary regime measure: v2x_libdem (continuous) | Carried from v1 |
+| 2026-02-26 | SSH scope: 50 WOS categories in ssh\_fields.txt | Carried from v1 |
+| 2026-02-26 | Primary regime measure: v2x\_libdem (continuous) | Carried from v1 |
 | 2026-02-26 | Teams required to use regression; text analysis for measurement only | Carried from v1 |
 | 2026-03-17 | Phase 0 complete: 2,709,224 articles; 3,189,557 rows | Carried from v1 |
 | 2026-03-20 | Phase 0 validation gate signed off by PI | Carried from v1 |
-| 2026-04-20 | GDP per capita (e_gdppc) and population (e_wb_pop) added to corpus | From V-DEM |
+| 2026-04-20 | GDP per capita (e\_gdppc) and population (e\_wb\_pop) added to corpus | From V-DEM |
 | 2026-04-21 | Project reset to v2: 30 teams, unified self-censorship theory | PI decision |
-| 2026-04-21 | Six Bonferroni sub-families defined (see table above) | PI decision |
-| 2026-04-21 | Teams 05, 06, 10, 12 flagged as complex (external API required) | Scheduled Day 15 |
-| 2026-04-20 | Sub-family 5 revised: regime-channels eliminated; Teams 23–25 redesigned as ideological-alignment (LLM-based); Teams 26–30 dropped; project reduced to 25 active teams | PI decision |
+| 2026-04-21 | Six Bonferroni sub-families defined | PI decision |
+| 2026-04-20 | Sub-family 5 revised: regime-channels → ideological-alignment; Teams 26–30 dropped | PI decision |
+| 2026-05-06 | Gate B complete: all 25 teams approved; some redesigned (Team 21 fully replaced) | PI review |
+| 2026-05-06 | Pre-registration committed to GitHub: commit `960525f` | 25 teams locked |
+| 2026-05-06 | Pooled OLS added as universal secondary specification for all 25 teams | PI decision |
+| 2026-05-06 | Hypothesis wording standardized: "Liberal democracy levels" (not v2x\_libdem scores) | PI decision |
+| 2026-05-06 | LaTeX draft created: `draft.tex` / `draft.pdf` (skeleton, 14 pages) | Setup for paper |
 
 ---
 
-## Next actions
+## Next actions (Day 16, 2026-05-06)
 
-1. Day 6 (Apr 26): Buffer + PI pre-reads all 27 rq.md drafts
-2. Day 7 (Apr 27): PI Review Gate B — review all 27 RQs (Teams 01–22 + 23–27)
-3. Confirm API access and budget before Day 15 Analyst sessions (Teams 05, 06, 10, 12, 23–27; ~$35–75 total)
+1. **Run Analyst sessions** — start with Simple/Medium batch (Teams 01–04, 07–09, 11, 13–22)
+   - Invoke `agents/prompt_analyst.md` with `[N]` = team number
+   - Run multiple sessions in parallel where possible
+2. **Confirm API access** before starting Complex teams (05, 10, 12, 06, 23–25)
+3. **After all 25 Analyst sessions:** run `scripts/bonferroni_adjust.R` → review adjusted p-values
+4. **Gate D** (PI review of figures + results) before Writer sessions
 
