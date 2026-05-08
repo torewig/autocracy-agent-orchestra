@@ -1,0 +1,14 @@
+{
+  "team": "03",
+  "hypothesis_label": "Countries with lower Liberal democracy levels will produce a lower share of SSH output in politically sensitive disciplines, after controlling for country fixed effects, year fixed effects, log GDP per capita, and log population.",
+  "theory_family": "topic-avoidance",
+  "predictor": "v2x_libdem",
+  "outcome": "share_sensitive",
+  "model_description": "feols(outcome ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.0388,
+  "se": 0.0244,
+  "t_stat": 1.5882,
+  "p_value": 0.1143,
+  "n_obs": 2859,
+  "n_countries": 157
+}

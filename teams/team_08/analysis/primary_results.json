@@ -1,0 +1,14 @@
+{
+  "team": "08",
+  "hypothesis_label": "Countries with lower Liberal democracy levels will exhibit higher mean epistemic hedging rates in SSH abstracts, after controlling for country fixed effects, year fixed effects, log GDP per capita, and log population.",
+  "theory_family": "framing-neutrality",
+  "predictor": "v2x_libdem",
+  "outcome": "hedge_rate_mean",
+  "model_description": "feols(outcome ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.0003,
+  "se": 0.0004,
+  "t_stat": 0.7325,
+  "p_value": 0.465,
+  "n_obs": 2213,
+  "n_countries": 151
+}

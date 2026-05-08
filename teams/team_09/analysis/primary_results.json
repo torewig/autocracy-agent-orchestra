@@ -1,0 +1,14 @@
+{
+  "team": "09",
+  "hypothesis_label": "Countries with lower liberal democracy levels produce SSH abstracts with lower rates of normative evaluative language.",
+  "theory_family": "framing-neutrality",
+  "predictor": "v2x_libdem",
+  "outcome": "mean_norm_rate",
+  "model_description": "feols(mean_norm_rate ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": -0.0003,
+  "se": 0.0004,
+  "t_stat": -0.6715,
+  "p_value": 0.5029,
+  "n_obs": 2641,
+  "n_countries": 162
+}

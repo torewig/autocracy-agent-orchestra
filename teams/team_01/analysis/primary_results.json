@@ -1,0 +1,14 @@
+{
+  "team": "01",
+  "hypothesis_label": "Countries with lower Liberal democracy levels will exhibit lower mean PCI scores in SSH abstracts, after controlling for country fixed effects, year fixed effects, log GDP per capita, and log population.",
+  "theory_family": "topic-avoidance",
+  "predictor": "v2x_libdem",
+  "outcome": "pci_mean",
+  "model_description": "feols(pci_mean ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": -0.000548986971137825,
+  "se": 0.000793025177486827,
+  "t_stat": -0.692269283148888,
+  "p_value": 0.489765460903912,
+  "n_obs": 2624,
+  "n_countries": 162
+}

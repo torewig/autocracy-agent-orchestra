@@ -1,0 +1,14 @@
+{
+  "team": "13",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit higher shares of SSH articles published in journals dominated by that same country.",
+  "theory_family": "framing-neutrality",
+  "predictor": "v2x_libdem",
+  "outcome": "share_domestic_journal",
+  "model_description": "feols(share_domestic_journal ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.0339,
+  "se": 0.0603,
+  "t_stat": 0.5621,
+  "p_value": 0.5749,
+  "n_obs": 3516,
+  "n_countries": 162
+}

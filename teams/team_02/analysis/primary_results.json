@@ -1,0 +1,14 @@
+{
+  "team": "02",
+  "hypothesis_label": "Countries with lower Liberal democracy levels will exhibit lower Shannon entropy of author-supplied keyword distributions at the country-year level, after controlling for country fixed effects, year fixed effects, log GDP per capita, and log population.",
+  "theory_family": "topic-avoidance",
+  "predictor": "v2x_libdem",
+  "outcome": "keyword_entropy_cy",
+  "model_description": "feols(outcome ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.530703492446537,
+  "se": 0.395291515247719,
+  "t_stat": 1.34256231660818,
+  "p_value": 0.181469348364795,
+  "n_obs": 1902,
+  "n_countries": 149
+}

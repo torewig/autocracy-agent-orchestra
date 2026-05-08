@@ -1,0 +1,14 @@
+{
+  "team": "11",
+  "hypothesis_label": "Countries with lower liberal democracy levels produce SSH abstracts with lower rates of first-person argumentative stance phrases.",
+  "theory_family": "framing-neutrality",
+  "predictor": "v2x_libdem",
+  "outcome": "stance_rate_mean",
+  "model_description": "feols(stance_rate_mean ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.0001,
+  "se": 0.0002,
+  "t_stat": 0.619,
+  "p_value": 0.5368,
+  "n_obs": 2641,
+  "n_countries": 162
+}

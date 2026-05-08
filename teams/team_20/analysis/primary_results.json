@@ -1,0 +1,14 @@
+{
+  "team": "20",
+  "hypothesis_label": "In autocracies, sensitive-topic SSH articles are cited less than non-sensitive articles relative to democratic contexts (positive interaction: v2x_libdem x sensitive_flag).",
+  "theory_family": "visibility-suppression",
+  "predictor": "v2x_libdem:sensitive_flag",
+  "outcome": "log_cite_ratio (article-level)",
+  "model_description": "feols(log1p(cite_ratio) ~ v2x_libdem * sensitive_flag + log(e_gdppc) + log(e_wb_pop) | iso3 + year + subject_primary, cluster = ~iso3)",
+  "coefficient": -0.0267,
+  "se": 0.0405,
+  "t_stat": -0.6586,
+  "p_value": 0.511,
+  "n_obs": 2891996,
+  "n_countries": 172
+}

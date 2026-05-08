@@ -1,0 +1,14 @@
+{
+  "team": "22",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit higher Gini coefficients of citation distributions, indicating greater citation concentration.",
+  "theory_family": "visibility-suppression",
+  "predictor": "v2x_libdem",
+  "outcome": "gini_tot_cites",
+  "model_description": "feols(gini_tot_cites ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) + log_n_articles | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.0517,
+  "se": 0.0249,
+  "t_stat": 2.0783,
+  "p_value": 0.0394,
+  "n_obs": 2812,
+  "n_countries": 152
+}

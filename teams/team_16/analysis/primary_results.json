@@ -1,0 +1,14 @@
+{
+  "team": "16",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit higher shares of SSH articles with exclusively domestic authorship.",
+  "theory_family": "collaboration-constraint",
+  "predictor": "v2x_libdem",
+  "outcome": "share_domestic_only",
+  "model_description": "feols(share_domestic_only ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": -0.0009,
+  "se": 0.0469,
+  "t_stat": -0.0197,
+  "p_value": 0.9843,
+  "n_obs": 2859,
+  "n_countries": 152
+}

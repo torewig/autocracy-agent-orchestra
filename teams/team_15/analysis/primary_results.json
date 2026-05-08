@@ -1,0 +1,14 @@
+{
+  "team": "15",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit lower shares of SSH articles with at least one co-author from a liberal democracy (v2x_libdem > 0.5).",
+  "theory_family": "collaboration-constraint",
+  "predictor": "v2x_libdem",
+  "outcome": "share_dem_coauthor",
+  "model_description": "feols(share_dem_coauthor ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.0505,
+  "se": 0.0569,
+  "t_stat": 0.8863,
+  "p_value": 0.3768,
+  "n_obs": 2803,
+  "n_countries": 162
+}

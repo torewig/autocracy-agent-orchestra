@@ -1,0 +1,14 @@
+{
+  "team": "17",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit lower mean author counts per SSH article at the country-year level.",
+  "theory_family": "collaboration-constraint",
+  "predictor": "v2x_libdem",
+  "outcome": "mean_n_authors",
+  "model_description": "feols(mean_n_authors ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": 0.4817,
+  "se": 0.2913,
+  "t_stat": 1.6534,
+  "p_value": 0.1003,
+  "n_obs": 2859,
+  "n_countries": 152
+}

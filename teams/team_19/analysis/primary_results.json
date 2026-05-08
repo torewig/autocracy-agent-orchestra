@@ -1,0 +1,14 @@
+{
+  "team": "19",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit lower normalized citation impact (log field-year adjusted citation ratio) for their SSH publications.",
+  "theory_family": "visibility-suppression",
+  "predictor": "v2x_libdem",
+  "outcome": "log_cite_ratio_mean",
+  "model_description": "feols(log_cite_ratio_mean ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": -0.0067,
+  "se": 0.0407,
+  "t_stat": -0.1654,
+  "p_value": 0.8688,
+  "n_obs": 2859,
+  "n_countries": 152
+}

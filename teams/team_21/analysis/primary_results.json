@@ -1,0 +1,14 @@
+{
+  "team": "21",
+  "hypothesis_label": "Countries with lower liberal democracy levels exhibit lower shares of SSH articles that receive at least one citation.",
+  "theory_family": "visibility-suppression",
+  "predictor": "v2x_libdem",
+  "outcome": "prop_ever_cited",
+  "model_description": "feols(prop_ever_cited ~ v2x_libdem + log(e_gdppc) + log(e_wb_pop) | iso3 + year, cluster = ~iso3)",
+  "coefficient": -0.0271,
+  "se": 0.0444,
+  "t_stat": -0.61,
+  "p_value": 0.5428,
+  "n_obs": 2859,
+  "n_countries": 152
+}

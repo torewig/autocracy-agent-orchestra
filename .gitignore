@@ -23,6 +23,7 @@ PLAN.pdf
 # Temp/admin scripts
 check_env.ps1
 check_git.ps1
+scripts/analyst_run_log.txt
 
 # Claude Code local config
 .claude/
