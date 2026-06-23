@@ -10,23 +10,23 @@ minimize career risks.
 **PI:** Tore Wig, University of Oslo
 **Version:** 2.2 (25 active teams; Teams 26–30 dropped; Teams 23–25 form ideological-alignment family)
 **Project start date:** 2026-04-21
-**Today's date:** 2026-05-07
-**Current day:** 17 of 30
-**Last updated:** 2026-05-07 (18 of 18 simple/medium teams done; 7 complex/API teams pending)
+**Today's date:** 2026-06-23
+**Last updated:** 2026-06-23 (21 of 25 teams done; ideological-alignment family 23–25 complete; 4 complex/API teams remain)
 
 ---
 
-## *** CURRENT PHASE: ANALYST SESSIONS — SIMPLE/MEDIUM COMPLETE; COMPLEX PENDING ***
+## *** CURRENT PHASE: ANALYST SESSIONS — 21/25 DONE; 4 COMPLEX TEAMS REMAIN ***
 
 **Gate B:** Complete (2026-05-06) — all 25 teams approved by PI
 **Pre-registration:** Complete (2026-05-06) — GitHub commit `960525f` (25 teams locked)
 **Simple/Medium analyst sessions:** **18/18 done** (2026-05-07)
-**Complex analyst sessions (API):** 0/7 — awaiting PI decision on budget
+**Ideological-alignment analyst sessions (23–25):** **3/3 done** (2026-06-23)
+**Remaining complex analyst sessions (API):** 4 — Teams 05, 06 (paused ~65%), 10, 12 — awaiting PI budget decision
 
 > **Note on timeline:** Project is running ~10 days behind the original schedule.
 > Adjusted target completion: ~May 30–June 1.
 
-### Results — all 18 simple/medium teams (TWFE primary coefficient)
+### Results — 21 completed teams (TWFE primary coefficient)
 
 | Team | Sub-family | Outcome | β | SE | p-value | Bonf. threshold | Sig? | Exp. sign |
 |------|-----------|---------|--:|---:|--------:|----------------:|:----:|:---------:|
@@ -48,14 +48,18 @@ minimize career risks.
 | 20 | visibility-suppression | Citation gap × sensitivity (interaction) | −0.027 | 0.041 | 0.511 | 0.0125 | No | + |
 | 21 | visibility-suppression | Share ever cited | −0.027 | 0.044 | 0.543 | 0.0125 | No | + |
 | 22 | visibility-suppression | Citation Gini | +0.052 | 0.025 | **0.039** | 0.0125 | No | − |
+| 23 | ideological-alignment | Share liberal/neutral framing | −0.0193 | 0.0125 | 0.125 | 0.0167 | No | − |
+| 24 | ideological-alignment | Share legitimating framing | +0.0025 | 0.0021 | 0.230 | 0.0167 | No | − |
+| 25 | ideological-alignment | Share anti-liberal framing | −0.0038 | 0.0027 | 0.163 | 0.0167 | No | − |
 
-**Pattern:** Zero of 18 tests are significant after Bonferroni correction within their sub-family.
+**Pattern:** Zero of 21 tests are significant after Bonferroni correction within their sub-family.
 - **Team 22** (citation Gini) is the only nominally significant result (p=0.039), but (a) it does not survive Bonferroni correction (threshold 0.0125), and (b) the sign is *opposite* to the hypothesis (positive = more democracy → more citation concentration).
 - **Collaboration-constraint** teams show the most consistent directional evidence: all 4 positive-sign teams (14, 15, 17, 18) go in the predicted direction, none significant.
+- **Ideological-alignment** (23–25): Teams 23 and 25 go in the predicted (negative) direction; Team 24 runs slightly opposite. None reach even uncorrected p<0.05, so the k=3 correction is not binding.
 - **Topic-avoidance and framing-neutrality** signs are inconsistent with theory — no consistent suppression pattern in within-country variation.
 - **Visibility-suppression** (19, 20, 21) signs match hypotheses but effect sizes are near zero.
 
-**7 complex/API teams (05, 06, 10, 12, 23–25) still pending.** Their results may change the picture — especially Teams 05, 10, 12 (LLM classifiers of content framing).
+**4 complex/API teams (05, 06, 10, 12) still pending.** Their LLM content-classifier outcomes are where any self-censorship effect is most plausible. Team 06 (embeddings) is paused ~65% complete with preprocessing cached.
 
 ---
 
@@ -100,9 +104,9 @@ minimize career risks.
 | 20 | visibility-suppression | Y | Y | Y | **Y** | **Y** | **Y** | – | – | **Analysis done** |
 | 21 | visibility-suppression | Y | Y | Y | **Y** | **Y** | **Y** | – | – | **Analysis done** |
 | 22 | visibility-suppression | Y | Y | Y | **Y** | **Y** | **Y** | – | – | **Analysis done** |
-| 23 | ideological-alignment | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex — API needed) |
-| 24 | ideological-alignment | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex — API needed) |
-| 25 | ideological-alignment | Y | Y | Y | **Y** | – | – | – | – | **Pre-registered** (Complex — API needed) |
+| 23 | ideological-alignment | Y | Y | Y | **Y** | **Y** | **Y** | – | – | **Analysis done** (2026-06-23) |
+| 24 | ideological-alignment | Y | Y | Y | **Y** | **Y** | **Y** | – | – | **Analysis done** (2026-06-23) |
+| 25 | ideological-alignment | Y | Y | Y | **Y** | **Y** | **Y** | – | – | **Analysis done** (2026-06-23) |
 | 26 | DROPPED | – | – | – | – | – | – | – | – | Dropped 2026-04-20 |
 | 27 | DROPPED | – | – | – | – | – | – | – | – | Dropped 2026-04-20 |
 | 28 | DROPPED | – | – | – | – | – | – | – | – | Dropped 2026-04-20 |
@@ -120,7 +124,8 @@ minimize career risks.
 | B | PI Review Gate B (revisions + approval) | **Done** | 2026-05-06 |
 | B' | Pre-registration (GitHub commit `960525f`) | **Done** | 2026-05-06 |
 | C | Analyst sessions — Simple/Medium (Teams 01–04, 07–09, 11, 13–22) | **Done** — 18/18 complete | 2026-05-06/07 |
-| C' | Analyst sessions — Complex (Teams 05, 06, 10, 12, 23–25) | Pending — awaiting API budget confirmation | — |
+| C' | Analyst sessions — Ideological-alignment (Teams 23–25) | **Done** — 3/3 complete | 2026-06-23 |
+| C'' | Analyst sessions — Remaining complex (Teams 05, 06, 10, 12) | Pending — awaiting API budget confirmation; Team 06 paused ~65% | — |
 | D | PI Review Gate D (figures + results) | Blocked by C/C' | — |
 | D' | Bonferroni adjustment (`bonferroni_adjust.R`) | Blocked by D | — |
 | E | Writer sessions (Teams 01–25) | Blocked by D' | — |
@@ -226,28 +231,30 @@ after all Analyst sessions complete.
 | 2026-05-07 | Teams 01–04, 07–08 analysis complete; all 6 p >> Bonferroni threshold | First results |
 | 2026-05-07 | Scripts written for Teams 09, 11, 13–22; corpus column confirmed as `keywords` and `ut` | Bug fixes applied |
 | 2026-05-07 | All 18 simple/medium analyst sessions complete; 0/18 significant after Bonferroni | Results milestone |
+| 2026-06-23 | Ideological-alignment family (Teams 23–25) complete via Claude Haiku (`claude-haiku-4-5`) on ~152K stratified abstracts | 21/25 teams done |
+| 2026-06-23 | Teams 23/24/25: β=−0.0193/+0.0025/−0.0038, p=0.125/0.230/0.163 — none significant; 23 & 25 in predicted direction | Results milestone |
+| 2026-06-23 | Ideological-alignment API spend ~$367, within $400 family ceiling | Budget |
 
 ---
 
-## Next actions (Day 17, 2026-05-07)
+## Next actions (2026-06-23)
 
-1. **PI decision on Complex teams (05, 06, 10, 12, 23–25):**
-   - Teams 05, 10, 12: Claude Haiku, ~$5–10 each — low cost, safe to proceed
-   - Team 06: text embeddings (OpenAI or similar) — confirm API access and cost
-   - Teams 23–25: Claude Haiku, up to **$500 each** — confirm Anthropic billing ceiling before starting
-2. **After all 25 Analyst sessions:** run `scripts/bonferroni_adjust.R`
-3. **Gate D:** PI reviews all figures + `primary_results.json` across all 25 teams
+1. **PI decision on remaining Complex teams (05, 06, 10, 12):**
+   - Teams 05, 10, 12: Claude Haiku content classifiers — **~$400–900 each**; confirm budget
+   - Team 06: OpenAI embeddings — **paused ~65% complete**, preprocessing cached; resume is cheap
+2. **After all Analyst sessions:** run `scripts/bonferroni_adjust.R` across the full set
+3. **Gate D:** PI reviews all figures + `primary_results.json` across all teams
 4. **Writer sessions** (Teams 01–25) — after Gate D
 
 ### Complex teams awaiting PI decision
 
-| Team | API | Est. cost | Domain |
-|------|-----|-----------|--------|
-| 05 | Claude Haiku | ~$5–10 | LLM: critical framing of domestic governance |
-| 06 | Text embeddings | ~$10–20 | Cosine distance of abstract embeddings |
-| 10 | Claude Haiku | ~$5–10 | LLM: technocratic framing classifier |
-| 12 | Claude Haiku | ~$5–10 | LLM: normative conclusion classifier |
-| 23 | Claude Haiku | **≤$500** | LLM: 5-label ideology classifier |
-| 24 | Claude Haiku | **≤$500** | LLM: regime legitimation binary |
-| 25 | Claude Haiku | **≤$500** | LLM: anti-liberal framing binary |
+| Team | API | Est. cost | Ceiling | Sample cap | Domain |
+|------|-----|-----------|---------|------------|--------|
+| 05 | Claude Haiku | **~$800–900** | $1,500 | 2,000,000 rows | LLM: critical framing of domestic governance |
+| 06 | OpenAI text-embedding-3-small | **~$0.30** | none | ~100,000 abstracts | Cosine distance of abstract embeddings |
+| 10 | Claude Haiku | **~$400–450** | $800 | 1,000,000 abstracts | LLM: technocratic framing classifier |
+| 12 | Claude Haiku | **~$500** | $700 | 1,250,000 abstracts | LLM: normative conclusion classifier |
+| 23 | Claude Haiku | **≤$500** | $500 | ~1M abstracts | LLM: 5-label ideology classifier |
+| 24 | Claude Haiku | **≤$500** | $500 | ~1M abstracts | LLM: regime legitimation binary |
+| 25 | Claude Haiku | **≤$500** | $500 | ~1M abstracts | LLM: anti-liberal framing binary |
 

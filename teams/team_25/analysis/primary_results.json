@@ -1,0 +1,14 @@
+{
+  "team": "25",
+  "hypothesis_label": "Countries with lower liberal democracy exhibit a higher share of SSH abstracts framing liberal democracy as fundamentally flawed or illegitimate.",
+  "theory_family": "ideological-alignment",
+  "predictor": "v2x_libdem",
+  "outcome": "share_anti_liberal",
+  "coef": -0.0038,
+  "se": 0.0027,
+  "p_value": 0.1633,
+  "n_country_years": 2545,
+  "n_countries": 156,
+  "n_classified": 136879,
+  "projected_cost_usd": 136.879
+}

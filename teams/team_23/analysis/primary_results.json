@@ -1,0 +1,14 @@
+{
+  "team": "23",
+  "hypothesis_label": "Countries with lower liberal democracy exhibit a lower share of SSH abstracts with liberal/neutral political-economy framing.",
+  "theory_family": "ideological-alignment",
+  "predictor": "v2x_libdem",
+  "outcome": "share_liberal",
+  "coef": -0.0193,
+  "se": 0.0125,
+  "p_value": 0.125,
+  "n_country_years": 2507,
+  "n_countries": 155,
+  "n_classified": 89479,
+  "projected_cost_usd": 89.479
+}

@@ -1,0 +1,14 @@
+{
+  "team": "24",
+  "hypothesis_label": "Countries with lower liberal democracy exhibit a higher share of SSH abstracts actively legitimizing the political system.",
+  "theory_family": "ideological-alignment",
+  "predictor": "v2x_libdem",
+  "outcome": "share_legitimating",
+  "coef": 0.0025,
+  "se": 0.0021,
+  "p_value": 0.2299,
+  "n_country_years": 3207,
+  "n_countries": 159,
+  "n_classified": 140879,
+  "projected_cost_usd": 140.879
+}

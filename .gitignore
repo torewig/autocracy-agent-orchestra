@@ -19,6 +19,17 @@ PLAN.pdf
 *.out
 *.toc
 *.synctex.gz
+*.bbl
+*.blg
+*.nav
+*.snm
+
+# Temp files
+*.tmp
+
+# Run logs (team analysis stdout/stderr)
+**/run_log*.txt
+**/run_err*.txt
 
 # Temp/admin scripts
 check_env.ps1
