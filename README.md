@@ -1,4 +1,4 @@
-# Autocracy and SSH: An Agent Orchestra Study
+﻿# How Autocracy Shapes the Social Sciences: Synthesized Evidence from an Agent Orchestra
 
 **PI:** Tore Wig, University of Oslo
 **Project:** AutoKnow ERC Consolidator Grant
@@ -42,16 +42,16 @@ paper aggregating findings across all teams.
 
 Data files are **not** tracked in this repository (too large for GitHub):
 
-- `DATA/bibliometric/WOS_scrapes/wos_articles.rds` — full WOS corpus (565 MB)
-- `data/agent_corpus.rds` — analysis-ready SSH subset with V-DEM merge (produced by Phase 0)
-- `DATA/vdem/vdem_clean.rds` — V-DEM country-year panel (produced by `DATA/vdem/install_github.R`)
+- `DATA/bibliometric/WOS_scrapes/wos_articles.rds` â€” full WOS corpus (565 MB)
+- `data/agent_corpus.rds` â€” analysis-ready SSH subset with V-DEM merge (produced by Phase 0)
+- `DATA/vdem/vdem_clean.rds` â€” V-DEM country-year panel (produced by `DATA/vdem/install_github.R`)
 
 ## Workflow
 
 See `PLAN.md` for the full workflow. In brief:
 
-1. **Phase 0** — Run `scripts/00_prepare_data.R` to produce `data/agent_corpus.rds`
-2. **Phase 1** — Run 10 agent team sessions:
+1. **Phase 0** â€” Run `scripts/00_prepare_data.R` to produce `data/agent_corpus.rds`
+2. **Phase 1** â€” Run 10 agent team sessions:
    - Step A: Designer sessions (rq.md + analysis_plan.md)
    - Step B: PI Review Gate (RQ convergence + causal logic check)
    - Step C: Analyst sessions (regression analysis + figures)
@@ -59,7 +59,7 @@ See `PLAN.md` for the full workflow. In brief:
    - Step E: Writer sessions (4-5 page reports)
    - Step F: Peer Review sessions (independent review of each report)
    - Step G: PI reads all reports + peer reviews; final sign-off
-3. **Phase 2** — PI writes synthesis paper assisted by synthesis agent
+3. **Phase 2** â€” PI writes synthesis paper assisted by synthesis agent
 
 ## Administrative audit
 

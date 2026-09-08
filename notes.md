@@ -1,4 +1,4 @@
-# P02: Autocracy and science — Agent Orchestra
+# P02: How Autocracy Shapes the Social Sciences: Synthesized Evidence from an Agent Orchestra
 
 ## Core argument
 Multi-agent ("agent orchestra") computational design that uses LLM-based agents in a structured pipeline to study how autocratic regime characteristics shape scientific output. Combines bibliometric corpus with regime/political indicators to identify regime-channel effects on knowledge production.
