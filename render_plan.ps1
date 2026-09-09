@@ -1,4 +1,4 @@
-Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
+Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\P02_autocracy-science-agent-orchestra"
 
 $pandoc  = "C:\Program Files\RStudio\resources\app\bin\quarto\bin\tools\pandoc.exe"
 $xelatex = "C:\Program Files\MiKTeX\miktex\bin\x64\xelatex.exe"

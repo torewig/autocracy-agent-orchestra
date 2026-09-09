@@ -6,7 +6,7 @@
 # Run from project root: Rscript scripts/add_lied.R
 
 suppressPackageStartupMessages(library(dplyr))
-vdem_full <- readRDS("C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Social_science_in_autocracies/Data and scripts/AutoKnow_socsci2/Data/V-Dem-CY-Full+Others-v15.rds")
+vdem_full <- readRDS("C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P01_social-science-autocracies/Data and scripts/AutoKnow_socsci2/Data/V-Dem-CY-Full+Others-v15.rds")
 lied_lu <- vdem_full |>
   select(iso3 = country_text_id, year, e_lexical_index) |>
   mutate(lied_binary = as.integer(!is.na(e_lexical_index) & e_lexical_index >= 4)) |>

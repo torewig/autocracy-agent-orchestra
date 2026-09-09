@@ -19,7 +19,7 @@ suppressPackageStartupMessages({
   library(jsonlite)
 })
 
-ROOT <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra"
+ROOT <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra"
 setwd(ROOT)
 
 teams_done <- sprintf("%02d", c(1:4, 7:9, 11, 13:22))

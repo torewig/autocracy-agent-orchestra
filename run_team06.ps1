@@ -3,7 +3,7 @@
 # Resume-safe: picks up from cache automatically if interrupted.
 # After job completes, run:  [Environment]::SetEnvironmentVariable("OPENAI_API_KEY", $null, "User")
 
-$proj    = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
+$proj    = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\P02_autocracy-science-agent-orchestra"
 $rscript = "C:\Program Files\R\R-4.5.1\bin\Rscript.exe"
 $script  = "$proj\teams\team_06\analysis\analysis.R"
 $logFile = "$proj\teams\team_06\analysis\run_log.txt"

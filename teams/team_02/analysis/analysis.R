@@ -10,7 +10,7 @@ library(modelsummary)
 library(jsonlite)
 
 # ---- Paths ----------------------------------------------------------------
-proj_root <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra"
+proj_root <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra"
 data_path <- file.path(proj_root, "data/agent_corpus.rds")
 out_dir   <- file.path(proj_root, "teams/team_02/analysis")
 fig_dir   <- file.path(out_dir, "figures")

@@ -14,7 +14,7 @@ param(
     [string]$team
 )
 
-$projectdir = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
+$projectdir = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\P02_autocracy-science-agent-orchestra"
 
 # Pad to two digits if needed
 if ($team.Length -eq 1) { $team = "0$team" }

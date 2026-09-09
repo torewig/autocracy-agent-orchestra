@@ -21,7 +21,7 @@ suppressPackageStartupMessages({
   library(jsonlite)
 })
 
-ROOT <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra"
+ROOT <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra"
 if (!dir.exists(file.path(ROOT, "teams"))) {
   # Fall back to the working directory when the absolute path is unavailable.
   ROOT <- getwd()

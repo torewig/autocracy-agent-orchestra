@@ -12,7 +12,7 @@ suppressPackageStartupMessages({
   library(stringr)
 })
 
-ROOT <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra"
+ROOT <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra"
 teams <- sprintf("%02d", 1:25)
 
 # Reuse the family map already used elsewhere in the paper -------------------

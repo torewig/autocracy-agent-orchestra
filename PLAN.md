@@ -178,7 +178,7 @@ Phase 0 validation checklist (all checked):
 ## Folder structure
 
 ```
-Autocracy and science_Agent Orchestra/
+P02_autocracy-science-agent-orchestra/
 |
 |-- PLAN.md                      <- this file
 |-- TIMELINE.md                  <- 30-day project schedule

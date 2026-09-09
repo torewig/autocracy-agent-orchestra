@@ -21,7 +21,7 @@
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(jsonlite))
 
-setwd("C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra")
+setwd("C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra")
 
 # -----------------------------------------------------------------------------
 # 1. Collect all primary_results.json files

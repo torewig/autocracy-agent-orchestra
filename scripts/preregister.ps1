@@ -8,7 +8,7 @@
 # Usage:
 #   powershell -ExecutionPolicy Bypass -File "scripts\preregister.ps1"
 
-$projectdir = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
+$projectdir = "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\P02_autocracy-science-agent-orchestra"
 Set-Location $projectdir
 
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"

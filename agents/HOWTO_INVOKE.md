@@ -7,7 +7,7 @@
 
 **All sessions are opened from the project root:**
 ```
-C:\...\Autocracy and science_Agent Orchestra\
+C:\...\P02_autocracy-science-agent-orchestra\
 ```
 
 See `TIMELINE.md` for the schedule. **Active teams: 27** (Teams 28–30 dropped 2026-04-20).
@@ -189,7 +189,7 @@ Run at the start of each working day to get a prioritised task list.
 ### Starting Claude Code
 ```powershell
 # Navigate to project root
-Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\Autocracy and science_Agent Orchestra"
+Set-Location "C:\Users\torewig\Dropbox (Privat)\!!!!FORSKNING!!!!!\AUTOKNOW_ERC_COG\Papers\P02_autocracy-science-agent-orchestra"
 # Start Claude Code
 claude
 ```

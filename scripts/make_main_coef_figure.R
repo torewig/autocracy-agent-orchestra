@@ -3,7 +3,7 @@ library(jsonlite)
 
 root <- here::here()
 if (!dir.exists(file.path(root, "teams"))) {
-  root <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra"
+  root <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra"
 }
 
 teams_done <- sprintf("%02d", c(1:4, 7:9, 11, 13:22))

@@ -9,7 +9,7 @@ lib <- "C:/Users/torewig/R/win-library/4.4"
 library(vdemdata)
 library(dplyr)
 
-base <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/Autocracy and science_Agent Orchestra"
+base <- "C:/Users/torewig/Dropbox (Privat)/!!!!FORSKNING!!!!!/AUTOKNOW_ERC_COG/Papers/P02_autocracy-science-agent-orchestra"
 
 cat("Loading agent_corpus.rds...\n")
 corpus <- readRDS(file.path(base, "data/agent_corpus.rds"))
