@@ -96,7 +96,21 @@ cat("Step 5: Standardizing to ISO3...\n")
 
 # Historical WOS uses non-standard country strings for pre-1984 records.
 # Map these to ISO3 (or V-DEM country_text_id equivalents for defunct states).
-# DDR = East Germany, CSK = Czechoslovakia — both coded in V-DEM.
+#
+# DATA CORRECTION 2026-09-10 (see CRITICAL_REVIEW_2026-07-03.md, section 4.5,
+# and TASKS_publication_BJPS.md, item A6). An earlier version of this map sent
+# USSR -> "SUN", Czechoslovakia -> "CSK" and Yugoslavia -> "YUG", and the comment
+# claimed these codes were "coded in V-DEM". They are not: vdem_clean.rds carries
+# V-DEM's continuous units only (DDR and RUS among the historical cases), so
+# 5,049 article-country rows (SUN 2,314; CSK 2,594; YUG 141) silently received
+# NA regime scores at the V-DEM join and dropped out of every regime analysis.
+# Harmless for the registered >= 1990 tests, but wrong for any Cold War
+# extension. Fix: map the defunct states to the V-DEM units that carry their
+# series (USSR -> RUS, Czechoslovakia -> CZE, Yugoslavia -> SRB). DDR is a
+# separate V-DEM unit and stays as is. The original WOS string is preserved in
+# `country_raw` for anyone who needs to separate the historical state from its
+# successor. Verify the V-DEM join rate printed in Step 6 on the next Phase 0
+# run and report the change as a data correction in the paper.
 historical_map <- c(
   # UK sub-nations — WOS uses these instead of "United Kingdom".
   # Both uppercase (older WOS records) and title case (newer records).
@@ -113,21 +127,20 @@ historical_map <- c(
   "DEUTSCH DEM REP" = "DDR",
   "E GERMANY"       = "DDR",
   "EAST GERMANY"    = "DDR",
-  "CZECHOSLOVAKIA"  = "CSK",
-  "CESKOSLOVANSKO"  = "CSK",
-  "USSR"            = "SUN",
-  "SOVIET UNION"    = "SUN",
-  "YUGOSLAVIA"      = "YUG",
+  "CZECHOSLOVAKIA"  = "CZE",   # V-DEM carries Czechoslovakia under CZE (was CSK: not in V-DEM)
+  "CESKOSLOVANSKO"  = "CZE",
+  "USSR"            = "RUS",   # V-DEM carries the USSR under RUS (was SUN: not in V-DEM)
+  "SOVIET UNION"    = "RUS",
+  "YUGOSLAVIA"      = "SRB",   # V-DEM carries Yugoslavia under SRB (was YUG: not in V-DEM)
   # Other non-standard strings
   "PAPUA N GUINEA"  = "PNG",
   "Papua N Guinea"  = "PNG",
   "COLUMBIA"        = "COL"   # common WOS misspelling of Colombia
 )
+# Display names for V-DEM units that have no ISO3 equivalent. The defunct states
+# mapped above take the name of their V-DEM successor unit via countrycode().
 historical_names <- c(
-  "DDR" = "East Germany",
-  "CSK" = "Czechoslovakia",
-  "SUN" = "Soviet Union",
-  "YUG" = "Yugoslavia"
+  "DDR" = "East Germany"
 )
 
 wos_long <- wos_long |>
